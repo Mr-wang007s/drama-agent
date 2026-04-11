@@ -1,0 +1,20 @@
+[
+  {
+    "id": "F-01",
+    "type": "plot-hook",
+    "description": "围绕《红幕再开》建立本集独立钩子。",
+    "resolved": true
+  },
+  {
+    "id": "F-02",
+    "type": "character-pressure",
+    "description": "让主角与关键配角关系发生可追踪变化。",
+    "resolved": true
+  },
+  {
+    "id": "F-03",
+    "type": "carry-over",
+    "description": "为下一集保留一个必须兑现的悬念。",
+    "resolved": false
+  }
+]

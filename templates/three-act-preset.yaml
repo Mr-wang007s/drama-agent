@@ -1,0 +1,26 @@
+name: three-act-drama
+version: "1.0"
+description: 用于单集 DramaSpec 的轻量三幕/四拍混合模板
+beats:
+  - id: hook
+    weight: 0.2
+    purpose: 建立异常、欲望或危机
+  - id: pressure
+    weight: 0.3
+    purpose: 施压角色关系与公开目标
+  - id: escalation
+    weight: 0.3
+    purpose: 把代价摆到桌面上
+  - id: aftertaste
+    weight: 0.2
+    purpose: 阶段收束并留出跨集追问
+scene_defaults:
+  statuses:
+    - queued
+    - in_progress
+    - needs_review
+    - done
+acceptance_defaults:
+  - 每场都推动关系或信息
+  - 每场都有明确冲突
+  - 每场都能说明存在必要性

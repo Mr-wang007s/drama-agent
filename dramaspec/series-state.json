@@ -1,0 +1,21 @@
+{
+  "title": "红幕剧场",
+  "logline": "一家旧剧场把三个带伤的人重新绑在了一起。",
+  "currentEpisode": "ep01-red-curtain",
+  "updatedAt": "2026-04-10T13:56:23.208Z",
+  "wrappedEpisodes": [
+    {
+      "id": "ep01-red-curtain",
+      "title": "红幕再开",
+      "wrappedAt": "2026-04-10T13:56:23.208Z",
+      "unresolvedFeatures": 1
+    }
+  ],
+  "carryOvers": [
+    {
+      "fromEpisode": "ep01-red-curtain",
+      "id": "F-03",
+      "description": "为下一集保留一个必须兑现的悬念。"
+    }
+  ]
+}

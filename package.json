@@ -1,0 +1,21 @@
+{
+  "name": "drama-agent",
+  "version": "0.1.0",
+  "description": "DramaSpec + Harness starter project for multi-agent story production.",
+  "type": "module",
+  "bin": {
+    "drama-agent": "./bin/drama-agent.js"
+  },
+  "scripts": {
+    "drama": "node ./bin/drama-agent.js",
+    "status": "node ./bin/drama-agent.js status",
+    "test": "node --test tests/*.test.js",
+    "validate:characters": "node ./scripts/validate-character.js",
+    "detect:stagnation": "node ./scripts/detect-stagnation.js",
+    "verify": "npm run test && npm run validate:characters && npm run detect:stagnation"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
