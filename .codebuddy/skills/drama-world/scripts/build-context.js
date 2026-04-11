@@ -1,7 +1,7 @@
 /**
- * drama-world/scripts/build-context.js — 上下文组装器
+ * drama-world/scripts/build-context.js
  *
- * 读取 world/ + agents/*/ 构建每个 Agent 的完整 prompt context。
+ * Context assembler: read world/ + agents/*/ to build Agent prompt context.
  */
 
 import fs from 'node:fs';
@@ -11,7 +11,7 @@ import {
 } from '../../drama-harness/scripts/lib.js';
 
 /**
- * 加载所有 Agent 的身份信息
+ * Load all Agent identities
  */
 function loadAgents(agentsDir, agentIds = null) {
   if (!exists(agentsDir)) return [];
@@ -33,7 +33,7 @@ function loadAgents(agentsDir, agentIds = null) {
 }
 
 /**
- * 构建标准化 context 对象
+ * Build standardized context object
  */
 export function buildContext(episodeId, agentIds = null) {
   const paths = getPaths();
@@ -43,7 +43,7 @@ export function buildContext(episodeId, agentIds = null) {
   const timeline = readText(path.join(paths.worldDir, 'timeline.md'));
   const agents = loadAgents(paths.agentsDir, agentIds);
 
-  // 读取 episode 元数据（如果存在）
+  // Read episode metadata if exists
   let episodeMeta = null;
   if (episodeId) {
     const metaFile = path.join(paths.episodesDir, episodeId, '.session.json');
@@ -63,13 +63,13 @@ export function buildContext(episodeId, agentIds = null) {
 }
 
 /**
- * 为单个 Agent 构建完整 prompt
+ * Build complete prompt for a single Agent
  */
 export function buildAgentPrompt(context, agentId) {
   const agent = context.agents.find((a) => a.id === agentId);
-  if (!agent) throw new Error(`Agent ${agentId} 不在当前上下文中`);
+  if (!agent) throw new Error(`Agent ${agentId} not in current context`);
 
-  // 从 SOUL.yaml 提取关键字段
+  // Extract key fields from SOUL.yaml
   const name = agent.soul.match(/^name:\s*(.+)$/m)?.[1] || agentId;
   const desire = agent.soul.match(/^desire:\s*(.+)$/m)?.[1] || '';
   const fear = agent.soul.match(/^fear:\s*(.+)$/m)?.[1] || '';
@@ -77,44 +77,44 @@ export function buildAgentPrompt(context, agentId) {
   const voice = agent.soul.match(/^voice:\s*(.+)$/m)?.[1] || '';
   const emotion = agent.soul.match(/^emotion_state:\s*(.+)$/m)?.[1] || '';
 
-  // 构建 carry-over 摘要
+  // Build carry-over summary
   const carryOverBlock = context.world.carryOvers.length
     ? context.world.carryOvers.map((c) => `- ${c.description}`).join('\n')
-    : '- 无待兑现悬念';
+    : '- No pending carry-overs';
 
-  // 构建其他 Agent 的公开信息（不含 secret）
+  // Build other Agents' public info (no secrets)
   const otherAgents = context.agents
     .filter((a) => a.id !== agentId)
     .map((a) => {
       const n = a.soul.match(/^name:\s*(.+)$/m)?.[1] || a.id;
       const arch = a.soul.match(/^archetype:\s*(.+)$/m)?.[1] || '';
-      return `- **${n}**（${arch}）`;
+      return `- **${n}** (${arch})`;
     })
     .join('\n');
 
-  return `你是 **${name}**。
+  return `You are **${name}**.
 
-## 你的身份
+## Your Identity
 
 ${agent.soul}
 
-## 你的记忆
+## Your Memory
 
-${agent.memory || '（尚无记忆）'}
+${agent.memory || '(No memory yet)'}
 
-## 当前世界
+## Current World
 
 ${context.world.bible}
 
-## 待兑现的悬念
+## Pending Carry-overs
 
 ${carryOverBlock}
 
-## 在场的其他人
+## Others Present
 
 ${otherAgents}
 
-## 你的行为约束
+## Your Behavioral Constraints
 
 ${agent.rules}
 `;
@@ -128,7 +128,7 @@ export async function main(argv) {
   if (agentId) {
     console.log(buildAgentPrompt(context, agentId));
   } else {
-    console.log(`Context 已构建：${context.agents.length} 个 Agent`);
-    console.log(`世界状态：${context.world.carryOvers.length} 个 carry-over`);
+    console.log(`Context built: ${context.agents.length} Agents`);
+    console.log(`World state: ${context.world.carryOvers.length} carry-overs`);
   }
 }
