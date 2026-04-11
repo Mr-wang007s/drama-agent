@@ -1,18 +1,20 @@
 {
   "name": "drama-agent",
-  "version": "0.1.0",
-  "description": "DramaSpec + Harness starter project for multi-agent story production.",
+  "version": "3.0.0",
+  "description": "AI Agent 身份模拟平台——给 Agent 赋予身份、记忆、人格，让它们在世界中自由交互演绎。",
   "type": "module",
   "bin": {
     "drama-agent": "./bin/drama-agent.js"
   },
   "scripts": {
     "drama": "node ./bin/drama-agent.js",
+    "sim": "node ./bin/drama-agent.js sim",
     "status": "node ./bin/drama-agent.js status",
+    "recall": "node ./bin/drama-agent.js recall",
+    "validate": "node ./bin/drama-agent.js validate",
     "test": "node --test tests/*.test.js",
-    "validate:characters": "node ./scripts/validate-character.js",
     "detect:stagnation": "node ./scripts/detect-stagnation.js",
-    "verify": "npm run test && npm run validate:characters && npm run detect:stagnation"
+    "verify": "npm run test && npm run validate && npm run detect:stagnation"
   },
   "engines": {
     "node": ">=18"

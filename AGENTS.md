@@ -1,43 +1,46 @@
-### 项目目标
+### DramaAgent v3 — Agent 角色说明
 
-`drama-agent` 是一个面向 **连载剧情生产** 的工程骨架。它把可行性计划中的三层架构落成代码与配置资产：
+本项目的 Agent 分为两类：**居民 Agent**（有身份的角色）和**系统 Agent**（Skill 提供的能力）。
 
-- **导演层**：控制集级目标、节拍、冲突升级与验收。
-- **角色层**：维护角色卡、关系、秘密、动机与情绪。
-- **叙事层**：将事件流整理为可发布文本或拍摄说明。
+---
 
-### 关键工程约束
+### 居民 Agent（agents/ 目录）
 
-- **单集 = 一个 DramaSpec 单元**：目录固定为 `dramaspec/episodes/<episode-id>/`。
-- **四件套必须存在**：`episode-brief.md`、`beat-sheet.md`、`specs/story-contract/spec.md`、`tasks.md`。
-- **角色卡是 canon**：`dramaspec/characters/*.yaml` 与 `dramaspec/series-bible.md` 属于系列常量。
-- **运行产物不覆盖规格**：`runtime/` 下的运行包、检查报告、回放计划不能替代规范文件。
-- **任何变更先快照**：`brief`、`run`、`scene`、`wrap`、`roll` 都应依赖快照。
+每个居民 Agent 拥有独立身份，在模拟中以 Team Member 被 spawn：
 
-### 推荐工作流
+| Agent | 身份 | SOUL | 交互风格 |
+|-------|------|------|----------|
+| **lin-qi** | 林七 · 舞台监督 | 先观察再行动 | observer-first |
+| **su-yao** | 苏遥 · 回归主演 | 温柔外壳下带锋利反问 | cautious |
+| **gao-ming** | 高鸣 · 调查记者 | 快准追问 | direct |
 
-```text
-/drama:new
-  → /drama:brief
-  → 人工审 brief / beat / spec
-  → /drama:run
-  → /drama:check
-  → /drama:scene（按需重演）
-  → /drama:wrap
+Agent 的行为由 SOUL.yaml（身份）+ MEMORY.md（记忆）+ RULES.md（红线）共同驱动。
+
+---
+
+### 系统 Agent / Skills
+
+| Skill | 角色 | 说明 |
+|-------|------|------|
+| **drama-harness** | 工程守护者 | 初始化/归档/快照/校验/记忆管理 |
+| **drama-world** | 世界引擎 | 上下文组装/世界更新/场景构建 |
+| **drama-director** | 世界管理者 | 在模拟中施压/推进时间/注入事件 |
+| **drama-screenplay** | 剧本编辑 | 从交互记录编译为剧本格式 |
+| **drama-novel** | 小说改编者 | 从交互记录改写为小说格式 |
+
+---
+
+### Team Agent 编排
+
 ```
-
-### 目录职责
-
-- **`.codebuddy/commands/drama/`**：项目级 `/drama:*` 命令提示。
-- **`.codebuddy/rules/`**：DramaSpec 工作流、canon 护栏、记忆约束。
-- **`.codebuddy/skills/`**：导演、角色、叙事、质量四类技能。
-- **`scripts/hooks/`**：Session/Tool 事件脚本。
-- **`dramaspec/`**：系列知识库与单集规范。
-- **`src/cli.js`**：CLI 真正的行为实现。
-
-### 修改时优先遵守
-
-1. 先保持 `dramaspec` 与 `.codebuddy` 资产一致。
-2. 优先补充规格和校验，而不是直接增加魔法行为。
-3. 如果要扩展命令，优先扩展已有 `new/brief/run/check/wrap/status/roll` 的数据结构。
-4. 任何自动化都应能落地为文件：报告、清单、快照、状态。
+drama:sim ep04
+  → team_create("drama-ep04")
+  → spawn world-manager (drama-director)
+  → spawn lin-qi (SOUL + MEMORY + RULES + 场景上下文)
+  → spawn su-yao
+  → spawn gao-ming
+  → 自由 send_message 交互
+  → scene_end → shutdown_request → team_delete
+  → drama-screenplay compile
+  → drama-harness wrap
+```

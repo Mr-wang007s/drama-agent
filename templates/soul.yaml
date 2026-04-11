@@ -1,0 +1,33 @@
+# === {{name}} · Agent 身份文件 ===
+
+# --- 身份核心 ---
+id: {{id}}
+name: {{name}}
+archetype: {{archetype}}
+desire: {{desire}}
+fear: {{fear}}
+secret: {{secret}}
+voice: {{voice}}
+status: active
+
+# --- 情绪 ---
+emotion_default: {{emotion_default}}
+emotion_state: {{emotion_default}}
+
+# --- 关系 ---
+relationships:
+  - target: {{relationshipTarget}}
+    type: {{relationshipType}}
+    trust: 0.5
+    summary: {{relationshipSummary}}
+
+# --- v3.0 ---
+memory_capacity: 2000
+interaction_style: {{interactionStyle}}
+known_facts: []
+
+# --- 备注 ---
+notes:
+  surface: {{surface}}
+  fracture: {{fracture}}
+  season_arc: {{seasonArc}}

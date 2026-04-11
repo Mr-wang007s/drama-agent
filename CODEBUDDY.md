@@ -1,54 +1,50 @@
-### `CODEBUDDY.md`
+### 项目目标
 
-这个仓库用于把 `DramaAgent v3.2` 计划落成一个可维护的项目骨架。
+`drama-agent` 是一个 **AI Agent 身份模拟平台**——给 Agent 赋予身份、记忆、人格，让它们在共享世界中自由交互演绎。
 
-### 你应该先理解的事实
+### 关键工程约束
 
-- **`dramaspec/series-bible.md`** 是系列层总设定。
-- **`dramaspec/characters/*.yaml`** 是角色 canon。
-- **`dramaspec/episodes/<episode-id>/`** 是单集工作单元，映射 OpenSpec change。
-- **`.codebuddy/commands/drama/*.md`** 是项目级命令入口。
-- **`harness/hooks/hooks.json` + `scripts/hooks/*`** 是 hooks 资产，不要把 hook 逻辑写死在命令文档里。
+- **Agent = 目录**：`agents/<agent-id>/` 下的 SOUL.yaml + MEMORY.md + RULES.md 是 Agent 的全部身份。
+- **世界 = world/**：`world/bible.md` + `world/state.json` + `world/timeline.md` 是共享世界状态。
+- **Skill = 能力**：`.codebuddy/skills/` 下的每个 Skill 是一种独立能力。
+- **Canon 保护**：`world/bible.md` 和 `agents/*/SOUL.yaml` 的核心身份字段受写保护。
+- **有界记忆**：每个 Agent 的 MEMORY.md 有 ~2000 字符容量上限。
 
 ### 常用命令
 
 ```bash
+npm run drama -- sim ep04 --title "暗流" --agents lin-qi,su-yao,gao-ming --skill screenplay
 npm run drama -- status
-npm run drama -- new ep02-shadow-price --title "影价"
-npm run drama -- brief ep02-shadow-price
-npm run drama -- run ep02-shadow-price
-npm run drama -- scene ep02-shadow-price S02
-npm run drama -- check ep02-shadow-price
-npm run drama -- wrap ep02-shadow-price
-npm run drama -- roll ep02-shadow-price --to latest
+npm run drama -- recall lin-qi
+npm run drama -- roll ep04 --to latest
+npm run drama -- validate
 ```
 
-### 代码与数据不变量
+### 目录职责
 
-- `feature_list.json` 只记录本集待兑现的剧情 feature、悬念与埋点。
-- `scene-manifest.json` 是本集场景编排真相源。
-- `check-report.md` 是验收输出，不应手工伪造“已通过”。
-- `wrap-report.md` 负责把本集结论回写到 `series-state.json`。
-- 快照保存在 `dramaspec/.snapshots/<episode-id>/`，回滚只对单集生效。
+- **`agents/`**：Agent 居民（SOUL + MEMORY + RULES）
+- **`world/`**：世界状态（bible + state + timeline）
+- **`episodes/`**：模拟产出（按集归档）
+- **`.codebuddy/skills/`**：Skill 能力层（harness/world/director/screenplay/novel）
+- **`.codebuddy/commands/drama/`**：命令入口（sim/status/recall/roll）
+- **`scripts/hooks/`**：生命周期钩子（不动）
+- **`templates/`**：初始化模板
 
 ### 修改建议
 
-- **改规格**：优先改模板与 `dramaspec` 示例。
-- **改行为**：优先改 `src/cli.js`。
-- **改 prompt**：优先改 `.codebuddy/commands` 与 `.codebuddy/skills`。
-- **改自动化**：优先改 `scripts/hooks` 与 `harness/hooks/hooks.json`。
+- **改 Agent**：修改 `agents/*/SOUL.yaml` 或 `RULES.md`
+- **改世界**：修改 `world/bible.md` 或 `world/state.json`
+- **改能力**：修改 `.codebuddy/skills/*/SKILL.md` 或 `scripts/`
+- **改命令**：修改 `.codebuddy/commands/drama/*.md`
 
 ### 验证要求
 
-每次改动后，至少考虑：
-
-- `npm test`
-- `npm run validate:characters`
-- `npm run detect:stagnation`
+```bash
+npm run drama -- validate
+```
 
 ### 不要做的事
 
-- 不要把运行时结果直接写回 `series-bible.md`。
-- 不要跳过 `check` 直接 `wrap`。
-- 不要在没有快照的情况下覆盖单集目录。
-- 不要让角色卡字段名和校验脚本脱节。
+- 不要直接修改 Agent 的 MEMORY.md（由 Harness wrap 时统一写入）
+- 不要在没有快照的情况下覆盖 world/ 目录
+- 不要让 Agent SOUL.yaml 的核心身份字段（id/desire/fear/secret）随意变动

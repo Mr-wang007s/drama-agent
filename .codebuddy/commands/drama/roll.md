@@ -1,17 +1,25 @@
 ---
 name: drama:roll
-description: 从快照回滚单集状态
+description: 快照回滚——恢复世界状态 + Agent 记忆到指定时间点
 ---
 
 ### 用法
 
 ```bash
-node ./bin/drama-agent.js roll <episode-id>
-node ./bin/drama-agent.js roll <episode-id> --to <snapshot-timestamp>
+# 回滚到最近快照
+drama-agent roll <ep-id>
+drama-agent roll <ep-id> --to latest
+
+# 回滚到指定快照
+drama-agent roll <ep-id> --to <snapshot-timestamp>
 ```
 
 ### 规则
 
-- 回滚前会先给当前单集再做一份安全快照。
-- 回滚只影响当前单集目录，不影响整个系列。
-- 回滚后应重新执行 `status` 与 `check` 确认结果。
+- 回滚前会自动创建安全快照
+- 回滚范围：Episode 目录 + 世界状态 + Agent 记忆
+- 回滚后应执行 `status` 确认状态
+
+### 实现
+
+调用 `drama-harness/scripts/snapshot.js`。
