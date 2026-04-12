@@ -2,6 +2,13 @@ node_modules/
 coverage/
 .tmp/
 .drama-cache/
-dramaspec/.snapshots/
-dramaspec/**/runtime/runs/
 *.log
+
+# =====================================
+# Story Content (branch-specific)
+# master = pure engine, stories on branches
+# =====================================
+agents/
+world/
+dramaspec/
+.codebuddy/plans/
