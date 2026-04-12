@@ -1,9 +1,9 @@
 # DramaAgent — 产品需求文档（PRD）
 
-> **版本**：v3.0  
+> **版本**：v4.0  
 > **日期**：2026-04-11  
 > **分支**：`feat/multi-agent`  
-> **状态**：架构重定义——从剧本生产工具到 AI Agent 身份模拟平台  
+> **状态**：引擎通用化 + 影帝级角色系统  
 > **仓库**：`D:\codespace\drama-agent`
 
 ---
@@ -14,7 +14,8 @@
 |------|------|------|
 | v1.0 | 2026-04-11 | 初版 PRD，DramaSpec + Harness + Multi-Agent 三层公式 |
 | v2.0 | 2026-04-11 | 架构简化为 Harness + Multi-Agent；砍掉 DramaSpec 重型规格流程 |
-| **v3.0** | **2026-04-11** | **根本性重定义：从"剧本生产工具"转型为"AI Agent 身份模拟平台"；引入 Agent Identity System + World Engine + Skill Content Library + Harness Engineering 四层架构；参考斯坦福 AI 小镇、Hermes Agent、OpenClaw** |
+| v3.0 | 2026-04-11 | 根本性重定义：从"剧本生产工具"转型为"AI Agent 身份模拟平台"；引入 Agent Identity System + World Engine + Skill Content Library + Harness Engineering 四层架构 |
+| **v4.0** | **2026-04-11** | **引擎通用化**：master 分支 = 纯引擎，故事在分支上生成；**影帝级角色系统**：SOUL v4.0 三层结构（身份层 → 心理层 → 表演层）、OCEAN 人格模型、Ghost-Wound-Lie-Shield 创伤链、内心独白机制、角色校验器；新增 `drama init` 和 `drama create-character` 命令 |
 
 ---
 

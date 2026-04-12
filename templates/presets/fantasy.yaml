@@ -1,0 +1,111 @@
+# ═══════════════════════════════════════════════════════════════
+#  奇幻题材预设 — Fantasy Genre Preset
+#  DramaAgent v4.0
+# ═══════════════════════════════════════════════════════════════
+
+meta:
+  version: "4.0"
+  genre: "fantasy"
+  description: "奇幻冒险题材预设，适合魔法世界、异世界、英雄旅程类故事"
+
+story:
+  title: "未命名奇幻故事"
+  genre: "fantasy"
+  logline: ""
+  theme: "成长与命运"
+  tone: "史诗、壮阔、充满奇迹"
+
+world:
+  core_settings:
+    - "魔法/超自然力量存在且有明确规则"
+    - "世界有独特的历史、种族、文明"
+    - "存在明确的善恶或阵营对立"
+
+  long_term_mysteries:
+    - "预言/命运：主角的真正使命是什么？"
+    - "世界真相：这个世界的创世秘密"
+
+  locations:
+    - name: "起始之地"
+      description: "主角的故乡，平凡但温馨"
+    - name: "冒险途中"
+      description: "旅途中的奇异地点"
+    - name: "最终目的地"
+      description: "故事高潮发生的地方"
+    - name: "敌人领地"
+      description: "反派的大本营"
+
+  time_rules: "顺叙为主，可有预言闪现"
+
+  narrative_guidelines:
+    - "魔法有代价：力量越强，代价越大"
+    - "英雄旅程：遵循 Hero's Journey 结构"
+    - "世界观一致：设定一旦确立不可随意更改"
+    - "成长弧线：主角必须经历内外双重成长"
+    - "牺牲叙事：高潮时刻需要真正的牺牲"
+
+suggested_archetypes:
+  - name: "英雄/被选中者"
+    archetype: "英雄"
+    traits: "天真、勇敢、有潜力"
+    ocean_suggestion:
+      openness: 70
+      conscientiousness: 55
+      extraversion: 55
+      agreeableness: 65
+      neuroticism: 45
+
+  - name: "导师"
+    archetype: "导师"
+    traits: "智慧、神秘、有牺牲精神"
+    common_secrets:
+      - "知道主角的真正身世"
+      - "曾经犯下的错误"
+
+  - name: "伙伴/盟友"
+    archetype: "盟友"
+    traits: "忠诚、技能互补、提供支持"
+
+  - name: "反派/黑暗君主"
+    archetype: "阴影"
+    trauma_pattern:
+      ghost: "被世界抛弃或背叛"
+      wound: "对人类/世界的绝望"
+      lie: "毁灭/控制是唯一解决方案"
+      shield: "绝对的权力"
+
+beat_template:
+  - name: "平凡世界"
+    description: "主角的日常生活，展示起点"
+  - name: "冒险召唤"
+    description: "打破日常的事件发生"
+  - name: "拒绝召唤"
+    description: "主角的犹豫和恐惧"
+  - name: "遇见导师"
+    description: "获得指引和第一件装备/技能"
+  - name: "跨越门槛"
+    description: "离开熟悉的世界，踏上旅途"
+  - name: "试炼与盟友"
+    description: "遇到伙伴，经历小型挑战"
+  - name: "接近核心"
+    description: "抵达最危险的地方"
+  - name: "最大磨难"
+    description: "面对死亡/最大恐惧"
+  - name: "奖赏"
+    description: "获得力量/宝物/真相"
+  - name: "归途"
+    description: "带着改变返回"
+  - name: "复活"
+    description: "最终考验，证明成长"
+  - name: "归来"
+    description: "以新的身份回到世界"
+
+agents: []
+
+initial_state:
+  current_episode: "ep01"
+  current_scene: null
+  global_tension: 0.3
+  unresolved_threads:
+    - "预言的真正含义"
+  active_secrets: []

@@ -18,6 +18,11 @@ drama-agent sim <ep-id> --skill screenplay,novel --agents lin-qi,su-yao,gao-ming
 
 ### 自动执行流程
 
+0. **环境检测**（前置检查）
+   - 检查 world/ 和 agents/ 是否存在
+   - 若不存在 → 提示"请先运行 drama init 初始化故事"并中止
+   - 检查指定的 --agents 是否都已创建
+
 1. **Harness 初始化**（drama-harness/scripts/init.js）
    - 若 Episode 不存在 → 自动创建
    - 快照当前世界状态 + Agent 记忆

@@ -1,0 +1,220 @@
+# ═══════════════════════════════════════════════════════════════
+#  story-seed.yaml — 故事种子文件 v4.0
+#  DramaAgent 通用 AI 叙事引擎
+# ═══════════════════════════════════════════════════════════════
+#
+#  这是故事初始化的唯一输入源。
+#  运行 `drama init --from seed.yaml` 后，引擎会自动展开为：
+#    - world/bible.md
+#    - world/state.json
+#    - world/timeline.md
+#    - agents/*/SOUL.yaml + MEMORY.md + RULES.md
+#
+#  你可以手写这个文件，也可以用 AI 辅助生成。
+#
+# ═══════════════════════════════════════════════════════════════
+
+# --- 元数据 ---
+meta:
+  version: "4.0"
+  created_at: "{{createdAt}}"
+  author: "{{author}}"
+
+# ═══════════════════════════════════════════════════════════════
+#  故事概述 (Story Overview)
+# ═══════════════════════════════════════════════════════════════
+story:
+  title: "{{title}}"                  # 故事标题
+  genre: "{{genre}}"                  # 题材：mystery/fantasy/scifi/romance/thriller/drama
+  logline: "{{logline}}"              # 一句话梗概（25 字以内）
+  theme: "{{theme}}"                  # 长期主题（如：救赎、复仇、成长）
+  tone: "{{tone}}"                    # 整体基调（如：沉重、轻松、悬疑、温馨）
+
+# ═══════════════════════════════════════════════════════════════
+#  世界观 (World Bible)
+# ═══════════════════════════════════════════════════════════════
+world:
+  # --- 核心设定 ---
+  # 这个世界区别于现实的关键规则
+  core_settings:
+    - "{{coreSetting1}}"
+    - "{{coreSetting2}}"
+    - "{{coreSetting3}}"
+
+  # --- 长线悬念 ---
+  # 贯穿整个故事的未解之谜
+  long_term_mysteries:
+    - "{{mystery1}}"
+    - "{{mystery2}}"
+
+  # --- 地点列表 ---
+  # 故事的主要发生地
+  locations:
+    - name: "{{location1Name}}"
+      description: "{{location1Desc}}"
+    - name: "{{location2Name}}"
+      description: "{{location2Desc}}"
+
+  # --- 时间规则 ---
+  time_rules: "{{timeRules}}"         # 如：每集 = 现实一天，有闪回
+
+  # --- 叙事准则 ---
+  # 这个故事的叙事风格和禁忌
+  narrative_guidelines:
+    - "{{guideline1}}"
+    - "{{guideline2}}"
+    - "{{guideline3}}"
+
+# ═══════════════════════════════════════════════════════════════
+#  角色列表 (Agents)
+#  影帝级角色定义 — SOUL v4.0 三层结构
+# ═══════════════════════════════════════════════════════════════
+agents:
+  # ─────────────────────────────────────────────────────────────
+  #  角色模板（复制此模板创建新角色）
+  # ─────────────────────────────────────────────────────────────
+  - # ═══ Layer 1: 身份层 (Identity) ═══
+    identity:
+      id: "{{agentId}}"               # 唯一标识符（英文小写）
+      name: "{{agentName}}"           # 角色名
+      archetype: "{{agentArchetype}}" # 原型（反英雄/导师/阴影/信使/变形者）
+      role: "{{agentRole}}"           # 故事中的定位
+
+    # ═══ Layer 2: 心理层 (Psychology) ═══
+    psychology:
+      # OCEAN 人格模型 (数值 25-75，避免极端)
+      ocean:
+        openness: 50                  # 开放性：好奇心、想象力
+        conscientiousness: 50         # 尽责性：自律、目标导向
+        extraversion: 50              # 外向性：社交、从他人获取能量
+        agreeableness: 50             # 宜人性：温暖、合作、信任
+        neuroticism: 50               # 神经质：情绪反应性、焦虑倾向
+
+      # Ghost-Wound-Lie-Shield 创伤链
+      trauma:
+        ghost: "{{agentGhost}}"       # 过去的创伤事件
+        wound: "{{agentWound}}"       # 由此产生的心理痛苦
+        lie: "{{agentLie}}"           # 因此相信的错误世界观
+        shield: "{{agentShield}}"     # 保护自己的防御机制
+
+      # 动机双轴
+      motivation:
+        want: "{{agentWant}}"         # 外在目标
+        need: "{{agentNeed}}"         # 内在需求
+        fear: "{{agentFear}}"         # 最深恐惧
+        secret: "{{agentSecret}}"     # 不可告人的秘密
+
+    # ═══ Layer 3: 表演层 (Performance) ═══
+    performance:
+      voice:
+        tone: "{{agentTone}}"         # 整体语气
+        rhythm: "{{agentRhythm}}"     # 语言节奏
+        quirks:                       # 口头禅/语言习惯
+          - "{{agentQuirk1}}"
+          - "{{agentQuirk2}}"
+        vocabulary: "{{agentVocabulary}}"  # 词汇特点
+
+      emotion:
+        default: "{{agentEmotionDefault}}"  # 默认情绪基线
+        triggers:                     # 情绪触发器
+          - stimulus: "{{trigger1Stimulus}}"
+            response: "{{trigger1Response}}"
+          - stimulus: "{{trigger2Stimulus}}"
+            response: "{{trigger2Response}}"
+
+      stress_response:                # 压力反应模式 (4F)
+        fight: "{{agentFight}}"
+        flight: "{{agentFlight}}"
+        freeze: "{{agentFreeze}}"
+        fawn: "{{agentFawn}}"
+
+      examples:                       # 典型行为范例 (3-5 个)
+        - situation: "{{ex1Situation}}"
+          action: "{{ex1Action}}"
+          inner_thought: "{{ex1Thought}}"
+        - situation: "{{ex2Situation}}"
+          action: "{{ex2Action}}"
+          inner_thought: "{{ex2Thought}}"
+        - situation: "{{ex3Situation}}"
+          action: "{{ex3Action}}"
+          inner_thought: "{{ex3Thought}}"
+
+    # ═══ 关系 ═══
+    relationships:
+      - target: "{{rel1Target}}"      # 关系对象 ID
+        type: "{{rel1Type}}"          # 关系类型
+        trust: 0.5                    # 信任度 (0-1)
+        history: "{{rel1History}}"    # 关系历史
+        tension: "{{rel1Tension}}"    # 当前张力
+
+    # ═══ 角色弧线 ═══
+    arc:
+      starting_point: "{{arcStart}}"
+      potential_growth: "{{arcGrowth}}"
+      season_arc: "{{arcSeason}}"
+
+  # ─────────────────────────────────────────────────────────────
+  #  第二个角色（示例）
+  # ─────────────────────────────────────────────────────────────
+  # - identity:
+  #     id: "character-2"
+  #     ...
+
+# ═══════════════════════════════════════════════════════════════
+#  初始关系网 (Initial Relationship Graph)
+#  可选：如果关系复杂，可以在这里集中定义
+# ═══════════════════════════════════════════════════════════════
+# relationship_graph:
+#   - from: "agent-a"
+#     to: "agent-b"
+#     type: "rivals"
+#     trust: 0.2
+#     notes: "表面和平，暗中竞争"
+
+# ═══════════════════════════════════════════════════════════════
+#  初始状态 (Initial State)
+#  故事开始时的世界状态
+# ═══════════════════════════════════════════════════════════════
+initial_state:
+  current_episode: "ep01"
+  current_scene: null
+  global_tension: 0.3                 # 全局紧张度 (0-1)
+  unresolved_threads: []              # 未解决的剧情线
+  active_secrets: []                  # 当前活跃的秘密
+
+# ═══════════════════════════════════════════════════════════════
+#  创作指南 (Authoring Guide)
+#  给 AI 或人类编剧的参考
+# ═══════════════════════════════════════════════════════════════
+authoring_guide:
+  # 角色创建的 5 个核心问题
+  five_questions:
+    - "这个角色最想要什么？(Want)"
+    - "这个角色最害怕什么？(Fear)"
+    - "这个角色有什么不可告人的秘密？(Secret)"
+    - "童年/过去发生过什么创伤事件？(Ghost)"
+    - "因此 TA 相信了什么错误的道理？(Lie)"
+
+  # OCEAN 分数指南
+  ocean_guide:
+    high_openness: "好奇、艺术家、幻想者"
+    low_openness: "传统、务实、保守"
+    high_conscientiousness: "自律、工程师、完美主义"
+    low_conscientiousness: "随性、自由、拖延"
+    high_extraversion: "外向、社交达人、主持人"
+    low_extraversion: "内向、隐士、观察者"
+    high_agreeableness: "温暖、治疗师、和事佬"
+    low_agreeableness: "批评、对抗、独立"
+    high_neuroticism: "敏感、忧郁诗人、情绪化"
+    low_neuroticism: "冷静、飞行员、稳定"
+
+  # 常见原型
+  archetypes:
+    - "反英雄 (Anti-Hero)"
+    - "导师 (Mentor)"
+    - "阴影 (Shadow)"
+    - "信使 (Herald)"
+    - "变形者 (Shapeshifter)"
+    - "盟友 (Ally)"
+    - "守门人 (Threshold Guardian)"
+    - "骗子 (Trickster)"
