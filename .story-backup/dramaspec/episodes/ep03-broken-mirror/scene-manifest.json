@@ -1,0 +1,46 @@
+[
+  {
+    "id": "S01",
+    "title": "旧光重现",
+    "goal": "投影系统被劫持播出旧录像完整版，30秒内容当众曝光。",
+    "conflict": "三人各自防线被同时击穿，高鸣录屏。",
+    "status": "done",
+    "acceptance": ["给出本集主悬念", "主角做出一个会引发后果的动作"],
+    "order": 1,
+    "owner": "director",
+    "episodeId": "ep03-broken-mirror"
+  },
+  {
+    "id": "S02",
+    "title": "三面镜子",
+    "goal": "三人在化妆间博弈，假报警电话线索浮出。",
+    "conflict": "每人追问都暴露自身弱点，三方囚徒困境。",
+    "status": "done",
+    "acceptance": ["至少一组关系发生变化", "埋入下一场的选择压力"],
+    "order": 2,
+    "owner": "ensemble",
+    "episodeId": "ep03-broken-mirror"
+  },
+  {
+    "id": "S03",
+    "title": "碎镜",
+    "goal": "苏遥用父亲身份换高鸣压稿，林七发出八年短信。",
+    "conflict": "三人同夜各做不可逆决定，互不知情。",
+    "status": "done",
+    "acceptance": ["冲突代价被明确量化", "角色秘密或计划至少暴露一部分"],
+    "order": 3,
+    "owner": "ensemble",
+    "episodeId": "ep03-broken-mirror"
+  },
+  {
+    "id": "S04",
+    "title": "谢幕",
+    "goal": "正式演出日，三条暗线的后果回响。",
+    "conflict": "表面正常的演出下三人各自接到新变量。",
+    "status": "done",
+    "acceptance": ["本集主问题获得阶段答案", "留下一个跨集追问"],
+    "order": 4,
+    "owner": "ensemble",
+    "episodeId": "ep03-broken-mirror"
+  }
+]

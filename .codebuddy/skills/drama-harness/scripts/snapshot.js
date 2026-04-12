@@ -9,12 +9,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {
   getPaths, stamp, ensureDir, exists, readJson,
-  assertEpisodeId, resolveWithin
+  assertEpisodeId, resolveWithin, parseArgs
 } from './lib.js';
 
-export function createSnapshot(episodeId) {
+export function createSnapshot(episodeId, storyOpt) {
   assertEpisodeId(episodeId);
-  const paths = getPaths();
+  const paths = getPaths({ story: storyOpt });
   const tag = stamp();
   const snapshotDir = path.join(paths.snapshotRoot, episodeId, tag);
   ensureDir(path.dirname(snapshotDir));
@@ -47,9 +47,9 @@ export function createSnapshot(episodeId) {
   return snapshotDir;
 }
 
-export function listSnapshots(episodeId) {
+export function listSnapshots(episodeId, storyOpt) {
   assertEpisodeId(episodeId);
-  const paths = getPaths();
+  const paths = getPaths({ story: storyOpt });
   const snapshotDir = resolveWithin(paths.snapshotRoot, episodeId);
   if (!exists(snapshotDir)) return [];
   return fs.readdirSync(snapshotDir, { withFileTypes: true })
@@ -58,9 +58,9 @@ export function listSnapshots(episodeId) {
     .sort();
 }
 
-export function rollbackTo(episodeId, target = 'latest') {
+export function rollbackTo(episodeId, target = 'latest', storyOpt) {
   assertEpisodeId(episodeId);
-  const snapshots = listSnapshots(episodeId);
+  const snapshots = listSnapshots(episodeId, storyOpt);
   if (snapshots.length === 0) {
     throw new Error(`Episode ${episodeId} 没有可用快照`);
   }
@@ -70,11 +70,11 @@ export function rollbackTo(episodeId, target = 'latest') {
     throw new Error(`非法快照：${selected}`);
   }
 
-  const paths = getPaths();
+  const paths = getPaths({ story: storyOpt });
   const source = resolveWithin(paths.snapshotRoot, episodeId, selected);
 
   // 先做安全快照
-  createSnapshot(episodeId);
+  createSnapshot(episodeId, storyOpt);
 
   // 恢复 episode
   const episodeSource = path.join(source, 'episode');
@@ -108,11 +108,12 @@ export function rollbackTo(episodeId, target = 'latest') {
 }
 
 export async function main(argv) {
-  const episodeId = argv[0];
+  const parsed = parseArgs(argv);
+  const episodeId = parsed._[0];
   if (!episodeId) {
     throw new Error('roll 需要提供 episode-id');
   }
-  const target = argv.includes('--to') ? argv[argv.indexOf('--to') + 1] : 'latest';
-  const selected = rollbackTo(episodeId, target || 'latest');
+  const target = parsed.to || 'latest';
+  const selected = rollbackTo(episodeId, target, parsed.story);
   console.log(`已将 ${episodeId} 回滚到快照 ${selected}`);
 }

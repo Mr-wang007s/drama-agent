@@ -1,0 +1,46 @@
+{
+  "episode_id": "ep01",
+  "features": [
+    {
+      "id": "F-01",
+      "type": "suspense",
+      "description": "谁杀死了钱守信？",
+      "status": "active",
+      "introduced_in": "ep01-sc04"
+    },
+    {
+      "id": "F-02",
+      "type": "secret",
+      "owner": "qian-zhiyuan",
+      "description": "公司财务危机",
+      "status": "hinted",
+      "hint_in": "ep01-sc02"
+    },
+    {
+      "id": "F-03",
+      "type": "secret",
+      "owner": "qian-wanqing",
+      "description": "二十年前被逐出家门的原因",
+      "status": "hinted",
+      "hint_in": "ep01-sc01"
+    },
+    {
+      "id": "F-04",
+      "type": "secret",
+      "owner": "qian-shaobai",
+      "description": "身世之谜",
+      "status": "hinted",
+      "hint_in": "ep01-sc02"
+    },
+    {
+      "id": "F-05",
+      "type": "clue",
+      "description": "父亲召开家宴的真正目的",
+      "status": "revealed",
+      "revealed_in": "ep01-sc03"
+    }
+  ],
+  "meta": {
+    "created_at": "2026-04-12T10:02:00+08:00"
+  }
+}

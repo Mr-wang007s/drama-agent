@@ -1,76 +1,104 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { execFileSync } from 'node:child_process';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const repoRoot = path.resolve(path.dirname(__filename), '..');
-const cliPath = path.join(repoRoot, 'bin', 'drama-agent.js');
 
+// 直接测试 lib.js 的核心函数
+const libPath = pathToFileURL(path.join(repoRoot, '.codebuddy', 'skills', 'drama-harness', 'scripts', 'lib.js')).href;
 
-function run(args, cwd) {
-  // 保持 argv 数组调用，避免 Windows 下 shell 路径解析和转义问题。
-  return execFileSync(process.execPath, [cliPath, ...args], {
-    cwd,
-    encoding: 'utf8'
-  });
-}
-
-
-test('new 命令会创建单集四件套', () => {
-  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'drama-agent-'));
-
-  run(['new', 'ep02-shadow-price', '--title', '影价'], cwd);
-
-  assert.equal(fs.existsSync(path.join(cwd, 'dramaspec', 'episodes', 'ep02-shadow-price', 'episode-brief.md')), true);
-  assert.equal(fs.existsSync(path.join(cwd, 'dramaspec', 'episodes', 'ep02-shadow-price', 'beat-sheet.md')), true);
-  assert.equal(fs.existsSync(path.join(cwd, 'dramaspec', 'episodes', 'ep02-shadow-price', 'tasks.md')), true);
-  assert.equal(fs.existsSync(path.join(cwd, 'dramaspec', 'episodes', 'ep02-shadow-price', 'specs', 'story-contract', 'spec.md')), true);
+test('getPaths() 无参数返回合法路径对象', async () => {
+  const { getPaths } = await import(libPath);
+  const paths = getPaths();
+  assert.ok(paths.packageRoot, 'packageRoot should exist');
+  assert.ok(paths.storiesDir, 'storiesDir should exist');
+  assert.ok(paths.templatesDir, 'templatesDir should exist');
+  assert.ok(paths.storiesDir.endsWith('stories'));
 });
 
-test('check 命令会生成检查报告', () => {
-  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'drama-agent-'));
-
-  run(['new', 'ep03-echo-room', '--title', '回声室', '--logline', '录音棚回放把每个人都逼到必须表态的角落。', '--premise', '一次重启录音让旧合约和旧伤口同时回声返场。'], cwd);
-
-  run(['check', 'ep03-echo-room'], cwd);
-
-  const report = fs.readFileSync(path.join(cwd, 'dramaspec', 'episodes', 'ep03-echo-room', 'check-report.md'), 'utf8');
-  assert.match(report, /### 单集验收报告/);
-  assert.match(report, /PASS/);
+test('getPaths({ story }) 正确指向 stories/<name>/', async () => {
+  const { getPaths } = await import(libPath);
+  const paths = getPaths({ story: 'fog-manor' });
+  assert.equal(paths.storyName, 'fog-manor');
+  assert.ok(paths.storyRoot.includes('stories'));
+  assert.ok(paths.storyRoot.endsWith('fog-manor'));
+  assert.ok(paths.worldDir.includes('fog-manor'));
+  assert.ok(paths.agentsDir.includes('fog-manor'));
+  assert.ok(paths.episodesDir.includes('fog-manor'));
 });
 
-test('check 会拦截占位文本', () => {
-  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'drama-agent-'));
-
-  run(['new', 'ep04-placeholder-case', '--title', '占位测试'], cwd);
-  run(['check', 'ep04-placeholder-case'], cwd);
-
-  const report = fs.readFileSync(path.join(cwd, 'dramaspec', 'episodes', 'ep04-placeholder-case', 'check-report.md'), 'utf8');
-  assert.match(report, /FAIL/);
-  assert.match(report, /单集元数据 premise 仍包含占位文本/);
+test('getPaths(string) 向后兼容旧版字符串参数', async () => {
+  const { getPaths } = await import(libPath);
+  const paths = getPaths('/tmp/test-workspace');
+  assert.equal(paths.storyName, null);
+  assert.ok(paths.worldDir.includes('test-workspace'));
 });
 
-test('new 会拒绝非法 episode-id', () => {
-  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'drama-agent-'));
+test('detectStory() 从 cwd 自动检测故事名', async () => {
+  const { detectStory } = await import(libPath);
+  const storiesDir = path.join(repoRoot, 'stories');
 
-  assert.throws(() => run(['new', '../evil-episode'], cwd), /非法 episode-id/);
+  // cwd 在 stories/fog-manor/ 下时应检测到
+  const result = detectStory(path.join(storiesDir, 'fog-manor', 'agents'), repoRoot);
+  assert.equal(result, 'fog-manor');
+
+  // cwd 不在 stories/ 下时返回 null
+  const noResult = detectStory(repoRoot, repoRoot);
+  assert.equal(noResult, null);
 });
 
-test('roll 会拒绝非法 snapshot 名称', () => {
-  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'drama-agent-'));
-
-  run(['new', 'ep05-safe-roll', '--title', '回滚测试'], cwd);
-  run(['brief', 'ep05-safe-roll'], cwd);
-
-  assert.throws(() => run(['roll', 'ep05-safe-roll', '--to', '../escape'], cwd), /非法快照|路径越界/);
-  assert.throws(() => run(['roll', 'ep05-safe-roll', '--to', '..\\escape'], cwd), /非法快照|路径越界/);
-  assert.throws(() => run(['roll', 'ep05-safe-roll', '--to', 'C:\\temp\\escape'], cwd), /非法快照|路径越界/);
+test('listStories() 列出所有故事', async () => {
+  const { listStories } = await import(libPath);
+  const stories = listStories(repoRoot);
+  assert.ok(stories.length >= 1, 'should have at least 1 story');
+  const names = stories.map(s => s.name);
+  assert.ok(names.includes('fog-manor'), 'should include fog-manor');
 });
 
+test('assertStoryName() 校验故事名称', async () => {
+  const { assertStoryName } = await import(libPath);
+  // 合法名称
+  assertStoryName('fog-manor');
+  assertStoryName('red-curtain');
+  assertStoryName('story1');
 
+  // 非法名称
+  assert.throws(() => assertStoryName('Fog Manor'), /非法故事名称/);
+  assert.throws(() => assertStoryName('../escape'), /非法故事名称/);
+  assert.throws(() => assertStoryName(''), /非法故事名称/);
+});
 
+test('parseArgs() 正确解析命令行参数', async () => {
+  const { parseArgs } = await import(libPath);
+  const result = parseArgs(['ep01', '--story', 'fog-manor', '--title', '第一集', '--force']);
+  assert.deepEqual(result._, ['ep01']);
+  assert.equal(result.story, 'fog-manor');
+  assert.equal(result.title, '第一集');
+  assert.equal(result.force, true);
+});
 
+test('fog-manor 故事目录结构完整', () => {
+  const storyRoot = path.join(repoRoot, 'stories', 'fog-manor');
+  assert.ok(fs.existsSync(path.join(storyRoot, '.story.json')), '.story.json exists');
+  assert.ok(fs.existsSync(path.join(storyRoot, 'agents')), 'agents/ exists');
+  assert.ok(fs.existsSync(path.join(storyRoot, 'world')), 'world/ exists');
+  assert.ok(fs.existsSync(path.join(storyRoot, 'world', 'bible.md')), 'bible.md exists');
+  assert.ok(fs.existsSync(path.join(storyRoot, 'world', 'state.json')), 'state.json exists');
+
+  const meta = JSON.parse(fs.readFileSync(path.join(storyRoot, '.story.json'), 'utf8'));
+  assert.equal(meta.genre, 'mystery');
+  assert.ok(meta.title);
+});
+
+test('resolveWithin() 防止路径越界', async () => {
+  const { resolveWithin } = await import(libPath);
+  // 正常路径
+  const result = resolveWithin('/tmp/stories', 'fog-manor');
+  assert.ok(result.includes('fog-manor'));
+
+  // 越界路径
+  assert.throws(() => resolveWithin('/tmp/stories', '../escape'), /路径越界/);
+});

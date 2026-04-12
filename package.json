@@ -1,13 +1,14 @@
 {
   "name": "drama-agent",
-  "version": "3.0.0",
-  "description": "AI Agent 身份模拟平台——给 Agent 赋予身份、记忆、人格，让它们在世界中自由交互演绎。",
+  "version": "5.0.0",
+  "description": "通用 AI 叙事引擎（Monorepo 大仓）——给 Agent 赋予身份、记忆、人格，让它们在共享世界中自由交互演绎。",
   "type": "module",
   "bin": {
     "drama-agent": "./bin/drama-agent.js"
   },
   "scripts": {
     "drama": "node ./bin/drama-agent.js",
+    "init": "node ./bin/drama-agent.js init",
     "sim": "node ./bin/drama-agent.js sim",
     "status": "node ./bin/drama-agent.js status",
     "recall": "node ./bin/drama-agent.js recall",

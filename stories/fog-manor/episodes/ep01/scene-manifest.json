@@ -1,0 +1,64 @@
+{
+  "episode_id": "ep01",
+  "title": "聚会之夜",
+  "scenes": [
+    {
+      "scene_id": "ep01-sc01",
+      "title": "重逢",
+      "location": "庄园大厅",
+      "time": "20:00",
+      "agents": ["qian-zhiyuan", "qian-wanqing", "qian-shaobai"],
+      "objectives": [
+        "建立三人重逢的紧张氛围",
+        "展示各自的性格和当前状态"
+      ],
+      "carryovers": [],
+      "status": "pending"
+    },
+    {
+      "scene_id": "ep01-sc02",
+      "title": "晚宴",
+      "location": "餐厅",
+      "time": "21:00",
+      "agents": ["qian-zhiyuan", "qian-wanqing", "qian-shaobai"],
+      "objectives": [
+        "展现旧日恩怨",
+        "暗示各自的秘密",
+        "为高潮铺垫"
+      ],
+      "carryovers": ["CO-01", "CO-02", "CO-03"],
+      "status": "pending"
+    },
+    {
+      "scene_id": "ep01-sc03",
+      "title": "等待",
+      "location": "书房外",
+      "time": "22:00",
+      "agents": ["qian-zhiyuan", "qian-wanqing", "qian-shaobai"],
+      "objectives": [
+        "压力到达顶点",
+        "三人各自的盘算"
+      ],
+      "carryovers": ["CO-04"],
+      "status": "pending"
+    },
+    {
+      "scene_id": "ep01-sc04",
+      "title": "发现",
+      "location": "书房",
+      "time": "22:30",
+      "agents": ["qian-zhiyuan", "qian-wanqing", "qian-shaobai"],
+      "objectives": [
+        "发现父亲尸体",
+        "记录各人第一反应",
+        "留下悬念"
+      ],
+      "carryovers": [],
+      "status": "pending"
+    }
+  ],
+  "meta": {
+    "created_at": "2026-04-12T10:02:00+08:00",
+    "version": "1.0"
+  }
+}

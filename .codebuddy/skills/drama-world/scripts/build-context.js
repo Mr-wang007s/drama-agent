@@ -7,7 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {
-  getPaths, exists, readText, readJson
+  getPaths, exists, readText, readJson, parseArgs
 } from '../../drama-harness/scripts/lib.js';
 
 /**
@@ -35,8 +35,8 @@ function loadAgents(agentsDir, agentIds = null) {
 /**
  * Build standardized context object
  */
-export function buildContext(episodeId, agentIds = null) {
-  const paths = getPaths();
+export function buildContext(episodeId, agentIds = null, storyOpt) {
+  const paths = getPaths({ story: storyOpt });
 
   const bible = readText(path.join(paths.worldDir, 'bible.md'));
   const worldState = readJson(path.join(paths.worldDir, 'state.json'), {});
@@ -121,9 +121,10 @@ ${agent.rules}
 }
 
 export async function main(argv) {
-  const episodeId = argv[0];
-  const agentId = argv[1];
-  const context = buildContext(episodeId);
+  const parsed = parseArgs(argv);
+  const episodeId = parsed._[0];
+  const agentId = parsed._[1];
+  const context = buildContext(episodeId, null, parsed.story);
 
   if (agentId) {
     console.log(buildAgentPrompt(context, agentId));

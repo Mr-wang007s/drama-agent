@@ -8,12 +8,12 @@
 import path from 'node:path';
 import {
   getPaths, nowIso, ensureDir, exists, readJson, writeJson, writeText,
-  assertEpisodeId, resolveWithin
+  assertEpisodeId, resolveWithin, parseArgs
 } from './lib.js';
 
 export function initEpisode(episodeId, options = {}) {
   assertEpisodeId(episodeId);
-  const paths = getPaths();
+  const paths = getPaths({ story: options.story });
   const episodeDir = resolveWithin(paths.episodesDir, episodeId);
 
   if (exists(episodeDir) && !options.force) {
@@ -51,19 +51,20 @@ export function initEpisode(episodeId, options = {}) {
 
 // CLI 入口
 export async function main(argv) {
-  const episodeId = argv[0];
+  const parsed = parseArgs(argv);
+  const episodeId = parsed._[0];
   if (!episodeId) {
-    throw new Error('init 需要提供 episode-id');
+    throw new Error('sim 需要提供 episode-id');
   }
-  const options = {};
-  for (let i = 1; i < argv.length; i += 2) {
-    if (argv[i]?.startsWith('--')) {
-      options[argv[i].slice(2)] = argv[i + 1] || true;
-    }
-  }
-  if (options.agents && typeof options.agents === 'string') {
-    options.agents = options.agents.split(',');
-  }
+  const options = {
+    story: parsed.story,
+    title: parsed.title,
+    logline: parsed.logline,
+    agents: parsed.agents ? (typeof parsed.agents === 'string' ? parsed.agents.split(',') : parsed.agents) : [],
+    skills: parsed.skill ? (typeof parsed.skill === 'string' ? parsed.skill.split(',') : parsed.skill) : ['screenplay'],
+    mode: parsed.mode,
+    force: parsed.force === true,
+  };
   const { meta, episodeDir } = initEpisode(episodeId, options);
   console.log(`已初始化 Episode ${episodeId} → ${episodeDir}`);
   return meta;

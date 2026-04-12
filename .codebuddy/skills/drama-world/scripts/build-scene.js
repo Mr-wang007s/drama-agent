@@ -6,11 +6,11 @@
 
 import path from 'node:path';
 import {
-  getPaths, readJson, readText
+  getPaths, readJson, readText, parseArgs
 } from '../../drama-harness/scripts/lib.js';
 
 export function buildScenePrompt(episodeId, options = {}) {
-  const paths = getPaths();
+  const paths = getPaths({ story: options.story });
   const state = readJson(path.join(paths.worldDir, 'state.json'), {});
   const bible = readText(path.join(paths.worldDir, 'bible.md'));
   const carryOvers = state.carryOvers || [];
@@ -64,9 +64,10 @@ ${bible}
 }
 
 export async function main(argv) {
-  const episodeId = argv[0];
+  const parsed = parseArgs(argv);
+  const episodeId = parsed._[0];
   if (!episodeId) {
     throw new Error('build-scene 需要提供 episode-id');
   }
-  console.log(buildScenePrompt(episodeId));
+  console.log(buildScenePrompt(episodeId, { story: parsed.story }));
 }

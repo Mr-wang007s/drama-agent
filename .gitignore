@@ -3,12 +3,7 @@ coverage/
 .tmp/
 .drama-cache/
 *.log
+.snapshots/
 
-# =====================================
-# Story Content (branch-specific)
-# master = pure engine, stories on branches
-# =====================================
-agents/
-world/
-dramaspec/
+# IDE & Plans
 .codebuddy/plans/

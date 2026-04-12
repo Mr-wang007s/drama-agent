@@ -7,13 +7,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { getPaths, exists, readText } from './lib.js';
+import { getPaths, exists, readText, parseArgs } from './lib.js';
 
 const REQUIRED_SOUL_FIELDS = ['id:', 'name:', 'archetype:', 'desire:', 'fear:', 'secret:', 'voice:', 'status:'];
 const VALID_STATUSES = ['active', 'inactive', 'retired'];
 
-export function validateAgent(agentId) {
-  const paths = getPaths();
+export function validateAgent(agentId, storyOpt) {
+  const paths = getPaths({ story: storyOpt });
   const agentDir = path.join(paths.agentsDir, agentId);
   const issues = [];
 
@@ -55,8 +55,8 @@ export function validateAgent(agentId) {
   return issues;
 }
 
-export function validateAllAgents() {
-  const paths = getPaths();
+export function validateAllAgents(storyOpt) {
+  const paths = getPaths({ story: storyOpt });
   if (!exists(paths.agentsDir)) return ['agents/ 目录不存在'];
 
   const agents = fs.readdirSync(paths.agentsDir, { withFileTypes: true })
@@ -66,13 +66,14 @@ export function validateAllAgents() {
 
   const allIssues = [];
   for (const agent of agents) {
-    allIssues.push(...validateAgent(agent.name));
+    allIssues.push(...validateAgent(agent.name, storyOpt));
   }
   return allIssues;
 }
 
-export async function main() {
-  const issues = validateAllAgents();
+export async function main(argv) {
+  const parsed = parseArgs(argv);
+  const issues = validateAllAgents(parsed.story);
   if (issues.length > 0) {
     console.error('Agent 校验失败：');
     for (const issue of issues) {

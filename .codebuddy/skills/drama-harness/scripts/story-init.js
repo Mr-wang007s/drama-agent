@@ -1,21 +1,22 @@
 /**
- * drama-harness/scripts/story-init.js — 故事级初始化
+ * drama-harness/scripts/story-init.js — 故事级初始化（Monorepo 大仓版）
  *
- * 从 story-seed.yaml 或预设模板初始化完整的故事基座：
+ * 在 stories/<name>/ 下初始化完整的故事子项目：
+ * - .story.json (故事元数据)
  * - world/ (bible.md + state.json + timeline.md)
  * - agents/<agent-id>/ (SOUL.yaml + MEMORY.md + RULES.md)
+ * - episodes/
  *
  * 用法：
- *   node story-init.js --preset mystery
- *   node story-init.js --from my-story-seed.yaml
- *   node story-init.js --interactive
+ *   node story-init.js --name my-story --preset mystery
+ *   node story-init.js --name my-story --from my-story-seed.yaml
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import {
   getPaths, nowIso, ensureDir, exists, readText, writeText,
-  readJson, writeJson, resolveWithin
+  readJson, writeJson, resolveWithin, assertStoryName
 } from './lib.js';
 
 // ─── YAML 简易解析器 ───
@@ -392,28 +393,38 @@ function generateRules(config) {
 // ─── 主函数 ───
 
 export function storyInit(options = {}) {
-  const paths = getPaths();
+  if (!options.name) {
+    throw new Error('必须指定故事名称：--name <story-name>');
+  }
+  assertStoryName(options.name);
+
+  const packageRoot = path.resolve(
+    path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/i, '$1')),
+    '..', '..', '..', '..'
+  );
+  const storiesDir = path.join(packageRoot, 'stories');
+  const storyRoot = resolveWithin(storiesDir, options.name);
 
   // 检查是否已初始化
-  if (exists(paths.worldDir) && !options.force) {
-    throw new Error('故事已初始化（world/ 目录存在）。使用 --force 强制覆盖。');
+  if (exists(storyRoot) && !options.force) {
+    throw new Error(`故事 "${options.name}" 已存在（${storyRoot}）。使用 --force 强制覆盖。`);
   }
+
+  // 使用 getPaths 但指向新故事目录
+  const paths = getPaths({ story: options.name });
 
   let seedContent;
   let seedSource;
 
   if (options.preset) {
-    // 从预设加载
     const preset = loadPreset(options.preset, paths);
     seedContent = preset.content;
     seedSource = `preset:${options.preset}`;
   } else if (options.from) {
-    // 从指定文件加载
     const seed = loadSeedFile(options.from);
     seedContent = seed.content;
     seedSource = `file:${options.from}`;
   } else {
-    // 使用默认模板
     const templatePath = path.join(paths.templatesDir, 'story-seed.yaml');
     if (!exists(templatePath)) {
       throw new Error('未找到 story-seed.yaml 模板。请使用 --preset 或 --from 参数。');
@@ -422,13 +433,15 @@ export function storyInit(options = {}) {
     seedSource = 'template:story-seed.yaml';
   }
 
-  // 解析种子文件（简化：直接用 eval 或正则提取关键信息）
-  // 实际应用中建议用 js-yaml 库
+  // 解析种子文件
   const worldConfig = extractWorldConfig(seedContent);
   const agentConfigs = extractAgentConfigs(seedContent);
 
+  // 确保 stories/ 目录存在
+  ensureDir(storiesDir);
+
   // 初始化世界
-  console.log('📌 初始化世界...');
+  console.log(`📌 初始化故事 "${options.name}"...`);
   initWorld(worldConfig, paths);
 
   // 初始化 Agents
@@ -443,21 +456,34 @@ export function storyInit(options = {}) {
   // 创建 episodes 目录
   ensureDir(paths.episodesDir);
 
+  // 生成 .story.json 元数据
+  const storyMeta = {
+    title: worldConfig.title || options.name,
+    genre: worldConfig.genre || '',
+    logline: worldConfig.logline || '',
+    seedSource,
+    createdAt: nowIso(),
+    version: '5.0',
+  };
+  writeJson(path.join(storyRoot, '.story.json'), storyMeta);
+
   const result = {
+    name: options.name,
     source: seedSource,
+    storyRoot,
     worldDir: paths.worldDir,
     agentsDir: paths.agentsDir,
     agents: createdAgents,
     createdAt: nowIso(),
   };
 
-  console.log(`\n✅ 故事初始化完成！`);
+  console.log(`\n✅ 故事 "${options.name}" 初始化完成！`);
+  console.log(`   目录：${storyRoot}`);
   console.log(`   来源：${seedSource}`);
-  console.log(`   世界：${paths.worldDir}`);
   console.log(`   角色：${createdAgents.join(', ') || '（无）'}`);
   console.log(`\n下一步：`);
-  console.log(`   npm run drama -- create-character --interactive  # 添加角色`);
-  console.log(`   npm run drama -- sim ep01 --title "第一集"        # 开始模拟`);
+  console.log(`   drama-agent create-character --story ${options.name} --interactive`);
+  console.log(`   drama-agent sim ep01 --story ${options.name} --title "第一集"`);
 
   return result;
 }
@@ -641,7 +667,9 @@ export async function main(argv) {
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
-    if (arg === '--preset' && argv[i + 1]) {
+    if (arg === '--name' && argv[i + 1]) {
+      options.name = argv[++i];
+    } else if (arg === '--preset' && argv[i + 1]) {
       options.preset = argv[++i];
     } else if (arg === '--from' && argv[i + 1]) {
       options.from = argv[++i];

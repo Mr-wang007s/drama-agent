@@ -1,0 +1,213 @@
+{
+  "version": "1.0",
+  "episodeId": "ep03-broken-mirror",
+  "title": "碎镜",
+  "createdAt": "2026-04-11T12:48:23.707Z",
+  "teamName": "drama-ep03-broken-mirror",
+  "context": {
+    "seriesBible": "### 红幕剧场 · 系列圣经\r\n\r\n- **题材**：都市悬疑 / 群像成长 / 轻科幻\r\n- **一句话故事**：一家濒临关闭的小剧场，成了三个年轻人追查旧案与自我重建的秘密入口。\r\n- **长期主题**：身份如何在表演、谎言与选择中被不断重写。\r\n\r\n### 系列硬约束\r\n\r\n- 每集都必须把“公开表演”和“私人真相”撞在一起。\r\n- 每集都要留下一个跨集追问。\r\n- 旧火灾不是背景板，而是每个角色行动的隐性驱动力。\r\n\r\n### 长线悬念\r\n\r\n1. 谁在有意识地操控剧场重演？\r\n2. 那场旧火灾到底烧掉了什么证据？\r\n3. 三个主角为什么会同时被拉回这座剧场？\r\n",
+    "episodeBrief": "### Episode Brief · `ep03-broken-mirror`\r\n\r\n- **集数**：03\r\n- **标题**：碎镜\r\n- **所属篇章**：Season 1 / Pilot Arc\r\n- **创建时间**：2026-04-11T12:48:23.679Z\r\n\r\n### 创作意图\r\n\r\n- **一句话梗概**：旧排练录像被截掉的30秒意外曝光，三个人被迫面对自己最不想公开的那个版本。\r\n- **本集 premise**：请补充本集 premise。\r\n- **本集主题**：身份、选择与代价\r\n- **观众情绪目标**：从不确定进入紧绷，再以悬念收束。\r\n\r\n### 导演约束\r\n\r\n- 必须让主角做出一个会带来长期后果的决定。\r\n- 必须让至少一段角色关系发生可记录变化。\r\n- 必须留下一个跨集追问，写入 `feature_list.json`。\r\n- 不要让导演直接代写全部台词，优先给 scene 目标、冲突和限制。\r\n\r\n### 角色调度\r\n\r\n- **导演**：负责节拍、冲突升级、场景边界与验收。\r\n- **角色群**：按动机、恐惧、秘密与关系自然演绎。\r\n- **旁白**：把事件流改写为可发布文本。\r\n- **质量官**：对照 spec 与 continuity 进行回看。\r\n\r\n### 本集必须回答的问题\r\n\r\n1. 角色这集到底想达成什么？\r\n2. 他们愿意为此付出什么代价？\r\n3. 哪一个秘密会把下集推向更糟的局面？\r\n",
+    "beatSheet": "### Beat Sheet · `ep03-broken-mirror`\r\n\r\n- **标题**：碎镜\r\n- **篇章**：Season 1 / Pilot Arc\r\n- **主题**：身份、选择与代价\r\n\r\n### 四段节拍\r\n\r\n#### Beat 1 · Hook\r\n- 目标：用异常或冲突画面把观众拉进来。\r\n- 要求：10 行内建立危机或欲望。\r\n- 失败条件：只有说明，没有行动。\r\n\r\n#### Beat 2 · Pressure\r\n- 目标：把角色关系推向更高张力。\r\n- 要求：至少一人公开目标，一人隐藏真实动机。\r\n- 失败条件：对话没有新的博弈信息。\r\n\r\n#### Beat 3 · Escalation\r\n- 目标：让本集代价真正上桌。\r\n- 要求：必须出现一个无法无损解决的选择。\r\n- 失败条件：冲突只是重复前文。\r\n\r\n#### Beat 4 · Aftertaste\r\n- 目标：阶段收束，但把更大的麻烦留给后面。\r\n- 要求：给出短期结论 + 长期追问。\r\n- 失败条件：只留下空洞悬念，没有可兑现信息。\r\n\r\n### 场景分配建议\r\n\r\n- `S01` 对应 Beat 1\r\n- `S02` 对应 Beat 2\r\n- `S03` 对应 Beat 3\r\n- `S04` 对应 Beat 4\r\n",
+    "spec": "### Story Contract Spec · `ep03-broken-mirror`\r\n\r\n### Must\r\n\r\n- 必须维持角色动机、恐惧、秘密与既有关系的一致性。\r\n- 必须给出本集独立成立的情绪与冲突闭环。\r\n- 必须在 `scene-manifest.json` 中为每个场景写明 goal、conflict、acceptance。\r\n- 必须把跨集悬念沉淀到 `feature_list.json` 或 `series-state.json`。\r\n\r\n### Should\r\n\r\n- 应让每个场景都推动关系或信息，而不是单纯解释背景。\r\n- 应让节拍符合“Hook → Pressure → Escalation → Aftertaste”。\r\n- 应在 `check-report.md` 中体现连续性、角色一致性和验收结论。\r\n\r\n### Should Not\r\n\r\n- 不应让导演直接替代角色做所有表达。\r\n- 不应在没有 check 的情况下执行 wrap。\r\n- 不应在未留痕的情况下修改 canon 文件。\r\n\r\n### 验收口径\r\n\r\n- 本集能独立成立，但又会逼迫观众继续看下一集。\r\n- 主角至少完成一次高成本选择。\r\n- 至少一个剧情 feature 被兑现，至少一个新的 feature 被挂起。\r\n",
+    "carryOvers": [
+      {
+        "fromEpisode": "ep02-shadow-price",
+        "id": "F-06",
+        "description": "旧排练录像被截掉的 30 秒里拍到了什么？"
+      },
+      {
+        "fromEpisode": "ep02-shadow-price",
+        "id": "F-07",
+        "description": "匿名委托人声称拥有'更好的筹码'，目的和身份未明。"
+      }
+    ],
+    "characters": [
+      {
+        "id": "gao-ming",
+        "name": "高鸣",
+        "file": "gao-ming.yaml",
+        "raw": "id: gao-ming\r\nname: 高鸣\r\narchetype: 调查记者 / 外部压力源\r\ndesire: 借重启调查打出自己的代表作\r\nfear: 发现真相后自己也必须牺牲掉一部分职业伦理\r\nsecret: 他最初接近剧场其实是受匿名委托\r\nvoice: 快、准、像不断追问的采访录音\r\nstatus: active\r\nemotion_default: restless\r\nrelationships:\r\n  - target: lin-qi\r\n    type: 合作 / 利用并存\r\n    summary: 他需要林七掌握的旧物证，但也在消耗她的信任\r\nnotes:\r\n  surface: 聪明、机警、习惯先抛线索再看反应\r\n  fracture: 真正被触动时反而会说得更少\r\n  season_arc: 从追新闻转向承担后果\r\n"
+      },
+      {
+        "id": "lin-qi",
+        "name": "林七",
+        "file": "lin-qi.yaml",
+        "raw": "id: lin-qi\r\nname: 林七\r\narchetype: 舞台监督 / 不可靠见证者\r\ndesire: 保护剧场不被关闭，同时查清旧火灾的真相\r\nfear: 自己当年的沉默会被认定为共犯\r\nsecret: 她偷偷保存了一卷从火场带出的旧排练录像\r\nvoice: 冷静、短句、习惯先观察再开口\r\nstatus: active\r\nemotion_default: guarded\r\nrelationships:\r\n  - target: su-yao\r\n    type: 旧搭档 / 互相试探\r\n    summary: 她信不过苏遥突然回归的真正目的\r\nnotes:\r\n  surface: 办事利落、对时间和秩序极度敏感\r\n  fracture: 一旦涉及火灾旧案会立刻情绪封闭\r\n  season_arc: 从守住残局转向主动揭案\r\n"
+      },
+      {
+        "id": "su-yao",
+        "name": "苏遥",
+        "file": "su-yao.yaml",
+        "raw": "id: su-yao\r\nname: 苏遥\r\narchetype: 回归主演 / 关系搅动者\r\ndesire: 通过回到剧场夺回自己的名字与话语权\r\nfear: 再次被公众和旧友共同定义成逃跑者\r\nsecret: 她掌握了火灾当晚某位投资人的真实行踪\r\nvoice: 温柔外壳下带锋利反问，善于用沉默施压\r\nstatus: active\r\nemotion_default: composed\r\nrelationships:\r\n  - target: lin-qi\r\n    type: 旧搭档 / 互相亏欠\r\n    summary: 她知道林七隐瞒了关键东西，但不确定是否能信任她\r\nnotes:\r\n  surface: 体面、松弛、极具舞台掌控力\r\n  fracture: 只要被怀疑就会立刻转入攻击姿态\r\n  season_arc: 从想证明自己，到不得不面对自己也参与了谎言\r\n"
+      }
+    ],
+    "scenes": [
+      {
+        "id": "S01",
+        "title": "冷开场钩子",
+        "goal": "用异常事件或冲突画面建立本集悬念。",
+        "conflict": "角色尚未理解局势，但观众已经察觉风险。",
+        "status": "queued",
+        "acceptance": [
+          "给出本集主悬念",
+          "主角做出一个会引发后果的动作"
+        ],
+        "order": 1,
+        "owner": "director",
+        "episodeId": "ep03-broken-mirror"
+      },
+      {
+        "id": "S02",
+        "title": "关系施压",
+        "goal": "通过人物互动把角色关系推向更紧状态。",
+        "conflict": "公开目标与隐藏动机开始出现偏差。",
+        "status": "queued",
+        "acceptance": [
+          "至少一组关系发生变化",
+          "埋入下一场的选择压力"
+        ],
+        "order": 2,
+        "owner": "ensemble",
+        "episodeId": "ep03-broken-mirror"
+      },
+      {
+        "id": "S03",
+        "title": "代价升级",
+        "goal": "让本集核心冲突真正升级，逼出选择。",
+        "conflict": "角色必须在损失与信念之间做取舍。",
+        "status": "queued",
+        "acceptance": [
+          "冲突代价被明确量化",
+          "角色秘密或计划至少暴露一部分"
+        ],
+        "order": 3,
+        "owner": "ensemble",
+        "episodeId": "ep03-broken-mirror"
+      },
+      {
+        "id": "S04",
+        "title": "悬念收束",
+        "goal": "阶段性收束本集，但保留跨集张力。",
+        "conflict": "表面结束与真实危机之间形成反差。",
+        "status": "queued",
+        "acceptance": [
+          "本集主问题获得阶段答案",
+          "留下一个跨集追问"
+        ],
+        "order": 4,
+        "owner": "ensemble",
+        "episodeId": "ep03-broken-mirror"
+      }
+    ],
+    "features": [
+      {
+        "id": "F-01",
+        "type": "plot-hook",
+        "description": "围绕《碎镜》建立本集独立钩子。",
+        "resolved": false
+      },
+      {
+        "id": "F-02",
+        "type": "character-pressure",
+        "description": "让主角与关键配角关系发生可追踪变化。",
+        "resolved": false
+      },
+      {
+        "id": "F-03",
+        "type": "carry-over",
+        "description": "为下一集保留一个必须兑现的悬念。",
+        "resolved": false
+      }
+    ]
+  },
+  "agents": [
+    {
+      "role": "director",
+      "skill": "drama-director",
+      "phase": 1,
+      "task": "读取 episode-brief 和 beat-sheet，为每个场景生成导演指令（director-notes.md）：包含目标、冲突、限制、成功标准、角色调度。输出到 runtime/director-notes.md。",
+      "inputs": [
+        "episodeBrief",
+        "beatSheet",
+        "scenes",
+        "carryOvers"
+      ],
+      "outputs": [
+        "runtime/director-notes.md"
+      ]
+    },
+    {
+      "role": "characters",
+      "skill": "drama-character",
+      "phase": 2,
+      "task": "读取角色卡和导演指令，按 scene-manifest 顺序为每个场景演绎角色对话和行动。每个角色严格基于自己的 desire/fear/secret/relationships 做出选择。输出到 runtime/scenes/S01.md ~ S04.md。",
+      "inputs": [
+        "characters",
+        "runtime/director-notes.md",
+        "scenes"
+      ],
+      "outputs": [
+        "runtime/scenes/S01.md",
+        "runtime/scenes/S02.md",
+        "runtime/scenes/S03.md",
+        "runtime/scenes/S04.md"
+      ]
+    },
+    {
+      "role": "narrator",
+      "skill": "drama-narrator",
+      "phase": 3,
+      "task": "读取所有场景文件（runtime/scenes/S*.md），整合为一篇完整的叙事文本（narrative.md）。忠于事件顺序，增强文学表现力，不新增关键事实。",
+      "inputs": [
+        "runtime/scenes/*.md",
+        "episodeBrief"
+      ],
+      "outputs": [
+        "narrative.md"
+      ]
+    },
+    {
+      "role": "quality",
+      "skill": "drama-quality",
+      "phase": 4,
+      "task": "对照 spec.md 的 must/should-not、scene acceptance、carry-over 兑现情况、角色一致性进行验收。输出 check-report.md，列出阻断项和提醒项。",
+      "inputs": [
+        "narrative.md",
+        "spec",
+        "scenes",
+        "characters",
+        "carryOvers"
+      ],
+      "outputs": [
+        "check-report.md"
+      ]
+    }
+  ],
+  "workflow": [
+    {
+      "step": 1,
+      "agent": "director",
+      "description": "导演分场 + 写导演指令"
+    },
+    {
+      "step": 2,
+      "agent": "characters",
+      "description": "角色群按导演指令演绎 4 场戏"
+    },
+    {
+      "step": 3,
+      "agent": "narrator",
+      "description": "旁白整合为完整叙事"
+    },
+    {
+      "step": 4,
+      "agent": "quality",
+      "description": "质量验收"
+    },
+    {
+      "step": 5,
+      "agent": "harness",
+      "description": "若 PASS → wrap；若 FAIL → 回到 step 1 修正"
+    }
+  ]
+}

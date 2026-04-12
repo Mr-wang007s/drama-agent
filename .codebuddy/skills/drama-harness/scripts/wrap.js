@@ -8,12 +8,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {
   getPaths, nowIso, exists, readJson, writeJson, readText, writeText,
-  assertEpisodeId, resolveWithin
+  assertEpisodeId, resolveWithin, parseArgs
 } from './lib.js';
 
-export function wrapEpisode(episodeId) {
+export function wrapEpisode(episodeId, storyOpt) {
   assertEpisodeId(episodeId);
-  const paths = getPaths();
+  const paths = getPaths({ story: storyOpt });
   const episodeDir = resolveWithin(paths.episodesDir, episodeId);
   const metaFile = path.join(episodeDir, '.session.json');
 
@@ -62,11 +62,12 @@ export function wrapEpisode(episodeId) {
 }
 
 export async function main(argv) {
-  const episodeId = argv[0];
+  const parsed = parseArgs(argv);
+  const episodeId = parsed._[0];
   if (!episodeId) {
     throw new Error('wrap 需要提供 episode-id');
   }
-  const meta = wrapEpisode(episodeId);
+  const meta = wrapEpisode(episodeId, parsed.story);
   console.log(`已归档 Episode ${episodeId}`);
   return meta;
 }

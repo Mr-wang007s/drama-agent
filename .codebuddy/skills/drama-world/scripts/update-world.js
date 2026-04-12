@@ -6,11 +6,11 @@
 
 import path from 'node:path';
 import {
-  getPaths, nowIso, readJson, writeJson, readText, writeText
+  getPaths, nowIso, readJson, writeJson, readText, writeText, parseArgs
 } from '../../drama-harness/scripts/lib.js';
 
-export function updateWorldState(episodeId, events = [], newCarryOvers = []) {
-  const paths = getPaths();
+export function updateWorldState(episodeId, events = [], newCarryOvers = [], storyOpt) {
+  const paths = getPaths({ story: storyOpt });
 
   // 更新 state.json
   const stateFile = path.join(paths.worldDir, 'state.json');
@@ -46,9 +46,10 @@ export function updateWorldState(episodeId, events = [], newCarryOvers = []) {
 }
 
 export async function main(argv) {
-  const episodeId = argv[0];
+  const parsed = parseArgs(argv);
+  const episodeId = parsed._[0];
   if (!episodeId) {
     throw new Error('update-world 需要提供 episode-id');
   }
-  console.log(`请通过 API 调用 updateWorldState('${episodeId}', events, carryOvers) 更新世界状态。`);
+  console.log(`请通过 API 调用 updateWorldState('${episodeId}', events, carryOvers, '${parsed.story || ''}') 更新世界状态。`);
 }

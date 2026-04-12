@@ -1,0 +1,38 @@
+[
+  {
+    "id": "F-01",
+    "type": "plot-hook",
+    "description": "30秒旧录像内容在复排中当众曝光——周柏清火灾前转移文件箱给苏遥的父亲。",
+    "resolved": true
+  },
+  {
+    "id": "F-02",
+    "type": "character-pressure",
+    "description": "苏遥主动向高鸣坦白父亲身份，三组关系同时产生不可逆变化。",
+    "resolved": true
+  },
+  {
+    "id": "F-03",
+    "type": "carry-over",
+    "description": "林七八年前的短信收件人是谁？对方能接入剧场内部对讲系统。",
+    "resolved": false
+  },
+  {
+    "id": "F-04",
+    "type": "carry-over",
+    "description": "高鸣收到匿名委托人的新消息后中途离场——他做出了什么决定？",
+    "resolved": false
+  },
+  {
+    "id": "F-06",
+    "type": "plot-hook",
+    "description": "旧排练录像被截掉的 30 秒里拍到了什么？(来自 ep02，本集兑现)",
+    "resolved": true
+  },
+  {
+    "id": "F-07",
+    "type": "plot-hook",
+    "description": "匿名委托人声称拥有'更好的筹码'(来自 ep02，本集推进——委托人在演出中主动联系高鸣)",
+    "resolved": true
+  }
+]

@@ -1,27 +1,28 @@
 /**
- * drama-harness/scripts/status.js — 状态查询
+ * drama-harness/scripts/status.js — 状态查询（Monorepo 大仓版）
  *
- * 世界状态 + Agent 状态 + 记忆摘要。
+ * 无 --story 时列出所有故事子项目摘要。
+ * 指定 --story 时显示该故事的世界状态 + Agent 状态 + 记忆摘要。
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { getPaths, exists, readJson, readText } from './lib.js';
+import { getPaths, listStories, exists, readJson, readText, parseArgs } from './lib.js';
 
-export function getWorldStatus() {
-  const paths = getPaths();
+export function getWorldStatus(storyOpt) {
+  const paths = getPaths({ story: storyOpt });
   const state = readJson(path.join(paths.worldDir, 'state.json'), {});
   return {
-    title: state.title || '未命名',
-    currentEpisode: state.currentEpisode || 'none',
+    title: state.title || state.meta?.storyTitle || '未命名',
+    currentEpisode: state.currentEpisode || state.current?.episode || 'none',
     wrappedEpisodes: (state.wrappedEpisodes || []).length,
-    carryOvers: (state.carryOvers || []).length,
-    updatedAt: state.updatedAt || 'unknown',
+    carryOvers: (state.carryOvers || state.carryOver || []).length,
+    updatedAt: state.updatedAt || state.meta?.updatedAt || 'unknown',
   };
 }
 
-export function getAgentStatus(agentId) {
-  const paths = getPaths();
+export function getAgentStatus(agentId, storyOpt) {
+  const paths = getPaths({ story: storyOpt });
   const agentDir = path.join(paths.agentsDir, agentId);
   if (!exists(agentDir)) return null;
 
@@ -30,7 +31,6 @@ export function getAgentStatus(agentId) {
   const soul = readText(soulFile);
   const memory = readText(memFile);
 
-  // 简单 YAML 解析
   const name = soul.match(/^name:\s*(.+)$/m)?.[1] || agentId;
   const status = soul.match(/^status:\s*(.+)$/m)?.[1] || 'unknown';
   const emotion = soul.match(/^emotion_state:\s*(.+)$/m)?.[1] || 'unknown';
@@ -47,17 +47,17 @@ export function getAgentStatus(agentId) {
   };
 }
 
-export function getAllAgentStatus() {
-  const paths = getPaths();
+export function getAllAgentStatus(storyOpt) {
+  const paths = getPaths({ story: storyOpt });
   if (!exists(paths.agentsDir)) return [];
   return fs.readdirSync(paths.agentsDir, { withFileTypes: true })
     .filter((e) => e.isDirectory() && exists(path.join(paths.agentsDir, e.name, 'SOUL.yaml')))
-    .map((e) => getAgentStatus(e.name))
+    .map((e) => getAgentStatus(e.name, storyOpt))
     .filter(Boolean);
 }
 
-export function getEpisodeStatus(episodeId) {
-  const paths = getPaths();
+export function getEpisodeStatus(episodeId, storyOpt) {
+  const paths = getPaths({ story: storyOpt });
   const episodeDir = path.join(paths.episodesDir, episodeId);
   const metaFile = path.join(episodeDir, '.session.json');
   if (!exists(metaFile)) return null;
@@ -65,18 +65,36 @@ export function getEpisodeStatus(episodeId) {
 }
 
 export async function main(argv) {
-  const episodeId = argv[0];
+  const parsed = parseArgs(argv);
+  const storyOpt = parsed.story;
+  const episodeId = parsed._[0];
 
+  // 无 --story：列出所有故事子项目
+  if (!storyOpt && !episodeId) {
+    const stories = listStories();
+    if (stories.length === 0) {
+      console.log('尚无故事子项目。使用 drama-agent init --name <name> 创建。');
+      return;
+    }
+    console.log(`共 ${stories.length} 个故事：\n`);
+    for (const s of stories) {
+      const genre = s.genre ? ` [${s.genre}]` : '';
+      console.log(`  📖 ${s.name} — ${s.title}${genre}`);
+    }
+    console.log('\n使用 --story <name> 查看故事详情。');
+    return;
+  }
+
+  // 有 --story 无 episodeId：显示故事全局状态
   if (!episodeId) {
-    // 全局状态
-    const world = getWorldStatus();
-    console.log(`世界：${world.title}`);
+    const world = getWorldStatus(storyOpt);
+    console.log(`故事：${world.title} (${storyOpt})`);
     console.log(`当前集：${world.currentEpisode}`);
     console.log(`已归档：${world.wrappedEpisodes} 集`);
     console.log(`Carry-over：${world.carryOvers} 个`);
     console.log('');
 
-    const agents = getAllAgentStatus();
+    const agents = getAllAgentStatus(storyOpt);
     for (const a of agents) {
       console.log(`Agent ${a.name} | ${a.status} | ${a.emotion} | 记忆 ${a.memoryUsage}`);
     }
@@ -84,7 +102,7 @@ export async function main(argv) {
   }
 
   // 单集状态
-  const ep = getEpisodeStatus(episodeId);
+  const ep = getEpisodeStatus(episodeId, storyOpt);
   if (!ep) {
     console.log(`Episode ${episodeId} 不存在`);
     return;

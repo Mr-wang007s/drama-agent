@@ -1,0 +1,58 @@
+[
+  {
+    "id": "S01",
+    "title": "冷开场钩子",
+    "goal": "用异常事件或冲突画面建立本集悬念。",
+    "conflict": "角色尚未理解局势，但观众已经察觉风险。",
+    "status": "queued",
+    "acceptance": [
+      "给出本集主悬念",
+      "主角做出一个会引发后果的动作"
+    ],
+    "order": 1,
+    "owner": "director",
+    "episodeId": "ep01-red-curtain"
+  },
+  {
+    "id": "S02",
+    "title": "关系施压",
+    "goal": "通过人物互动把角色关系推向更紧状态。",
+    "conflict": "公开目标与隐藏动机开始出现偏差。",
+    "status": "queued",
+    "acceptance": [
+      "至少一组关系发生变化",
+      "埋入下一场的选择压力"
+    ],
+    "order": 2,
+    "owner": "ensemble",
+    "episodeId": "ep01-red-curtain"
+  },
+  {
+    "id": "S03",
+    "title": "代价升级",
+    "goal": "让本集核心冲突真正升级，逼出选择。",
+    "conflict": "角色必须在损失与信念之间做取舍。",
+    "status": "queued",
+    "acceptance": [
+      "冲突代价被明确量化",
+      "角色秘密或计划至少暴露一部分"
+    ],
+    "order": 3,
+    "owner": "ensemble",
+    "episodeId": "ep01-red-curtain"
+  },
+  {
+    "id": "S04",
+    "title": "悬念收束",
+    "goal": "阶段性收束本集，但保留跨集张力。",
+    "conflict": "表面结束与真实危机之间形成反差。",
+    "status": "queued",
+    "acceptance": [
+      "本集主问题获得阶段答案",
+      "留下一个跨集追问"
+    ],
+    "order": 4,
+    "owner": "ensemble",
+    "episodeId": "ep01-red-curtain"
+  }
+]

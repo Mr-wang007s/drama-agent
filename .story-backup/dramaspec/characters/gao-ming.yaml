@@ -1,0 +1,17 @@
+id: gao-ming
+name: 高鸣
+archetype: 调查记者 / 外部压力源
+desire: 借重启调查打出自己的代表作
+fear: 发现真相后自己也必须牺牲掉一部分职业伦理
+secret: 他最初接近剧场其实是受匿名委托
+voice: 快、准、像不断追问的采访录音
+status: active
+emotion_default: restless
+relationships:
+  - target: lin-qi
+    type: 合作 / 利用并存
+    summary: 他需要林七掌握的旧物证，但也在消耗她的信任
+notes:
+  surface: 聪明、机警、习惯先抛线索再看反应
+  fracture: 真正被触动时反而会说得更少
+  season_arc: 从追新闻转向承担后果

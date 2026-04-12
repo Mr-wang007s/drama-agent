@@ -1,0 +1,116 @@
+{
+  "title": "雾中庄园",
+  "currentEpisode": "ep01",
+  "current_scene": "ep01-sc04",
+  "wrappedEpisodes": [],
+  "carryOvers": [
+    {
+      "id": "CO-01",
+      "description": "钱志远的公司财务危机",
+      "status": "hinted",
+      "updated_in": "ep01"
+    },
+    {
+      "id": "CO-02",
+      "description": "钱婉清二十年前被逐出家门的原因",
+      "status": "hinted",
+      "updated_in": "ep01"
+    },
+    {
+      "id": "CO-03",
+      "description": "钱少白的身世之谜",
+      "status": "hinted",
+      "updated_in": "ep01"
+    },
+    {
+      "id": "CO-05",
+      "description": "遗嘱失踪",
+      "status": "active",
+      "introduced_in": "ep01"
+    },
+    {
+      "id": "CO-06",
+      "description": "钱少白是最后一个见到活着的父亲的人",
+      "status": "active",
+      "introduced_in": "ep01"
+    }
+  ],
+  "global_tension": 0.85,
+  "timeline": {
+    "story_date": "2026-03-15",
+    "story_time": "22:45",
+    "elapsed_hours": 2.75
+  },
+  "unresolved_threads": [
+    "谁杀死了钱守信？",
+    "老爷子生前发现了什么秘密？",
+    "为何选择家族聚会当晚动手？",
+    "遗嘱被谁拿走了？",
+    "钱少白隐瞒了什么？"
+  ],
+  "active_secrets": [
+    {
+      "owner": "qian-zhiyuan",
+      "secret": "公司已经资不抵债，急需一笔钱",
+      "known_by": [],
+      "hint_exposed": true
+    },
+    {
+      "owner": "qian-wanqing",
+      "secret": "二十年前被逐出家门的真正原因",
+      "known_by": [],
+      "hint_exposed": true
+    },
+    {
+      "owner": "qian-shaobai",
+      "secret": "并非钱守信的亲生儿子",
+      "known_by": [],
+      "hint_exposed": false
+    }
+  ],
+  "discovered_clues": [
+    {
+      "id": "CLUE-01",
+      "description": "凶器是银质拆信刀",
+      "discovered_by": ["qian-zhiyuan", "qian-wanqing", "qian-shaobai"],
+      "scene": "ep01-sc04"
+    },
+    {
+      "id": "CLUE-02",
+      "description": "遗嘱失踪",
+      "discovered_by": ["qian-zhiyuan"],
+      "scene": "ep01-sc04"
+    },
+    {
+      "id": "CLUE-03",
+      "description": "钱少白五点四十五见过活着的父亲",
+      "discovered_by": ["qian-zhiyuan", "qian-wanqing"],
+      "scene": "ep01-sc04"
+    }
+  ],
+  "relationship_changes": [
+    {
+      "from": "qian-zhiyuan",
+      "to": "qian-wanqing",
+      "change": "trust -0.1",
+      "reason": "互相怀疑对方是凶手"
+    },
+    {
+      "from": "qian-wanqing",
+      "to": "qian-zhiyuan",
+      "change": "suspicion +0.2",
+      "reason": "注意到他第一反应是找遗嘱"
+    },
+    {
+      "from": "qian-shaobai",
+      "to": "qian-zhiyuan",
+      "change": "trust -0.15",
+      "reason": "对大哥冷血反应感到寒心"
+    }
+  ],
+  "meta": {
+    "version": "4.0",
+    "created_at": "2026-04-12T09:55:00+08:00",
+    "last_updated": "2026-04-12T10:05:00+08:00"
+  }
+}
