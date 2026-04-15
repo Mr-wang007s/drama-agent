@@ -1,0 +1,10 @@
+identity:
+  id: "yuhi-kurenai"
+  name: "夕日红"
+  archetype: "盟友"
+  role: "第八班带队上忍，幻术专家，阿斯玛的恋人"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

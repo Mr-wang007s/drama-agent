@@ -1,0 +1,10 @@
+identity:
+  id: "hagoromo"
+  name: "大筒木羽衣"
+  archetype: "导师"
+  role: "六道仙人，查克拉之祖，将十尾分为九只尾兽"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

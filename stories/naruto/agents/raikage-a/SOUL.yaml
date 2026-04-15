@@ -1,0 +1,10 @@
+identity:
+  id: "raikage-a"
+  name: "四代雷影·艾"
+  archetype: "守门人"
+  role: "云隐最强，雷遁之铠，联军总司令"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

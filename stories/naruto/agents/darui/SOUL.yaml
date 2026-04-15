@@ -1,0 +1,10 @@
+identity:
+  id: "darui"
+  name: "达鲁伊"
+  archetype: "盟友"
+  role: "黑雷遁使用者，后成五代雷影"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

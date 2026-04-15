@@ -1,0 +1,10 @@
+identity:
+  id: "karin"
+  name: "香燐"
+  archetype: "盟友"
+  role: "鹰小队，感知+治疗咬，暗恋佐助"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"
