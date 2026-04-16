@@ -1,8 +1,8 @@
 /**
- * drama-harness/scripts/init.js — 模拟初始化
+ * drama-harness/scripts/init.js — 模拟初始化（v5: FSM 集成）
  *
- * 创建 episode 目录、快照当前状态、设状态为 simulating。
- * 合并了原 cli.js 的 commandNew + commandBrief 逻辑。
+ * 创建 episode 目录、快照当前状态、通过状态机管理生命周期。
+ * 状态流转：idle → initializing → context-ready
  */
 
 import path from 'node:path';
@@ -10,6 +10,7 @@ import {
   getPaths, nowIso, ensureDir, exists, readJson, writeJson, writeText,
   assertEpisodeId, resolveWithin, parseArgs
 } from './lib.js';
+import { SessionFSM, STATES } from './session-fsm.js';
 
 export function initEpisode(episodeId, options = {}) {
   assertEpisodeId(episodeId);
@@ -19,6 +20,16 @@ export function initEpisode(episodeId, options = {}) {
   if (exists(episodeDir) && !options.force) {
     throw new Error(`Episode ${episodeId} 已存在`);
   }
+
+  // 创建状态机
+  const fsm = new SessionFSM(episodeId, options.story || '', {
+    maxTurns: options.maxTurns ?? 50,
+    maxDurationMs: options.maxDurationMs ?? 30 * 60 * 1000,
+  });
+
+  // idle → initializing
+  const t1 = fsm.transition(STATES.INITIALIZING);
+  if (!t1.ok) throw new Error(t1.error);
 
   // 创建目录结构
   ensureDir(episodeDir);
@@ -32,8 +43,10 @@ export function initEpisode(episodeId, options = {}) {
     logline: options.logline || '',
     agents: options.agents || [],
     skills: options.skills || ['screenplay'],
-    status: 'simulating',
+    status: 'initializing',
     mode: options.mode || 'team',
+    maxTurns: options.maxTurns ?? 50,
+    maxDurationMs: options.maxDurationMs ?? 30 * 60 * 1000,
     createdAt: nowIso(),
     updatedAt: nowIso(),
   };
@@ -46,7 +59,17 @@ export function initEpisode(episodeId, options = {}) {
   worldState.updatedAt = nowIso();
   writeJson(path.join(paths.worldDir, 'state.json'), worldState);
 
-  return { meta, episodeDir };
+  // initializing → context-ready (preconditions auto-checked)
+  const t2 = fsm.transition(STATES.CONTEXT_READY, {
+    episodeDir,
+    agents: options.agents || [],
+  });
+  if (!t2.ok) throw new Error(t2.error);
+
+  // Persist FSM state
+  fsm.save();
+
+  return { meta, episodeDir, fsm };
 }
 
 // CLI 入口
@@ -64,8 +87,11 @@ export async function main(argv) {
     skills: parsed.skill ? (typeof parsed.skill === 'string' ? parsed.skill.split(',') : parsed.skill) : ['screenplay'],
     mode: parsed.mode,
     force: parsed.force === true,
+    maxTurns: parsed['max-turns'] ? parseInt(parsed['max-turns'], 10) : 50,
+    maxDurationMs: parsed['max-duration'] ? parseInt(parsed['max-duration'], 10) * 60 * 1000 : 30 * 60 * 1000,
   };
-  const { meta, episodeDir } = initEpisode(episodeId, options);
+  const { meta, episodeDir, fsm } = initEpisode(episodeId, options);
   console.log(`已初始化 Episode ${episodeId} → ${episodeDir}`);
+  console.log(`状态机：${fsm.state} | 最大轮次：${fsm.maxTurns} | 最大时长：${Math.round(fsm.maxDurationMs / 60000)}min`);
   return meta;
 }
