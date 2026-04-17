@@ -79,20 +79,49 @@ team_create("drama-{ep-id}")
 - **novel**（默认）：整理为第三人称叙事 → `output/novel.md`
 - **screenplay**：编译为标准剧本格式 → `output/screenplay.md`
 
-### Phase 4: 评审（不可跳过）
+### Phase 4: 评审（不可跳过，必须上下文隔离）
 
-调用 `drama-critic`，逐角色五维评估 → 输出 `output/critic-report.md`。
+**Critic 必须作为独立 Task Agent 执行**——不是你切换视角自评，而是 spawn 一个全新的子代理：
+
+```
+task(subagent_name="code-explorer", prompt="""
+你是 drama-critic 独立评估者。
+读取以下文件，执行五维评估，将报告写入 critic-report.md：
+- episodes/<ep-id>/output/novel.md（待评估文本）
+- agents/<agent-id>/SOUL.yaml（每个参演角色）
+评估维度：人格一致性30% / 创伤响应25% / 语言保真度20% / 内心与外在15% / 秘密保护10%
+你没有看过写作过程，只看到最终产出。请严格对照 SOUL.yaml 评分。
+""")
+```
+
+> **为什么必须隔离**：同一上下文自评 = 没有评。你写了角色然后自己打分，天然有自我肯定偏差。独立 Task Agent 只接收 novel.md + SOUL.yaml，不共享你的写作记忆——这才是真正的 GAN 分离。
+
 如有 🔴 Error，在回复中向用户标红提示。
 
-> **这是 GAN 架构的核心约束：Generator 和 Evaluator 必须分离。Critic 始终是独立 Skill，不是你的一部分。**
+### Phase 4.5: 导演自检报告
 
-### Phase 5: 收尾
+在 Critic 评审的同时，你（Director）输出 `output/director-checklist.md`，逐条回答 Layer 4 的 8 项检查：
 
-1. 更新角色 MEMORY.md（有界写入，≤2000 字符）
-2. 提取 carry-over → 写入 `world/state.json`
-3. 更新 `world/timeline.md`
-4. 更新 SOUL.yaml 可变字段（emotion.current、relationships.trust、status）
-5. 生成 wrap-report
+```markdown
+# Director Checklist · EP{XX}
+| # | 检查项 | 通过? | 证据（引用 novel.md 行号） |
+|---|--------|-------|--------------------------|
+| 1 | OCEAN 人格体现 | ✅/❌ | "第三幕：鹿丸沉默复仇（E30 低外向性）" |
+| ...
+```
+
+如有 ❌，说明遗漏原因和改进方向。这份报告是你的自查，Critic 报告是外部审计——两份独立，交叉验证。
+
+### Phase 5: 收尾（Harness Wrap）
+
+**每一项都必须实际执行，不能只写在 wrap-report 里说"已更新"却没改文件。**
+
+1. **MEMORY 回写**：为每个参演角色从 novel.md 提取 2-3 条关键事件，写入 MEMORY.md 的"近期事件"区。格式：`- [EP{XX}] 事件描述`。总量控制在 ≤2000 字符。
+2. **carry-over 更新**：提取未解悬念 → 写入 `world/state.json` 的 `carry_over` 数组
+3. **timeline 追加**：从 episode-brief.md 提取 2-4 条关键事件，追加到 `world/timeline.md` 对应章节
+4. **SOUL 可变字段更新**：emotion.current、relationships.trust、status（如有死亡/封印）
+5. **state.json 更新**：current_episode、global_tension、faction_status、relationships
+6. 生成 wrap-report
 
 ---
 
