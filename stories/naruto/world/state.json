@@ -1,10 +1,10 @@
 {
   "story_id": "naruto",
   "title": "火影忍者：疾风传",
-  "current_episode": "ep01",
+  "current_episode": "ep04",
   "current_scene": null,
-  "time_period": "疾风传·开篇（鸣人修行归来）",
-  "global_tension": 0.6,
+  "time_period": "疾风传·天地桥篇（鸣人四尾暴走，佐助重逢拒绝回归）",
+  "global_tension": 0.75,
   "agent_roster": {
     "A": [
       "uzumaki-naruto", "uchiha-sasuke", "hatake-kakashi", "haruno-sakura",
@@ -30,9 +30,9 @@
       "tension": "佐助已叛逃，鸣人誓要追回"
     },
     "uzumaki-naruto:haruno-sakura": {
-      "type": "同伴/战友",
-      "trust": 0.85,
-      "tension": "共同目标——带回佐助"
+      "type": "同伴/战友/共同承受",
+      "trust": 0.95,
+      "tension": "四尾暴走的代价——鸣人伤害了小樱，共同目标更坚定"
     },
     "uzumaki-naruto:hatake-kakashi": {
       "type": "师徒/精神传承",
@@ -50,9 +50,9 @@
       "tension": "鸣人完全没意识到雏田的感情"
     },
     "uzumaki-naruto:gaara": {
-      "type": "同为人柱力/挚友",
-      "trust": 0.9,
-      "tension": "我爱罗已成为风影，成为鸣人的标杆"
+      "type": "生死之交/挚友",
+      "trust": 0.95,
+      "tension": "我爱罗不再是人柱力但仍是风影，鸣人在他身上看到了被认可的未来"
     },
     "uzumaki-naruto:killer-bee": {
       "type": "师徒/人柱力前辈",
@@ -70,9 +70,9 @@
       "tension": "鸣人还不知道四代目是他父亲"
     },
     "uzumaki-naruto:sai": {
-      "type": "同伴/佐助的替代者",
-      "trust": 0.6,
-      "tension": "佐井从监视者变成伙伴的过程"
+      "type": "同伴/伙伴",
+      "trust": 0.8,
+      "tension": "佐井为鸣人的羁绊违抗了团藏命令，正式成为第七班成员"
     },
     "uchiha-sasuke:uchiha-itachi": {
       "type": "仇恨/真相未明",
@@ -80,9 +80,9 @@
       "tension": "全部行动的驱动力——灭族之仇"
     },
     "uchiha-sasuke:orochimaru": {
-      "type": "师徒/利用与被利用",
-      "trust": 0.1,
-      "tension": "大蛇丸想要佐助的身体"
+      "type": "师徒/猎物反转",
+      "trust": 0.05,
+      "tension": "大蛇丸身体衰弱将至，佐助已察觉，反噬在即"
     },
     "uchiha-sasuke:haruno-sakura": {
       "type": "被倾慕/冷漠",
@@ -165,9 +165,9 @@
       "tension": "无——这是忍界最热血的师徒关系"
     },
     "gaara:uzumaki-naruto": {
-      "type": "被拯救者/挚友",
-      "trust": 0.9,
-      "tension": "无——鸣人改变了我爱罗的一生"
+      "type": "被拯救者/生死之交",
+      "trust": 0.95,
+      "tension": "一尾被抽离，不再是人柱力，但因鸣人和千代婆婆获得重生"
     },
     "hatake-kakashi:might-guy": {
       "type": "永远的对手/挚友",
@@ -195,9 +195,9 @@
       "tension": "一生的对手——既恨又敬"
     },
     "deidara:sasori": {
-      "type": "搭档/艺术观对立",
+      "type": "前搭档（蝎已死）",
       "trust": 0.4,
-      "tension": "永远的「瞬间vs永恒」之争"
+      "tension": "蝎的死让迪达拉对木叶忍者的仇恨加深"
     },
     "deidara:uchiha-itachi": {
       "type": "单方面仇恨",
@@ -220,9 +220,9 @@
       "tension": "无——忍界最和谐的人柱力关系"
     },
     "sai:shimura-danzo": {
-      "type": "工具/上级",
-      "trust": 0.4,
-      "tension": "佐井开始质疑根的教义"
+      "type": "叛离/前工具",
+      "trust": 0.2,
+      "tension": "佐井违抗杀佐助的命令，根与第七班的羁绊冲突爆发"
     }
   },
   "unresolved_threads": [
@@ -273,10 +273,17 @@
   ],
   "faction_status": {
     "konoha": { "leader": "tsunade", "status": "重建中，佩恩袭击在即", "tension": 0.7 },
-    "akatsuki": { "leader": "nagato/obito", "status": "收集尾兽中", "tension": 0.9 },
+    "akatsuki": { "leader": "nagato/obito", "status": "一尾已获取，蝎阵亡，继续收集尾兽", "tension": 0.85 },
     "taka": { "leader": "uchiha-sasuke", "members": ["suigetsu", "karin", "jugo"], "status": "追杀鼬", "tension": 0.8 },
-    "suna": { "leader": "gaara", "status": "与木叶同盟", "tension": 0.3 },
+    "suna": { "leader": "gaara", "status": "风影归来，千代婆婆牺牲，我爱罗不再是人柱力", "tension": 0.4 },
     "kumo": { "leader": "raikage-a", "status": "保护奇拉比", "tension": 0.5 }
   },
-  "carry_over": []
+  "carry_over": [
+    "鸣人开始修炼风遁·螺旋手里剑（风属性变化+螺旋丸）",
+    "大蛇丸身体衰弱——佐助即将反噬/杀死大蛇丸，组建鹰小队",
+    "佐井正式归属第七班，团藏暗线暴露，根与木叶主流裂痕加深",
+    "佐助追杀鼬的时间线加速",
+    "九尾封印松动——鸣人需学会不依赖九尾",
+    "阿斯玛与不死组合（飞段&角都）的冲突在酝酿中"
+  ]
 }

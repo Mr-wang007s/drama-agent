@@ -1,6 +1,11 @@
 ---
 name: drama-novel
-description: 小说格式内容 Skill——从 Agent 交互记录改写为第三人称叙事文本。
+description: |
+  小说格式内容 Skill——从 Agent 交互记录改写为第三人称叙事文本。
+  在生成新一集时，作为内容编译层被调用，将模拟/写作产出整理为 novel.md。
+  当用户指定 --skill novel 或默认情况下触发。
+globs:
+  - "episodes/**/output/**"
 ---
 
 ### Drama Novel

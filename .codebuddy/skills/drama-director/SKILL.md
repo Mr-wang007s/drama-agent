@@ -1,6 +1,12 @@
 ---
 name: drama-director
-description: 世界管理者视角——在模拟中通过 send_message 对 Agent 施压、推进时间、注入事件，保持叙事张力。支持内心独白机制。
+description: |
+  世界管理者视角——在模拟中通过 send_message 对 Agent 施压、推进时间、注入事件，保持叙事张力。支持内心独白机制。
+  当用户要求"续写"、"继续故事"、"生成下一集"、"模拟"、"跑一集"、"演一下"、"推进剧情"、"写新一集"时，此 Skill 应作为导演层被加载，确保每个角色行为对照 SOUL.yaml（OCEAN + trauma + motivation），内心独白体现创伤链，对话匹配 voice 定义。
+  在直写模式下（不 spawn team），Director 原则作为写作自检清单执行。
+globs:
+  - "stories/**"
+  - "episodes/**"
 team:
   enabled: true
   roles:

@@ -1,6 +1,13 @@
 ---
 name: drama-critic
-description: 独立评估者——从 Generator 分离的 Evaluator，GAN 式架构。评估 Agent 表演质量，检测人格漂移、创伤绕过、秘密泄露。
+description: |
+  独立评估者——从 Generator 分离的 Evaluator，GAN 式架构。评估 Agent 表演质量，检测人格漂移、创伤绕过、秘密泄露。
+  当用户要求"评审"、"评估"、"打分"、"检查表演"、"review"、"critic"时直接触发。
+  当用户要求"续写"、"生成"等创作后，此 Skill 应作为流水线末端被自动调用——每次生成后必须评审，这是 GAN 架构的核心保证。
+  输出 critic-report.md 到 episodes/<ep-id>/output/。
+globs:
+  - "stories/**"
+  - "episodes/**"
 ---
 
 ### Drama Critic — 独立评估者

@@ -4,7 +4,7 @@ identity:
   name: "赤砂之蝎"
   archetype: "阴影 / 永恒的傀儡师"
   role: "晓组织成员，砂隐叛忍，把自己改造成傀儡的天才"
-  status: active
+  status: dead
   tier: B
 psychology:
   ocean: { openness: 60, conscientiousness: 80, extraversion: 15, agreeableness: 10, neuroticism: 50 }

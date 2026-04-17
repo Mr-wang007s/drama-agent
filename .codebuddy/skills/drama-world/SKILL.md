@@ -1,6 +1,11 @@
 ---
 name: drama-world
-description: 世界引擎——维护共享世界状态，组装 Agent 上下文，构建场景，管理时间线和 carry-over。
+description: |
+  世界引擎——维护共享世界状态，组装 Agent 上下文，构建场景，管理时间线和 carry-over。
+  在生成新一集时，world 负责 build-context（为 Agent 组装 prompt）和 update-world（模拟后更新 state.json + timeline.md）。
+  不直接由用户触发，而是被 orchestrator 在流水线中调用。
+globs:
+  - "stories/**/world/**"
 ---
 
 ### Drama World Engine

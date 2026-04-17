@@ -1,6 +1,10 @@
 ---
 name: drama-screenplay
-description: 剧本格式内容 Skill——从 Agent 交互记录编译为标准剧本格式。
+description: |
+  剧本格式内容 Skill——从 Agent 交互记录编译为标准剧本格式。
+  当用户指定 --skill screenplay 时触发。
+globs:
+  - "episodes/**/output/**"
 ---
 
 ### Drama Screenplay

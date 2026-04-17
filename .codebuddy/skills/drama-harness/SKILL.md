@@ -1,6 +1,11 @@
 ---
 name: drama-harness
-description: DramaAgent 工程层——保证模拟世界的可控性、可靠性、可组合性、持久性、可观测性。支持故事初始化和角色创建。
+description: |
+  DramaAgent 工程层——保证模拟世界的可控性、可靠性、可组合性、持久性、可观测性。支持故事初始化和角色创建。
+  当用户要求"初始化故事"、"创建角色"、"新故事"、"回滚"、"快照"、"查看状态"时触发。
+  在生成新一集时，harness 负责 init（创建目录+快照）和 wrap（更新记忆+carry-over+状态）。
+globs:
+  - "stories/**"
 ---
 
 ### Drama Harness
