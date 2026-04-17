@@ -4,7 +4,7 @@ identity:
   name: "角都"
   archetype: "阴影 / 永生的唯利者"
   role: "晓组织成员，�的忍村叛忍，五颗心脏的怪物，晓的财务官"
-  status: active
+  status: dead
   tier: B
 psychology:
   ocean: { openness: 25, conscientiousness: 75, extraversion: 20, agreeableness: 5, neuroticism: 40 }

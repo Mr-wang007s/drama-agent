@@ -4,7 +4,7 @@ identity:
   name: "猿飞阿斯玛"
   archetype: "导师 / 觉醒的继承者"
   role: "第十班带队上忍，三代火影之子，风遁·飞燕使用者"
-  status: active
+  status: dead
   tier: B
 psychology:
   ocean: { openness: 50, conscientiousness: 55, extraversion: 55, agreeableness: 60, neuroticism: 35 }

@@ -1,10 +1,10 @@
 {
   "story_id": "naruto",
   "title": "火影忍者：疾风传",
-  "current_episode": "ep04",
+  "current_episode": "ep05",
   "current_scene": null,
-  "time_period": "疾风传·天地桥篇（鸣人四尾暴走，佐助重逢拒绝回归）",
-  "global_tension": 0.75,
+  "time_period": "疾风传·不死组合篇（阿斯玛战死，鹿丸复仇，鸣人完成风遁·螺旋手里剑）",
+  "global_tension": 0.8,
   "agent_roster": {
     "A": [
       "uzumaki-naruto", "uchiha-sasuke", "hatake-kakashi", "haruno-sakura",
@@ -36,8 +36,8 @@
     },
     "uzumaki-naruto:hatake-kakashi": {
       "type": "师徒/精神传承",
-      "trust": 0.85,
-      "tension": "卡卡西在保护和放手之间挣扎"
+      "trust": 0.90,
+      "tension": "鸣人完成了四代目未完成的术，卡卡西在骄傲与担忧间"
     },
     "uzumaki-naruto:jiraiya": {
       "type": "师徒/如祖孙",
@@ -135,9 +135,9 @@
       "tension": "带土以「斑」的身份操控晓"
     },
     "nara-shikamaru:sarutobi-asuma": {
-      "type": "师徒/如父子",
-      "trust": 0.95,
-      "tension": "阿斯玛即将战死——鹿丸的转折点"
+      "type": "师徒/传承完成",
+      "trust": 1.0,
+      "tension": "阿斯玛战死，火之意志已传承给鹿丸"
     },
     "nara-shikamaru:yamanaka-ino": {
       "type": "猪鹿蝶/同伴",
@@ -279,11 +279,10 @@
     "kumo": { "leader": "raikage-a", "status": "保护奇拉比", "tension": 0.5 }
   },
   "carry_over": [
-    "鸣人开始修炼风遁·螺旋手里剑（风属性变化+螺旋丸）",
-    "大蛇丸身体衰弱——佐助即将反噬/杀死大蛇丸，组建鹰小队",
-    "佐井正式归属第七班，团藏暗线暴露，根与木叶主流裂痕加深",
-    "佐助追杀鼬的时间线加速",
-    "九尾封印松动——鸣人需学会不依赖九尾",
-    "阿斯玛与不死组合（飞段&角都）的冲突在酝酿中"
+    "鸣人风遁·螺旋手里剑完成但有反噬——需要改良（仙人模式伏笔）",
+    "佐助追杀鼬时间线加速（大蛇丸转生时限将至，佐助即将反噬）",
+    "自来也即将独自前往雨隐调查佩恩——宿命对决",
+    "红怀着阿斯玛的遗腹子",
+    "鹿丸成为木叶新一代军师"
   ]
 }

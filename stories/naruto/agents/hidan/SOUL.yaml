@@ -4,7 +4,7 @@ identity:
   name: "飞段"
   archetype: "骗子 / 疯狂信徒"
   role: "晓组织成员，邪神教信徒，不死之身，杀死阿斯玛的元凶"
-  status: active
+  status: sealed
   tier: B
 psychology:
   ocean: { openness: 30, conscientiousness: 20, extraversion: 75, agreeableness: 5, neuroticism: 60 }
