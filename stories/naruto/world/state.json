@@ -1,10 +1,10 @@
 {
   "story_id": "naruto",
   "title": "火影忍者：疾风传",
-  "current_episode": "ep05",
+  "current_episode": "ep06",
   "current_scene": null,
-  "time_period": "疾风传·不死组合篇（阿斯玛战死，鹿丸复仇，鸣人完成风遁·螺旋手里剑）",
-  "global_tension": 0.8,
+  "time_period": "疾风传·追忍者篇（佐助反噬大蛇丸，组建蛇小队，自来也出发雨隐）",
+  "global_tension": 0.85,
   "agent_roster": {
     "A": [
       "uzumaki-naruto", "uchiha-sasuke", "hatake-kakashi", "haruno-sakura",
@@ -80,9 +80,9 @@
       "tension": "全部行动的驱动力——灭族之仇"
     },
     "uchiha-sasuke:orochimaru": {
-      "type": "师徒/猎物反转",
-      "trust": 0.05,
-      "tension": "大蛇丸身体衰弱将至，佐助已察觉，反噬在即"
+      "type": "吞噬者/被吞噬者",
+      "trust": 0.0,
+      "tension": "大蛇丸已被佐助反噬吸收，封印在天之咒印中"
     },
     "uchiha-sasuke:haruno-sakura": {
       "type": "被倾慕/冷漠",
@@ -279,10 +279,11 @@
     "kumo": { "leader": "raikage-a", "status": "保护奇拉比", "tension": 0.5 }
   },
   "carry_over": [
-    "鸣人风遁·螺旋手里剑完成但有反噬——需要改良（仙人模式伏笔）",
-    "佐助追杀鼬时间线加速（大蛇丸转生时限将至，佐助即将反噬）",
-    "自来也即将独自前往雨隐调查佩恩——宿命对决",
-    "红怀着阿斯玛的遗腹子",
+    "鸣人风遁·螺旋手里剑反噬未解——需要仙人模式才能改良",
+    "佐助率蛇小队追踪鼬——兄弟对决即将到来",
+    "自来也已出发前往雨隐——vs佩恩宿命对决（单程票）",
+    "药师兜带走大蛇丸研究资料，开始独立行动（秽土转生伏笔）",
+    "迪达拉仍在追杀佐助（写轮眼之仇）",
     "鹿丸成为木叶新一代军师"
   ]
 }

@@ -37,7 +37,7 @@ performance:
     vocabulary: "学术化、实验术语、蛇的隐喻"
   emotion:
     default: "amused-detached"
-    current: "amused-detached"
+    current: "dormant-absorbed"
     triggers:
       - stimulus: "发现新的能力或血继限界"
         response: "罕见的真正兴奋，瞳孔收缩"

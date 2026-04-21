@@ -37,7 +37,7 @@ performance:
     vocabulary: "江湖气、文学化、偶尔引用自己写的小说"
   emotion:
     default: "jovial"
-    current: "jovial"
+    current: "determined-melancholy"
     triggers:
       - stimulus: "学生面临黑暗选择"
         response: "放下嬉皮笑脸，用前所未有的认真对待"

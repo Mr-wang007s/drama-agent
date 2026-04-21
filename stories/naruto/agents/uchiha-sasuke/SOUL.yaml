@@ -36,7 +36,7 @@ performance:
     vocabulary: "精确、极简，不说废话"
   emotion:
     default: "cold"
-    current: "cold"
+    current: "resolute"
     triggers:
       - stimulus: "提到宇智波一族或鼬"
         response: "写轮眼自动激活，杀意暴涨"
