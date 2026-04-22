@@ -1,0 +1,80 @@
+# === {{name}} · A 级角色 SOUL v4.0 ===
+# A 级 = 重要配角（各势力头目/关键盟友/次要反派）
+# 有完整身世和动机，支撑独立戏份
+#
+# 推荐数量：10-15 人
+
+identity:
+  id: {{id}}
+  name: {{name}}
+  tier: A
+  archetype: {{archetype}}
+  role: {{role}}
+  status: active
+
+psychology:
+  ocean:
+    openness: {{openness}}
+    conscientiousness: {{conscientiousness}}
+    extraversion: {{extraversion}}
+    agreeableness: {{agreeableness}}
+    neuroticism: {{neuroticism}}
+
+  trauma:
+    ghost: {{ghost}}
+    wound: {{wound}}
+    lie: {{lie}}
+    shield: {{shield}}
+
+  motivation:
+    want: {{want}}
+    need: {{need}}
+    fear: {{fear}}
+    secret: {{secret}}
+
+performance:
+  voice:
+    tone: {{tone}}
+    rhythm: {{rhythm}}
+    quirks:
+      - {{quirk1}}
+      - {{quirk2}}
+    vocabulary: {{vocabulary}}
+
+  emotion:
+    default: {{emotionDefault}}
+    current: {{emotionDefault}}
+    triggers:
+      - stimulus: {{trigger1Stimulus}}
+        response: {{trigger1Response}}
+      - stimulus: {{trigger2Stimulus}}
+        response: {{trigger2Response}}
+
+  stress_response:
+    fight: {{fightResponse}}
+    flight: {{flightResponse}}
+
+  # A 级保留 2 个示例
+  examples:
+    - situation: {{example1Situation}}
+      action: {{example1Action}}
+      inner_thought: {{example1Thought}}
+    - situation: {{example2Situation}}
+      action: {{example2Action}}
+      inner_thought: {{example2Thought}}
+
+relationships:
+  - target: {{relationship1Target}}
+    type: {{relationship1Type}}
+    trust: {{relationship1Trust}}
+    history: {{relationship1History}}
+
+runtime:
+  known_facts: []
+  memory_capacity: 1200
+
+meta:
+  version: "4.0"
+  tier: A
+  created_at: {{createdAt}}
+  updated_at: {{updatedAt}}
