@@ -113,4 +113,9 @@ export async function main(argv) {
   }
   return meta;
 }
-\n,// ─── Skill 独立入口（允许直接 node 运行，也可以被其他模块 import { main } 调用）───,if (import.meta.url === ile://\; import.meta.url.endsWith(process.argv[1].replace(/\\\\/g, '/'))) {,  const res = main(process.argv.slice(2));,  if (res; typeof res.then === 'function') res.catch((e) => { console.error(e); process.exit(1); });,},
+
+// ─── 独立入口：允许 `node <script>.js` 直接运行，也可被其他模块 import { main } ───
+if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}`) {
+  const res = main(process.argv.slice(2));
+  if (res && typeof res.then === 'function') res.catch((e) => { console.error(e); process.exit(1); });
+}
