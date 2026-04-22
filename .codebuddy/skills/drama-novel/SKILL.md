@@ -115,8 +115,20 @@ globs:
 - [ ] 无 ## 标题、--- 分隔线、**加粗**
 - [ ] 段落最小单位 ≥ 2句（极个别高潮处例外）
 
+**🔧 自动化门控**：不要靠人工数。交付前**强制调用** `drama-critic` 的 `check-ai-taste`：
+
+```bash
+npm run drama -- check-style --story <name> --episode <ep-id>
+```
+
+- 退出码 0 → 合格，继续交付
+- 退出码 1 → 不合格，按输出的量化问题清单修订，**不要跳过**
+- 问题定位：工具会打印每处 Error 的上下文片段（20 字前后），直接按位置改
+
 ### Scripts
 
 | 脚本 | 用途 |
 |------|------|
 | `compile.js` | 从交互记录改写为小说格式 |
+
+（`check-ai-taste.js` 归属在 `drama-critic/scripts/`，由 critic 统一管理，novel 在交付前调用。）

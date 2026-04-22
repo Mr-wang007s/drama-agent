@@ -88,8 +88,7 @@ drama-agent/                        # Monorepo 根（引擎）
 │       ├── agents/
 │       └── world/
 ├── examples/                       # 样板（red-curtain 原始副本）
-├── bin/drama-agent.js              # CLI 入口
-└── scripts/hooks/                  # 生命周期钩子
+└── bin/drama-agent.js              # CLI 入口（路由到各 Skill 脚本）
 ```
 
 ## 文档

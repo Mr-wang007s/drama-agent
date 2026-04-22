@@ -5,7 +5,6 @@
   "current_scene": null,
   "time_period": "故事起点：2026年3月 · 精神病院",
   "global_tension": 0.3,
-
   "protagonist_state": {
     "lin_mo": {
       "realm": "一境·观想（未稳定）",
@@ -15,19 +14,24 @@
       "status": "即将被特赦出山"
     }
   },
-
   "agent_roster": {
     "S": [
-      "s_lin-mo", "s_shen-yanzhi", "s_lu-jiu", "s_shen-qingyuan",
-      "s_a-yiguli", "s_zhou-wenyuan", "s_the-gentleman", "s_qu-lingjun"
+      "s_a-yiguli",
+      "s_lin-mo",
+      "s_lu-jiu",
+      "s_qu-lingjun",
+      "s_shen-qingyuan",
+      "s_shen-yanzhi",
+      "s_the-gentleman",
+      "s_zhou-wenyuan"
     ],
     "A_count": 15,
     "B_count": 25,
     "C_count": 32
   },
-
-  "active_agents": ["s_lin-mo"],
-
+  "active_agents": [
+    "s_lin-mo"
+  ],
   "factions": {
     "jiu_ge_si": {
       "name": "九歌司",
@@ -59,24 +63,53 @@
     },
     "overseas": {
       "name": "海外同行",
-      "members": ["日本阴阳寮", "梵蒂冈圣座观测团", "CIA蓝皮书"],
+      "members": [
+        "日本阴阳寮",
+        "梵蒂冈圣座观测团",
+        "CIA蓝皮书"
+      ],
       "status": "观望",
       "tension": 0.5
     }
   },
-
   "shen_xu_status": {
-    "1_dong_huang_tai_yi": { "location": "三星堆", "status": "封印稳固" },
-    "2_yun_zhong_jun": { "location": "良渚", "status": "轻度泄漏" },
-    "3_xiang_jun": { "location": "洞庭湖底", "status": "裂缝中" },
-    "4_xiang_fu_ren": { "location": "九嶷山", "status": "未发现" },
-    "5_da_si_ming": { "location": "殷墟外围", "status": "被考古队误触（EP01触发）" },
-    "6_shao_si_ming": { "location": "二里头", "status": "封印中" },
-    "7_dong_jun": { "location": "嘉峪关外", "status": "部族守护" },
-    "8_he_bo": { "location": "兰州黄河底", "status": "被方士会炼化" },
-    "9_shan_gui": { "location": "南岭深山", "status": "招魂堂守护" }
+    "1_dong_huang_tai_yi": {
+      "location": "三星堆",
+      "status": "封印稳固"
+    },
+    "2_yun_zhong_jun": {
+      "location": "良渚",
+      "status": "轻度泄漏"
+    },
+    "3_xiang_jun": {
+      "location": "洞庭湖底",
+      "status": "裂缝中"
+    },
+    "4_xiang_fu_ren": {
+      "location": "九嶷山",
+      "status": "未发现"
+    },
+    "5_da_si_ming": {
+      "location": "殷墟外围",
+      "status": "被考古队误触（EP01触发）"
+    },
+    "6_shao_si_ming": {
+      "location": "二里头",
+      "status": "封印中"
+    },
+    "7_dong_jun": {
+      "location": "嘉峪关外",
+      "status": "部族守护"
+    },
+    "8_he_bo": {
+      "location": "兰州黄河底",
+      "status": "被方士会炼化"
+    },
+    "9_shan_gui": {
+      "location": "南岭深山",
+      "status": "招魂堂守护"
+    }
   },
-
   "unresolved_threads": [
     "林墨的褪色终点",
     "林父的真实下落",
@@ -87,7 +120,6 @@
     "周文渊的真实立场",
     "陆九的失忆真相"
   ],
-
   "active_secrets": [
     {
       "holder": "s_shen-yanzhi",
@@ -110,7 +142,6 @@
       "content": "屈原本人，以'撄宁'之境存活于《九歌》原典中"
     }
   ],
-
   "carry_over": [
     "殷墟考古队集体精神异常事件（EP01开端）",
     "林墨即将被九歌司特赦接触",

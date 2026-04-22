@@ -30,7 +30,7 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const ROOT = path.resolve(__dirname, '..');
+const ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 // ═══════════════════════════════════════════════════════════════
 //  参数解析
@@ -56,8 +56,10 @@ function parseArgs(argv) {
 function readTierFromSoul(soulPath) {
   try {
     const content = fs.readFileSync(soulPath, 'utf8');
-    // 简单匹配 tier: 字段（不依赖 yaml 解析库）
-    const m = content.match(/^\s*tier:\s*([A-Za-z])\s*$/m);
+    // 支持分行 `tier: X` 和 flow-style `{ tier: X, ... }`
+    const blockM = content.match(/^\s*tier:\s*([A-Za-z])\s*$/m);
+    const flowM = content.match(/[{,]\s*tier:\s*([A-Za-z])\s*[,}]/);
+    const m = blockM || flowM;
     return m ? m[1].toLowerCase() : null;
   } catch {
     return null;
