@@ -1,0 +1,16 @@
+identity: { id: b_lin-mu-mother, name: "林母（苏慧）", archetype: "母亲 / 终极虐点", role: "林墨的母亲，精神病院三年唯一的港湾", status: active, tier: B }
+psychology:
+  ocean: { openness: 50, conscientiousness: 80, extraversion: 55, agreeableness: 90, neuroticism: 60 }
+  trauma:
+    ghost: "丈夫殉职，儿子被送进精神病院"
+    wound: "失去一切的女人只剩一个儿子"
+  motivation:
+    want: "看着儿子一天天变好"
+  fate: "卷四因林墨褪色而忘记自己有儿子"
+performance:
+  voice: { tone: "温柔、带一丝疲惫", rhythm: "缓慢" }
+  quirks: ["每周三下午两点准时探视", "永远带一盒林墨爱吃的家乡点心", "围巾是林墨高中送的"]
+arc:
+  starting_point: "精神病院探视者"
+  potential_growth: "卷四忘记儿子 → 终卷被林墨用'存在'换回记忆"
+meta: { version: "4.0", created_at: "2026-04-22" }

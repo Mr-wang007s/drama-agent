@@ -1,0 +1,20 @@
+{
+  "story_id": "jiu-ge",
+  "title": "九歌",
+  "subtitle": "古墓不是目的地，古墓是规则",
+  "version": "1.0",
+  "genre": "考古悬疑/东方克苏鲁/规则怪谈",
+  "time_period": "2026年 · 当代中国",
+  "created_at": "2026-04-22",
+  "updated_at": "2026-04-22",
+  "target_length": "150-200万字",
+  "target_platform": ["起点主站", "番茄"],
+  "seedSource": "原作《神明残留》灵感改造 + 团队头脑风暴整合",
+  "agent_roster": {
+    "S_class": 8,
+    "A_class": 15,
+    "B_class": 25,
+    "C_class": 32,
+    "total": 80
+  }
+}

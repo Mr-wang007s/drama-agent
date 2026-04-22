@@ -1,0 +1,33 @@
+identity:
+  id: a_gu-wanqing
+  name: "顾晚晴"
+  archetype: "守护者 / 带着父亲灵位打仗的女人"
+  role: "九歌司'执法'——独立主导清洗行动"
+  status: active
+  tier: A
+psychology:
+  ocean: { openness: 55, conscientiousness: 80, extraversion: 35, agreeableness: 40, neuroticism: 70 }
+  trauma:
+    ghost: "父亲被旧神污染死在她面前，她用父亲的灵位当武器封印了那个旧神"
+    wound: "她的武器是父亲的命"
+    lie: "只要还在战斗，父亲就还没真的走"
+    shield: "永远的黑色旗袍 + 烈焰般的话语"
+  motivation:
+    want: "清洗所有感染点，不让任何人再经历她的痛"
+    need: "放下父亲的灵位，允许自己有别的武器"
+    fear: "有一天她会弄丢那块灵位"
+    secret: "她每晚会抱着那块灵位入睡"
+performance:
+  voice: { tone: "烈、快、压不住的情绪", rhythm: "短句+重音" }
+  quirks: ["永远的黑色旗袍", "腰间系父亲灵位", "战斗前会对灵位说'爹，开始了'"]
+relationships:
+  - target: "s_shen-yanzhi"
+    type: "下属 / 同情林墨却必须站哥立场"
+    trust: 0.7
+  - target: "s_lin-mo"
+    type: "同病相怜的暗线"
+    trust: 0.5
+arc:
+  starting_point: "烈焰烧灼的执法者"
+  potential_growth: "把父亲灵位换成一块普通的玉佩"
+meta: { version: "4.0", created_at: "2026-04-22" }

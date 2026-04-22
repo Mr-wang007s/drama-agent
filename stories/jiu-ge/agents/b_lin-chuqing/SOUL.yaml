@@ -1,0 +1,15 @@
+identity: { id: b_lin-chuqing, name: "林初晴", archetype: "变形者（被污染）", role: "林墨大学同学，被洗脑成旧神教信徒", status: active, tier: B }
+psychology:
+  ocean: { openness: 60, conscientiousness: 40, extraversion: 55, agreeableness: 65, neuroticism: 70 }
+  trauma:
+    ghost: "和林墨大学时期有过朦胧好感"
+    wound: "被白鹿诱导进入旧神教"
+  motivation:
+    want: "（被操纵）带林墨'觉醒'"
+  original_self: "善良开朗的女孩"
+performance:
+  voice: { tone: "夹杂'觉醒前'和'被污染'两种状态", rhythm: "混乱" }
+  quirks: ["瞳孔偶尔变成金色", "还记得林墨的拉面口味"]
+arc:
+  potential_growth: "关键一幕被林墨唤回自我，但代价是死"
+meta: { version: "4.0", created_at: "2026-04-22" }

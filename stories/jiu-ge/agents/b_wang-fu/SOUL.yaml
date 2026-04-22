@@ -1,0 +1,11 @@
+identity: { id: b_wang-fu, name: "王副所长", archetype: "小人", role: "考古所内斗角色，制造无数小麻烦", status: active, tier: B }
+psychology:
+  ocean: { openness: 35, conscientiousness: 60, extraversion: 75, agreeableness: 25, neuroticism: 55 }
+  trauma:
+    wound: "一辈子被周文渊压一头"
+  motivation:
+    want: "挤掉周文渊"
+performance:
+  voice: { tone: "假笑 + 阴阳怪气", rhythm: "慢条斯理" }
+  quirks: ["发胶抹得锃亮", "喜欢在办公室门口探头探脑"]
+meta: { version: "4.0", created_at: "2026-04-22" }

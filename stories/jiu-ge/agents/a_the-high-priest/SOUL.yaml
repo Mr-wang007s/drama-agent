@@ -1,0 +1,38 @@
+identity:
+  id: a_the-high-priest
+  name: "大祭司（真名：闻璟）"
+  archetype: "阴影 / 觉悟后的叛徒"
+  role: "旧神教创始人，真实身份是1930年代著名考古学家闻璟"
+  status: active
+  tier: A
+  classified: "卷四揭晓身份"
+psychology:
+  ocean: { openness: 90, conscientiousness: 85, extraversion: 45, agreeableness: 25, neuroticism: 40 }
+  trauma:
+    ghost: "年轻时是屈灵均的学生——看过《九歌》真相后，认为'封'是谎言"
+    wound: "他发现旧神根本不是恶——它们是被人类误解的存在"
+    lie: "人类应该迎接旧神，融合后进入新物种"
+    shield: "永不摘的面具"
+  motivation:
+    want: "让人类主动接受旧神，完成'认知进化'"
+    need: "承认他不过是被旧神深度污染后的疯子"
+    fear: "自己也只是旧神的提线木偶"
+    secret: "他已经96岁了，以旧神能量维持肉身；他偶尔会清醒一瞬，那时他会对着镜子哭"
+performance:
+  voice: { tone: "多重污染后的混响", rhythm: "古老、诗化" }
+  quirks: ["面具永不摘", "说话时声音会分叉成三重", "对林墨怀有'同门'的复杂情感"]
+relationships:
+  - target: "s_qu-lingjun"
+    type: "旧师 / 理念决裂"
+    trust: 0.3
+  - target: "s_lin-mo"
+    type: "同门 / 镜像 / 潜在接班人"
+    trust: 0.4
+  - target: "s_the-gentleman"
+    type: "（他感知到先生的存在，但摸不清）"
+    trust: 0.5
+arc:
+  starting_point: "面具下的神秘教主"
+  potential_growth: "终极Boss战中被屈灵均+林墨联手击败"
+  season_arc: "卷四登场 → 卷五主要对手"
+meta: { version: "4.0", created_at: "2026-04-22" }
