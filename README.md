@@ -1,96 +1,97 @@
-# DramaAgent v5 — 通用 AI 叙事引擎（Monorepo 大仓版）
+# DramaAgent v6 — 通用 AI 叙事引擎（Skill 对话驱动）
 
 > 给 Agent 身份、记忆、人格，让它们在共享世界中自由演绎。
+> **核心工作方式**：用户用自然语言对话，Skill 识别意图后由主 Agent 执行。
 
-## v5.0 新特性
+## v6 的变化
 
-- **Monorepo 大仓架构**：所有故事作为子项目共存于 `stories/` 目录，无需 Git 分支隔离
-- **`drama init --name`**：在大仓中一键创建故事子项目
-- **`--story` 全局参数**：所有命令通过 `--story <name>` 指定操作哪个故事
-- **多故事并行管理**：不同故事可同时开发，互不干扰
-- **影帝级角色系统**：SOUL v4.0 三层结构（身份层 → 心理层 → 表演层）
-- **题材预设**：悬疑/奇幻/科幻/言情快速启动
+- **彻底移除 CLI 路由层**（删除 `bin/`）——所有能力通过对话触发 Skill
+- **Skill 自治**：每个 Skill 自带 `scripts/` 子目录，包含该能力所需的工具脚本
+- **角色分级体系**：S/A/B/C 四级，目录前缀强约束，适配长篇连载
+- **AI 味自动检测**：Critic 的客观质量门控
+- **三专家头脑风暴**：`drama-brainstorm` Skill 并行调度世界观/角色/商业视角
 
 ## 快速开始
 
-```bash
-# 1. 初始化故事
-npm run drama -- init --name my-story --preset mystery
-npm run drama -- init --name my-story --from my-story-seed.yaml
+**你不需要记任何命令**。用自然语言告诉主 Agent 你想做什么即可：
 
-# 2. 创建角色
-npm run drama -- create-character --story my-story --interactive
-
-# 3. 列出所有故事
-npm run drama -- status
-
-# 4. 查看故事状态
-npm run drama -- status --story my-story
-
-# 5. 启动模拟
-npm run drama -- sim ep01 --story my-story --title "第一集" --agents a,b --skill screenplay
-
-# 6. 查询记忆
-npm run drama -- recall agent-a --story my-story
-
-# 7. 快照回滚
-npm run drama -- roll ep01 --story my-story --to latest
-
-# 8. 校验
-npm run drama -- validate --story my-story
-```
+| 你说 | 触发的 Skill |
+|------|-------------|
+| "我想基于考古悬疑做个新小说" | `drama-brainstorm` → 三专家头脑风暴 → 设计文档 |
+| "从这份设计文档初始化新故事" | `drama-harness` → `init-from-design` |
+| "丰富一下角色" | `drama-harness` → 设计角色 → `import-characters` → `sync-roster` |
+| "续写" / "生成下一集" | `drama-director` → 规划/导演/编译/评审/收尾 |
+| "查下 EP06 的 AI 味" | `drama-critic` → `check-ai-taste` |
+| "把 xiao-zhao 升级为 A 级" | `drama-harness` → `retier` |
+| "状态" | `drama-harness` → `status` |
 
 ## 核心概念
 
-### Agent = SOUL + MEMORY + RULES
+### Agent = SOUL + MEMORY
 
-每个 Agent 是 `stories/<name>/agents/<agent-id>/` 目录下的一组文件：
+每个 Agent 是 `stories/<name>/agents/<tier>_<agent-id>/` 目录下的一组文件：
 
-- **SOUL.yaml** — 我是谁（SOUL v4.0 三层结构）
-- **MEMORY.md** — 我经历了什么（有界记忆，~2000字符）
-- **RULES.md** — 我的行为红线
+- **SOUL.yaml** — 我是谁（SOUL v4.0 三层结构 + tier 分级）
+- **MEMORY.md** — 我经历了什么（按 tier 有上限：S=2000 / A=1200 / B=600 字符）
+
+目录前缀 `s_` / `a_` / `b_` 强制标识级别；C 级角色合并在 `C-CLASS-INDEX.yaml`。
 
 ### World = bible + state + timeline
 
 `stories/<name>/world/` 维护共享世界状态：
 
 - **bible.md** — 世界观和硬约束
-- **state.json** — 全局状态
+- **state.json** — 全局状态（派系、神墟、roster）
 - **timeline.md** — 事件时间线
 
-### Skill = 可插拔内容输出
+### Skill 架构
 
-| Skill | 输出 |
-|-------|------|
-| drama-screenplay | 剧本格式 |
-| drama-novel | 小说格式 |
+```
+.codebuddy/skills/
+├── drama-brainstorm/       ← 头脑风暴编排（纯对话）
+├── drama-harness/          ← 工程层（初始化/校验/快照/批量角色）
+│   └── scripts/
+├── drama-world/            ← 世界引擎（上下文组装）
+├── drama-director/         ← 导演（生成流水线编排）
+├── drama-critic/           ← 评审（五维人格 + AI 味门控）
+│   └── scripts/
+├── drama-novel/            ← 小说格式编译
+└── drama-screenplay/       ← 剧本格式编译
+```
 
 ## 目录结构
 
 ```
-drama-agent/                        # Monorepo 根（引擎）
-├── .codebuddy/skills/              # Skill 能力层
-│   ├── drama-harness/              # 工程层
-│   ├── drama-world/                # 世界引擎
-│   ├── drama-director/             # 世界管理者
-│   ├── drama-screenplay/           # 剧本 Skill
-│   └── drama-novel/                # 小说 Skill
-├── .codebuddy/commands/drama/      # 命令定义
-├── templates/                      # 模板 + 预设
-├── stories/                        # 故事子项目目录
-│   ├── fog-manor/                  # 雾中庄园
+drama-agent/
+├── .codebuddy/
+│   ├── skills/             # 所有能力 Skill（每个 Skill 含 SKILL.md + 可选 scripts/）
+│   └── commands/drama/     # 历史命令描述（保留作参考）
+├── templates/              # 初始化模板（SOUL 四级 + character-pack + preset）
+├── stories/                # 故事子项目目录
+│   ├── jiu-ge/
 │   │   ├── .story.json
-│   │   ├── agents/
 │   │   ├── world/
+│   │   ├── agents/
+│   │   │   ├── s_lin-mo/
+│   │   │   ├── a_shen-qingyuan/
+│   │   │   ├── b_feng-yu/
+│   │   │   ├── C-CLASS-INDEX.yaml
+│   │   │   └── CHARACTER-INDEX.md
 │   │   └── episodes/
-│   └── red-curtain/                # 红幕剧场
-│       ├── .story.json
-│       ├── agents/
-│       └── world/
-├── examples/                       # 样板（red-curtain 原始副本）
-└── bin/drama-agent.js              # CLI 入口（路由到各 Skill 脚本）
+│   └── naruto/
+├── examples/               # 样板归档
+├── docs/                   # 设计文档归档
+└── tests/
 ```
+
+## 开发者备忘
+
+- **脚本可独立运行**：`node .codebuddy/skills/drama-harness/scripts/<script>.js --story <name> ...`
+- **脚本也可被 import**：`import { main } from '.../scripts/status.js'` 然后 `main(argv)`
+- **不要重新引入 CLI 路由层**：对话触发才是正道
+- **加新能力优先复用现有 Skill**，实在绕不开再新建
 
 ## 文档
 
-- [AGENTS.md](AGENTS.md) — Agent 角色说明 + SOUL v4.0 格式文档
+- [AGENTS.md](AGENTS.md) — Agent 系统说明 + SOUL v4.0 格式文档
+- [CODEBUDDY.md](CODEBUDDY.md) — 项目约束 + 触发词映射表
