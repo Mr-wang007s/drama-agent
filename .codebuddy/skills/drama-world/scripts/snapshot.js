@@ -109,13 +109,36 @@ export function rollbackTo(episodeId, target = 'latest', storyOpt) {
 
 export async function main(argv) {
   const parsed = parseArgs(argv);
-  const episodeId = parsed._[0];
-  if (!episodeId) {
-    throw new Error('roll 需要提供 episode-id');
+  // 子命令：create <ep> / rollback <ep> / 默认（向后兼容）= rollback
+  const sub = parsed._[0];
+  const knownSubs = ['create', 'rollback', 'roll', 'list'];
+  let action, episodeId;
+  if (knownSubs.includes(sub)) {
+    action = sub === 'roll' ? 'rollback' : sub;
+    episodeId = parsed._[1];
+  } else {
+    action = 'rollback';
+    episodeId = parsed._[0];
   }
+  if (!episodeId && action !== 'list') {
+    throw new Error(`${action} 需要提供 episode-id`);
+  }
+
+  if (action === 'create') {
+    const dir = createSnapshot(episodeId, parsed.story);
+    console.log(`已创建快照：${dir}`);
+    return dir;
+  }
+  if (action === 'list') {
+    const list = listSnapshots(parsed._[1], parsed.story);
+    console.log(JSON.stringify(list, null, 2));
+    return list;
+  }
+  // rollback
   const target = parsed.to || 'latest';
   const selected = rollbackTo(episodeId, target, parsed.story);
   console.log(`已将 ${episodeId} 回滚到快照 ${selected}`);
+  return selected;
 }
 
 // ─── 独立入口：允许 `node <script>.js` 直接运行，也可被其他模块 import { main } ───

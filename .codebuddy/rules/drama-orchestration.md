@@ -25,12 +25,15 @@ alwaysApply: true
 #### 生成流水线（必须完整执行）
 
 ```
-Phase 1: 规划（校验 + 快照 + 选角 + beat-sheet）
+Phase 1: 规划（校验 + 快照 + 选角 + beat-sheet，含"前集事实核对清单"）
 Phase 2: 导演（Team 模式：多 Agent 自由交互；或直写模式）
-Phase 3: 编译（novel.md / screenplay.md + check-ai-taste 门控）
-Phase 4: 评审（独立 drama-critic Task Agent，不可跳过）
-Phase 5: 收尾（MEMORY 有界写入 + state + timeline + session-report）
+Phase 3.0: 编译前清理（pre-compile-clean.js 批量消除破折号/加粗/标题）
+Phase 3.1: AI 味门控（check-ai-taste.js 必须 EXIT=0）
+Phase 4: 评审（独立 drama-critic Task Agent，prompt 含连续性核对指令，不可跳过）
+Phase 5: 收尾（MEMORY 有界写入 + state + timeline + wrap-report）
 ```
+
+> 正文写作的硬约束详见 `.codebuddy/rules/writing-craft.md`（A/B 级约束 + Director 必做清单 + 常见陷阱示例）。
 
 #### Critic 不可跳过原则
 

@@ -73,6 +73,20 @@ stories/<name>/
 - **改能力**：修改 `.codebuddy/skills/*/SKILL.md` 或 `.codebuddy/skills/*/scripts/*.js`
 - **加触发词**：修改 Skill 头部的 `description` 字段
 - **改故事内容**：修改 `stories/<name>/agents/*/SOUL.yaml` 或 `world/`
+- **改写作硬约束**：修改 `.codebuddy/rules/writing-craft.md`（A/B 级约束）
+
+### 项目规则（Always-Applied Rules）
+
+所有 `.codebuddy/rules/*.md` 会在对话开始时注入为硬约束：
+
+| 规则 | 作用域 |
+|---|---|
+| `drama-orchestration.md` | 三角 Skill 流水线编排（触发词 / Phase 顺序 / Critic 不可跳过） |
+| `writing-craft.md` | novel.md 正文写作硬约束（A 级 = Error 门控、B 级 = Warning） |
+| `canon-guardrails.md` | series-bible / SOUL 核心字段写保护 |
+| `dramaspec-workflow.md` | 单集四件套（brief/beat-sheet/spec/tasks）工作流 |
+| `harness-memory.md` | 世界状态 / MEMORY 有界机制 |
+| `plan-doc-sync.md` | plan 与文档同步 |
 
 ### 验证方式
 
