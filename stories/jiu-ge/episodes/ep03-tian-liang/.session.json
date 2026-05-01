@@ -1,0 +1,15 @@
+{
+  "id": "ep03-tian-liang",
+  "title": "tian liang",
+  "logline": "",
+  "agents": [],
+  "skills": [
+    "screenplay"
+  ],
+  "status": "initializing",
+  "mode": "team",
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "createdAt": "2026-05-01T20:11:40.531Z",
+  "updatedAt": "2026-05-01T20:11:40.531Z"
+}

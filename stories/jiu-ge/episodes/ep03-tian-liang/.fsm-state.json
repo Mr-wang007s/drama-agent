@@ -1,0 +1,41 @@
+{
+  "state": "context-ready",
+  "episodeId": "ep03-tian-liang",
+  "storyName": "jiu-ge",
+  "agents": [],
+  "turnCount": 0,
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "startedAt": null,
+  "history": [
+    {
+      "event": "created",
+      "timestamp": "2026-05-01T20:11:40.529Z",
+      "state": "idle",
+      "episodeId": "ep03-tian-liang",
+      "storyName": "jiu-ge",
+      "maxTurns": 50,
+      "maxDurationMs": 1800000
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-01T20:11:40.530Z",
+      "state": "initializing",
+      "from": "idle",
+      "to": "initializing",
+      "payload": []
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-01T20:11:40.533Z",
+      "state": "context-ready",
+      "from": "initializing",
+      "to": "context-ready",
+      "payload": [
+        "episodeDir",
+        "agents"
+      ]
+    }
+  ],
+  "savedAt": "2026-05-01T20:11:40.534Z"
+}
