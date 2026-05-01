@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const repoRoot = path.resolve(path.dirname(__filename), '..');
 
 // 直接测试 lib.js 的核心函数
-const libPath = pathToFileURL(path.join(repoRoot, '.codebuddy', 'skills', 'drama-harness', 'scripts', 'lib.js')).href;
+const libPath = pathToFileURL(path.join(repoRoot, '.codebuddy', 'skills', 'drama-world', 'scripts', 'lib.js')).href;
 
 test('getPaths() 无参数返回合法路径对象', async () => {
   const { getPaths } = await import(libPath);

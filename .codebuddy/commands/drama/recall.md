@@ -1,4 +1,4 @@
----
+﻿---
 name: drama:recall
 description: 查询 Agent 记忆、搜索历史交互
 ---
@@ -27,4 +27,4 @@ drama-agent recall --story fog-manor --timeline
 
 ### 实现
 
-调用 `drama-harness/scripts/memory.js`。
+调用 `drama-world/scripts/memory.js`。

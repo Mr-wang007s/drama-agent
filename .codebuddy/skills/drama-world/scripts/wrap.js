@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/wrap.js — 模拟收尾（v5: FSM + Trace 集成）
+﻿/**
+ * drama-world/scripts/wrap.js — 模拟收尾（v5: FSM + Trace 集成）
  *
  * 更新 Agent MEMORY.md、提取 carry-over、生成 session-report、更新世界状态。
  * 状态流转：simulating → wrapping → wrapped
@@ -87,7 +87,7 @@ export function wrapEpisode(episodeId, storyOpt) {
       `- **状态转换次数**：${meta.fsmStats.stateHistory}\n\n`;
   }
 
-  report += `---\n\n*由 drama-harness wrap.js v5 自动生成*\n`;
+  report += `---\n\n*由 drama-world wrap.js v5 自动生成*\n`;
 
   writeText(path.join(episodeDir, 'session-report.md'), report);
 

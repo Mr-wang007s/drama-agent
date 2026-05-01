@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/memory.js — Agent 记忆工具
+﻿/**
+ * drama-world/scripts/memory.js — Agent 记忆工具
  *
  * add / replace / remove 操作，容量检查，满载归档。
  * 参考 Hermes Agent 的 memory tool 设计。

@@ -1,5 +1,5 @@
 /**
- * drama-screenplay/scripts/compile.js — 剧本编译器
+ * drama-director/scripts/compile-screenplay.js — 剧本编译器
  *
  * 从 Agent 交互记录编译为标准剧本格式。
  */
@@ -7,7 +7,7 @@
 import path from 'node:path';
 import {
   getPaths, exists, readText, readJson, writeText, ensureDir
-} from '../../drama-harness/scripts/lib.js';
+} from '../../drama-world/scripts/lib.js';
 
 export function compileScreenplay(episodeId) {
   const paths = getPaths();
@@ -78,7 +78,7 @@ export function compileScreenplay(episodeId) {
     }
   }
 
-  lines.push('---', '', '*剧本由 drama-screenplay 自动编译*');
+  lines.push('---', '', '*剧本由 drama-director 自动编译*');
 
   const screenplay = lines.join('\n');
   const outputDir = path.join(episodeDir, 'output');

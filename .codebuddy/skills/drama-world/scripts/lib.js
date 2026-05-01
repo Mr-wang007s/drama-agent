@@ -1,7 +1,7 @@
-/**
- * drama-harness/scripts/lib.js — 共享工具库
+﻿/**
+ * drama-world/scripts/lib.js — 共享工具库
  *
- * 所有 Skill 脚本通过 import { ... } from '../../drama-harness/scripts/lib.js' 使用。
+ * 所有 Skill 脚本通过 import { ... } from './lib.js' 使用。
  * 从 src/cli.js 迁移全部通用工具函数。
  */
 

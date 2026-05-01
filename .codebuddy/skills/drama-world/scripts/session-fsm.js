@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/session-fsm.js — 会话状态机
+﻿/**
+ * drama-world/scripts/session-fsm.js — 会话状态机
  *
  * 强制执行模拟生命周期：
  *   idle → initializing → context-ready → simulating → wrapping → wrapped

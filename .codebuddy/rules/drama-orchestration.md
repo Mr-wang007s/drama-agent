@@ -12,16 +12,24 @@ alwaysApply: true
 
 - `drama-director` 是叙事生成的**唯一入口 Skill**
 - 用户说"续写"/"继续"/"生成"等时 → 加载 `drama-director`
-- 用户说"评审"/"打分"等时 → 加载 `drama-critic`（也可由 director 转发）
+- 用户说"评审"/"打分"等时 → 加载 `drama-critic`
+
+#### 触发词边界（不重叠）
+
+- **drama-world**：头脑风暴/新故事/创建角色/初始化/选角/校验/状态/回滚/快照/分级/丰富角色
+- **drama-director**：续写/继续/生成下一集/模拟/跑一集/推进剧情/写新一集
+- **drama-critic**：评审/评估/打分/检查表演/查AI味/检查文风
+
+> Director 不"转发"意图给其他 Skill。如果用户在 Director 加载后提出管理类请求，告知用户使用对应触发词。
 
 #### 生成流水线（必须完整执行）
 
 ```
-Phase 1: 规划（选角带导演意识 + 创建四件套）
-Phase 2: 导演（Team 委托 world-manager / 直写 + SOUL 对照）
-Phase 3: 编译（novel.md / screenplay.md）
-Phase 4: 评审（drama-critic，不可跳过）
-Phase 5: 收尾（MEMORY + state + timeline + carry-over）
+Phase 1: 规划（校验 + 快照 + 选角 + beat-sheet）
+Phase 2: 导演（Team 模式：多 Agent 自由交互；或直写模式）
+Phase 3: 编译（novel.md / screenplay.md + check-ai-taste 门控）
+Phase 4: 评审（独立 drama-critic Task Agent，不可跳过）
+Phase 5: 收尾（MEMORY 有界写入 + state + timeline + session-report）
 ```
 
 #### Critic 不可跳过原则

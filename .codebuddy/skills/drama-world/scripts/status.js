@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/status.js — 状态查询（Monorepo 大仓版）
+﻿/**
+ * drama-world/scripts/status.js — 状态查询（Monorepo 大仓版）
  *
  * 无 --story 时列出所有故事子项目摘要。
  * 指定 --story 时显示该故事的世界状态 + Agent 状态 + 记忆摘要。

@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/character-init.js — 角色创建
+﻿/**
+ * drama-world/scripts/character-init.js — 角色创建
  *
  * 支持多种创建方式：
  * - 对话式交互创建（回答 5 个核心问题）

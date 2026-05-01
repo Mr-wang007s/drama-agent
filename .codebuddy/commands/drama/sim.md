@@ -1,4 +1,4 @@
----
+﻿---
 name: drama:sim
 description: 启动一次模拟 Session——Agent 在世界中自由交互演绎
 ---
@@ -39,4 +39,4 @@ drama-agent sim ep01 --story fog-manor --mode serial --agents lin-qi,su-yao
 
 ### 实现
 
-调用 `drama-harness/scripts/init.js`，透传 `--story` 参数。
+调用 `drama-world/scripts/init.js`，透传 `--story` 参数。

@@ -8,10 +8,11 @@
 - **分级约定**：所有 agent 目录必须以 `s_` / `a_` / `b_` 开头（C 级合并到 `C-CLASS-INDEX.yaml`）。
 - **SOUL v4.0 三层结构**：身份层 → 心理层（OCEAN + 创伤链）→ 表演层
 - **故事 = stories/<name>/**：每个子目录是一个独立故事，包含 world/ + agents/ + episodes/
-- **Skill = 能力**：`.codebuddy/skills/` 下的每个 Skill 是一种独立能力。
+- **三角架构**：`.codebuddy/skills/` 下仅 3 个 Skill（drama-world / drama-director / drama-critic）
 - **Canon 保护**：world/bible.md 和 agents/*/SOUL.yaml 的核心身份字段受写保护。
 - **有界记忆**：每个 Agent 的 MEMORY.md 按 tier 有容量上限（S: 2000 / A: 1200 / B: 600 字符）。
-- **对话驱动**：所有能力通过自然对话触发 Skill，由主 Agent 识别意图后执行。**不再有 CLI 路由层**。
+- **对话驱动**：所有能力通过自然对话触发 Skill，由主 Agent 识别意图后执行。
+- **轻 Skill + 重 Reference**：SKILL.md 保持精简骨架（~150-200 行），详细规范在 references/ 子目录按需加载。
 
 ### 工作方式：对话 → Skill → 行动
 
@@ -19,12 +20,13 @@
 
 | 用户意图 | 触发词 | 触发 Skill |
 |---------|--------|-----------|
-| 头脑风暴新故事 | "打造新小说"、"参考XX做故事"、"头脑风暴" | `drama-brainstorm` |
-| 初始化故事 | "初始化故事"、"新故事"、"从设计文档建项目" | `drama-harness` |
-| 批量角色建档 | "丰富角色"、"批量创建角色"、"加载所有 agent" | `drama-harness` |
-| 单角色深度创建 | "创建一个 XX 角色" | `drama-harness` |
-| 角色分级管理 | "升级角色"、"按分级加前缀" | `drama-harness` |
-| 查看状态/回滚 | "状态"、"回滚"、"快照" | `drama-harness` |
+| 头脑风暴新故事 | "打造新小说"、"参考XX做故事"、"头脑风暴" | `drama-world` |
+| 初始化故事 | "初始化故事"、"新故事"、"从设计文档建项目" | `drama-world` |
+| 批量角色建档 | "丰富角色"、"批量创建角色"、"加载所有 agent" | `drama-world` |
+| 单角色深度创建 | "创建一个 XX 角色" | `drama-world` |
+| 角色分级管理 | "升级角色"、"按分级加前缀" | `drama-world` |
+| 查看状态/回滚 | "状态"、"回滚"、"快照" | `drama-world` |
+| 校验角色 | "校验角色"、"check agents" | `drama-world` |
 | 生成新一集 | "续写"、"继续"、"下一集"、"生成" | `drama-director` |
 | 评审作品 | "评审"、"评估"、"打分" | `drama-critic` |
 | AI 味检查 | "查 AI 味"、"检查文风" | `drama-critic` |
@@ -36,7 +38,24 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
 - **`templates/`**：初始化模板（SOUL v4.0 四级分档 + character-pack + story-seed + presets）
 - **`stories/`**：故事子项目目录（每个子目录是一个独立故事）
 - **`examples/`**：样板归档（保留 red-curtain 的原始副本）
-- **`.codebuddy/skills/`**：Skill 能力层（harness / world / director / novel / screenplay / brainstorm / critic），所有工具脚本归属在各 Skill 的 `scripts/` 子目录
+- **`.codebuddy/skills/`**：Skill 能力层（三角架构：world / director / critic），所有工具脚本归属在各 Skill 的 `scripts/` 子目录
+
+### Skill 架构
+
+```
+.codebuddy/skills/
+├── drama-world/          # 世界引擎（筹备 + 角色 + 状态 + 工程守护）
+│   ├── SKILL.md          # 精简骨架
+│   ├── references/       # 详细规范（brainstorm-sop / character-spec / canon-rules / interaction-protocol）
+│   └── scripts/          # 18 个工具脚本
+├── drama-director/       # 导演 Owner（Workflow 编排 + 多 Agent Team + 编译）
+│   ├── SKILL.md          # 精简骨架
+│   ├── references/       # 详细规范（workflow-episode / compile-novel / compile-screenplay / team-protocol）
+│   └── scripts/          # compile-novel.js + compile-screenplay.js
+└── drama-critic/         # 独立评审（GAN Evaluator）
+    ├── SKILL.md
+    └── scripts/          # check-ai-taste.js + evaluate.js
+```
 
 ### 故事子项目结构
 
@@ -57,11 +76,11 @@ stories/<name>/
 
 ### 验证方式
 
-在对话中说"校验角色"、"check agents"即可触发 drama-harness 的 validate 脚本。
-如需手工测试脚本，可直接 `node .codebuddy/skills/drama-harness/scripts/validate.js --story <name>`。
+在对话中说"校验角色"、"check agents"即可触发 drama-world 的 validate 脚本。
+如需手工测试脚本，可直接 `node .codebuddy/skills/drama-world/scripts/validate.js --story <name>`。
 
 ### 不要做的事
 
-- 不要直接修改 Agent 的 MEMORY.md（由 Harness wrap 时统一写入）
+- 不要直接修改 Agent 的 MEMORY.md（由 wrap 时统一写入）
 - 不要在没有快照的情况下覆盖 stories/ 下的目录
 - 不要让 Agent SOUL.yaml 的核心身份字段（id/trauma/motivation）随意变动

@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/snapshot.js — 快照与回滚
+﻿/**
+ * drama-world/scripts/snapshot.js — 快照与回滚
  *
  * 迁移自 cli.js snapshotEpisode / listSnapshots / commandRoll。
  * 扩展为支持世界状态 + Agent 记忆的完整快照。

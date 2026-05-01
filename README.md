@@ -1,4 +1,4 @@
-# DramaAgent v6 — 通用 AI 叙事引擎（Skill 对话驱动）
+﻿# DramaAgent v6 — 通用 AI 叙事引擎（Skill 对话驱动）
 
 > 给 Agent 身份、记忆、人格，让它们在共享世界中自由演绎。
 > **核心工作方式**：用户用自然语言对话，Skill 识别意图后由主 Agent 执行。
@@ -9,7 +9,7 @@
 - **Skill 自治**：每个 Skill 自带 `scripts/` 子目录，包含该能力所需的工具脚本
 - **角色分级体系**：S/A/B/C 四级，目录前缀强约束，适配长篇连载
 - **AI 味自动检测**：Critic 的客观质量门控
-- **三专家头脑风暴**：`drama-brainstorm` Skill 并行调度世界观/角色/商业视角
+- **三专家头脑风暴**：`drama-world` Skill 并行调度世界观/角色/商业视角
 
 ## 快速开始
 
@@ -17,13 +17,13 @@
 
 | 你说 | 触发的 Skill |
 |------|-------------|
-| "我想基于考古悬疑做个新小说" | `drama-brainstorm` → 三专家头脑风暴 → 设计文档 |
-| "从这份设计文档初始化新故事" | `drama-harness` → `init-from-design` |
-| "丰富一下角色" | `drama-harness` → 设计角色 → `import-characters` → `sync-roster` |
+| "我想基于考古悬疑做个新小说" | `drama-world` → 三专家头脑风暴 → 设计文档 |
+| "从这份设计文档初始化新故事" | `drama-world` → `init-from-design` |
+| "丰富一下角色" | `drama-world` → 设计角色 → `import-characters` → `sync-roster` |
 | "续写" / "生成下一集" | `drama-director` → 规划/导演/编译/评审/收尾 |
 | "查下 EP06 的 AI 味" | `drama-critic` → `check-ai-taste` |
-| "把 xiao-zhao 升级为 A 级" | `drama-harness` → `retier` |
-| "状态" | `drama-harness` → `status` |
+| "把 xiao-zhao 升级为 A 级" | `drama-world` → `retier` |
+| "状态" | `drama-world` → `status` |
 
 ## 核心概念
 
@@ -48,15 +48,15 @@
 
 ```
 .codebuddy/skills/
-├── drama-brainstorm/       ← 头脑风暴编排（纯对话）
-├── drama-harness/          ← 工程层（初始化/校验/快照/批量角色）
+├── drama-world/       ← 头脑风暴编排（纯对话）
+├── drama-world/          ← 工程层（初始化/校验/快照/批量角色）
 │   └── scripts/
 ├── drama-world/            ← 世界引擎（上下文组装）
 ├── drama-director/         ← 导演（生成流水线编排）
 ├── drama-critic/           ← 评审（五维人格 + AI 味门控）
 │   └── scripts/
-├── drama-novel/            ← 小说格式编译
-└── drama-screenplay/       ← 剧本格式编译
+├── drama-director/            ← 小说格式编译
+└── drama-director/       ← 剧本格式编译
 ```
 
 ## 目录结构
@@ -86,7 +86,7 @@ drama-agent/
 
 ## 开发者备忘
 
-- **脚本可独立运行**：`node .codebuddy/skills/drama-harness/scripts/<script>.js --story <name> ...`
+- **脚本可独立运行**：`node .codebuddy/skills/drama-world/scripts/<script>.js --story <name> ...`
 - **脚本也可被 import**：`import { main } from '.../scripts/status.js'` 然后 `main(argv)`
 - **不要重新引入 CLI 路由层**：对话触发才是正道
 - **加新能力优先复用现有 Skill**，实在绕不开再新建

@@ -1,5 +1,5 @@
 /**
- * drama-novel/scripts/compile.js — 小说编译器
+ * drama-director/scripts/compile-novel.js — 小说编译器
  *
  * 从 Agent 交互记录改写为第三人称叙事文本。
  * 注意：真正的叙事改写由 LLM Agent 执行，此脚本生成用于 Agent 的 prompt。
@@ -8,7 +8,7 @@
 import path from 'node:path';
 import {
   getPaths, exists, readText, readJson, writeText, ensureDir
-} from '../../drama-harness/scripts/lib.js';
+} from '../../drama-world/scripts/lib.js';
 
 export function buildNovelPrompt(episodeId) {
   const paths = getPaths();

@@ -10,7 +10,7 @@ import path from 'node:path';
 import {
   getPaths, nowIso, exists, readJson, readText, writeText,
   resolveWithin, parseArgs
-} from '../../drama-harness/scripts/lib.js';
+} from '../../drama-world/scripts/lib.js';
 
 // ─── 评估维度权重 ───
 

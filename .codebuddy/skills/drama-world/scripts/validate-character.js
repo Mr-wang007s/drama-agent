@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/validate-character.js — 角色校验器 (v4.0)
+﻿/**
+ * drama-world/scripts/validate-character.js — 角色校验器 (v4.0)
  *
  * 校验功能：
  * 1. 结构完整性：SOUL v4.0 必需字段检查

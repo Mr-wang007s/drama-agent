@@ -1,4 +1,4 @@
----
+﻿---
 name: drama:create-character
 description: 创建一个新角色——支持多种创建方式，确保每个角色都有「影帝实力」
 ---
@@ -117,7 +117,7 @@ AI 会：
 2. **收集输入**
    - 根据创建模式收集必要信息
 
-3. **AI 生成**（drama-harness/scripts/character-init.js）
+3. **AI 生成**（drama-world/scripts/character-init.js）
    - 使用 SOUL v4.0 三层结构生成角色
    - 确保心理层的一致性（Ghost → Wound → Lie → Shield 链条合理）
    - 生成表演层的 few-shot 示例
@@ -130,7 +130,7 @@ AI 会：
      └── RULES.md     ← 从模板生成
    ```
 
-5. **角色校验**（drama-harness/scripts/validate-character.js）
+5. **角色校验**（drama-world/scripts/validate-character.js）
    - 检查 OCEAN 数值是否在合理范围
    - 检查创伤链是否逻辑一致
    - 检查 few-shot 示例是否符合人格

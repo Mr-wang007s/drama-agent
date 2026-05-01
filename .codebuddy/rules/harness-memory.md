@@ -1,10 +1,10 @@
 ---
-description: 约束 Drama Harness 的状态层与记忆层，避免运行态和规范态混写
+description: 约束 Drama World 的状态层与记忆层，避免运行态和规范态混写
 globs: "**"
 alwaysApply: true
 ---
 
-### Harness Memory Rule
+### World State & Memory Rule
 
 - `scene-manifest.json` 是本集场景编排真相源。
 - `feature_list.json` 记录本集未兑现悬念和剧情 feature。

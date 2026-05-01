@@ -1,4 +1,4 @@
-/**
+﻿/**
  * drama-world/scripts/build-scene.js — 场景构建器
  *
  * 根据世界状态和 carry-over 生成场景初始提示。
@@ -7,7 +7,7 @@
 import path from 'node:path';
 import {
   getPaths, readJson, readText, parseArgs
-} from '../../drama-harness/scripts/lib.js';
+} from './lib.js';
 
 export function buildScenePrompt(episodeId, options = {}) {
   const paths = getPaths({ story: options.story });

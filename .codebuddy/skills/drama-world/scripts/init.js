@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/init.js — 模拟初始化（v5: FSM 集成）
+﻿/**
+ * drama-world/scripts/init.js — 模拟初始化（v5: FSM 集成）
  *
  * 创建 episode 目录、快照当前状态、通过状态机管理生命周期。
  * 状态流转：idle → initializing → context-ready

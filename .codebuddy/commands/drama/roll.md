@@ -1,4 +1,4 @@
----
+﻿---
 name: drama:roll
 description: 快照回滚——恢复故事的世界状态 + Agent 记忆到指定时间点
 ---
@@ -29,4 +29,4 @@ drama-agent roll <ep-id> --story fog-manor --to <snapshot-timestamp>
 
 ### 实现
 
-调用 `drama-harness/scripts/snapshot.js`。
+调用 `drama-world/scripts/snapshot.js`。

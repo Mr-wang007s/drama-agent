@@ -1,5 +1,5 @@
-/**
- * drama-harness/scripts/story-init.js — 故事级初始化（Monorepo 大仓版）
+﻿/**
+ * drama-world/scripts/story-init.js — 故事级初始化（Monorepo 大仓版）
  *
  * 在 stories/<name>/ 下初始化完整的故事子项目：
  * - .story.json (故事元数据)
