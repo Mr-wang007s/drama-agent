@@ -1,0 +1,23 @@
+{
+  "snapshot_at": "2026-05-01T20:48:00+08:00",
+  "snapshot_phase": "before_ep01_generation",
+  "state_before": {
+    "current_episode": null,
+    "protagonist_state": {
+      "lin_mo": {
+        "realm": "一境·观想（未稳定）",
+        "fade_progress": 0.05,
+        "fade_victims": [],
+        "location": "北城精神病院",
+        "status": "即将被特赦出山"
+      }
+    },
+    "global_tension": 0.3,
+    "carry_over": [
+      "殷墟考古队集体精神异常事件（EP01开端）",
+      "林墨即将被九歌司特赦接触",
+      "沈砚之初次登场在即"
+    ]
+  },
+  "note": "EP01 生成前快照。如需回滚，恢复 world/state.json 的上述字段。"
+}
