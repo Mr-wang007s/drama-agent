@@ -85,7 +85,7 @@ stories/<name>/
 | `writing-craft.md` | novel.md 正文写作硬约束（A 级 = Error 门控、B 级 = Warning） |
 | `episode-workflow.md` | 单集四件套（brief / beat-sheet / novel / wrap-report）工作流与命名规范 |
 | `harness-memory.md` | `world/` 状态层与 Agent MEMORY 有界机制、跨故事隔离 |
-| `plan-doc-sync.md` | Plan 完成后的核心文档（PRD/README/AGENTS/CODEBUDDY）同步规则 |
+| `doc-sync.md` | 代码 / Skill / 规则 / 脚本变更后的核心文档（PRD/README/AGENTS/CODEBUDDY/SKILL.md/rules）同步规则 |
 
 ### 验证方式
 
