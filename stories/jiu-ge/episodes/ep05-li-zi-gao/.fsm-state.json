@@ -1,0 +1,41 @@
+{
+  "state": "context-ready",
+  "episodeId": "ep05-li-zi-gao",
+  "storyName": "jiu-ge",
+  "agents": [],
+  "turnCount": 0,
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "startedAt": null,
+  "history": [
+    {
+      "event": "created",
+      "timestamp": "2026-05-02T03:41:23.197Z",
+      "state": "idle",
+      "episodeId": "ep05-li-zi-gao",
+      "storyName": "jiu-ge",
+      "maxTurns": 50,
+      "maxDurationMs": 1800000
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-02T03:41:23.197Z",
+      "state": "initializing",
+      "from": "idle",
+      "to": "initializing",
+      "payload": []
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-02T03:41:23.198Z",
+      "state": "context-ready",
+      "from": "initializing",
+      "to": "context-ready",
+      "payload": [
+        "episodeDir",
+        "agents"
+      ]
+    }
+  ],
+  "savedAt": "2026-05-02T03:41:23.198Z"
+}
