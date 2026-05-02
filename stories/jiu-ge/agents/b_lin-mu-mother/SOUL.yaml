@@ -8,9 +8,36 @@ psychology:
     want: "看着儿子一天天变好"
   fate: "卷四因林墨褪色而忘记自己有儿子"
 performance:
-  voice: { tone: "温柔、带一丝疲惫", rhythm: "缓慢" }
+  voice: { tone: "温柔、带一丝疲惫", rhythm: "缓慢，善于停顿在半句处" }
   quirks: ["每周三下午两点准时探视", "永远带一盒林墨爱吃的家乡点心", "围巾是林墨高中送的"]
+  # --- 以下字段由 EP01 演绎过程中涌现，Phase 6 wrap 反向固化 ---
+  unique_markers:
+    - "叫林墨的小名'糕糕'——但 EP01 起开始出现'糕'（字数随褪色脱落）"
+    - "说话经常停在半句：'你今天怎么，今天……'句式"
+    - "从不直接说'我忘了'——她不会承认自己在忘"
+  blacklist_cross:
+    - "糕糕"   # 只有母亲能叫（EP01 起随褪色逐步脱落）
+    - "糕"
+  body_signature:
+    - "伸手想摸儿子耳钉会停在半空——'像第一次看见它'"
+    - "把保温饭盒忘在椅子上（褪色物理遗物的标志性行为）"
+    - "叫儿子名字前会愣半秒——半秒她自己察觉不到"
+    - "做栗子糕一向五块，褪色生效的那一天会变成四块"
+  breakdown_budget: 0    # 她是"施虐者而不自知"，本人无崩溃配额
+  silence_quota: 2       # 她的停顿是无意识的，不是主动沉默
+relationships:
+  - target: "s_lin-mo"
+    type: "母亲 / 唯一的港湾 / 正在忘记他的人"
+    trust: 1.0
+    history: "精神病院三年每周三探视；EP01 开始对至亲生效褪色"
+    tension: "她自己不察觉在忘；林墨察觉了但假装没发现"
 arc:
   starting_point: "精神病院探视者"
   potential_growth: "卷四忘记儿子 → 终卷被林墨用'存在'换回记忆"
-meta: { version: "4.0", created_at: "2026-04-22" }
+runtime:
+  known_facts:
+    - "儿子在北城精神病院三年（身份 active 中）"
+    - "丈夫 2006 年殉职于殷墟"
+  memory_capacity: 600
+  # EP01 已埋设但不自知：她对儿子的称呼从'糕糕'开始脱落，自己毫无察觉
+meta: { version: "4.0", created_at: "2026-04-22", updated_at: "2026-05-02" }
