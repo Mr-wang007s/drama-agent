@@ -1,0 +1,15 @@
+{
+  "id": "ep04-lu-deng",
+  "title": "lu deng",
+  "logline": "",
+  "agents": [],
+  "skills": [
+    "screenplay"
+  ],
+  "status": "initializing",
+  "mode": "team",
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "createdAt": "2026-05-02T17:16:55.292Z",
+  "updatedAt": "2026-05-02T17:16:55.292Z"
+}

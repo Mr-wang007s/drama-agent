@@ -1,0 +1,23 @@
+{
+  "name": "ep04-scene3-redo",
+  "leadAgentId": "6658d3ace0144c06bbeab7d238a3633e",
+  "workspacePath": "d:/codespace/drama-agent",
+  "createdAt": "2026-05-02T17:40:47.645Z",
+  "options": {
+    "workspacePath": "d:/codespace/drama-agent",
+    "isAutoTeam": false
+  },
+  "members": [
+    {
+      "memberId": "team-lead@ep04-scene3-redo",
+      "name": "team-lead",
+      "role": "Team Lead - coordinates the team and interacts with the user"
+    },
+    {
+      "memberId": "world-keeper@ep04-scene3-redo",
+      "name": "world-keeper",
+      "role": "Scene 3 心脏戏完整演绎"
+    }
+  ],
+  "isAutoTeam": false
+}

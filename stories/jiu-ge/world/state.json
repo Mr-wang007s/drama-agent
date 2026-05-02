@@ -99,18 +99,42 @@
     }
   },
   "shen_xu_status": {
-    "1_dong_huang_tai_yi": { "location": "三星堆", "status": "封印稳固" },
-    "2_yun_zhong_jun": { "location": "良渚", "status": "轻度泄漏" },
-    "3_xiang_jun": { "location": "洞庭湖底", "status": "裂缝中" },
-    "4_xiang_fu_ren": { "location": "九嶷山", "status": "未发现" },
+    "1_dong_huang_tai_yi": {
+      "location": "三星堆",
+      "status": "封印稳固"
+    },
+    "2_yun_zhong_jun": {
+      "location": "良渚",
+      "status": "轻度泄漏"
+    },
+    "3_xiang_jun": {
+      "location": "洞庭湖底",
+      "status": "裂缝中"
+    },
+    "4_xiang_fu_ren": {
+      "location": "九嶷山",
+      "status": "未发现"
+    },
     "5_da_si_ming": {
       "location": "殷墟外围 M5-3A 沟",
       "status": "EP03 方向分化：李学工眼球追的方向是'东偏北 30°'(陈怀瑜电话告知) · 桑桑指向的是'东北 45°'(EP02 后视镜可见) · 两者差 15° · 殷墟深处存在两个指向 · 真相未揭 · 旧神未现身 · 跨城活动能力显现（陌生电话从邯郸 · 路灯下陌生人在安阳）"
     },
-    "6_shao_si_ming": { "location": "二里头", "status": "封印中" },
-    "7_dong_jun": { "location": "嘉峪关外", "status": "部族守护" },
-    "8_he_bo": { "location": "兰州黄河底", "status": "被方士会炼化" },
-    "9_shan_gui": { "location": "南岭深山", "status": "招魂堂守护" }
+    "6_shao_si_ming": {
+      "location": "二里头",
+      "status": "封印中"
+    },
+    "7_dong_jun": {
+      "location": "嘉峪关外",
+      "status": "部族守护"
+    },
+    "8_he_bo": {
+      "location": "兰州黄河底",
+      "status": "被方士会炼化"
+    },
+    "9_shan_gui": {
+      "location": "南岭深山",
+      "status": "招魂堂守护"
+    }
   },
   "unresolved_threads": [
     "林墨的褪色终点（EP03 fade_progress 0.10→0.12）",
@@ -190,9 +214,9 @@
     "EP03 沈砚之规则部分暴露：会听见但不听 · 但'它是什么''你们一个人没按住吗'仍是黑箱",
     "林墨 7Hz 状态：EP02 全集未敲 · EP03 Scene 5 末破功 1 下后惊觉停下 · EP04+ 是否稳定回归按住 待观察"
   ],
-  "currentEpisode": "ep03-xiang-yu",
-  "updatedAt": "2026-05-03T00:03:00.000Z",
-  "_architecture_note": "EP03 是 Director Skill v2 架构首集 · 严格走 scene_weight 三项 + Step 5.5 诊断前置 · 无一处陈设补白 · 无'他知道 X'心理叙述 · 诊断树 A 的 Q4/Q5/Q6 联合派活示范",
+  "currentEpisode": "ep04-lu-deng",
+  "updatedAt": "2026-05-03T01:15:00.000Z",
+  "_architecture_note": "EP04 是 Director Skill v3 架构首次实战。Scene 3 心脏戏 team 产出 turn 1-2 · Phase 5 drama-reader team + reader-memory 成功（7.8 分回升 0.3）· Phase 4 persona 兜底待 EP05 恢复 drama-editor team。",
   "wrappedEpisodes": [
     {
       "id": "ep02-sang-sang",
@@ -206,6 +230,17 @@
       "position": "沉淀集",
       "word_count": 4046,
       "architecture": "director-v2"
+    },
+    {
+      "id": "ep04-lu-deng",
+      "title": "路灯",
+      "wrappedAt": "2026-05-03T01:15:00.000Z",
+      "position": "推进集",
+      "word_count": 4035,
+      "architecture": "director-v3-team",
+      "team_mode_summary": "Scene 3 心脏戏 team 产出 turn 1-2 · Phase 5 reader team + reader-memory",
+      "reader_team_score": 7.8,
+      "reader_team_trend": "回升 0.3（EP03 7.5 → EP04 7.8）"
     }
   ]
 }
