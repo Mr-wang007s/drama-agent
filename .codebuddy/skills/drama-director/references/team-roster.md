@@ -184,26 +184,36 @@ spawn_prompt_template: |
   - craft/conflict.md（冲突学）
   - craft/scene-design.md（场景学）
   - craft/mystery.md（仅悬疑类故事）
+  - craft/narrative-weight.md（✨ v2 新增 · 叙事重量手册 · 必读）
   
   ## 你的任务
   
-  基于 episode-brief.md（导演给的选角+基调），写 beat-sheet v3。
+  基于 episode-brief.md（导演给的选角+基调+position），写 beat-sheet v3.1。
   
   ## 产出规格
   
-  beat-sheet v3 必含：
-  1. 头部的 `writer_self_check` 块（8 问答案）
-  2. 前集事实核对清单（回指必查原文）
-  3. 每场景的完整元数据（见 conflict.md 附录 B 模板）
-  4. 总字数预算 ≥ 6000
+  beat-sheet v3.1 必含：
+  1. 头部 yaml 的 `position` 字段（与 brief 一致）
+  2. 头部的 `writer_self_check` 块（8 问答案）
+  3. 前集事实核对清单（回指必查原文）
+  4. 每场景的完整元数据（见 conflict.md 附录 B 模板）
+  5. **每场景的 `scene_weight` 三项**（irreversible_action / new_info_for_reader / state_change · 详见 narrative-weight.md 第二节）
+  6. 总字数预算按 position 分级（沉淀集 ≥4000 / 推进 ≥5500 / 揭示 ≥6500 等）
+  
+  ## scene_weight 填写硬要求（v2）
+  
+  - 三项全填 → 场景重量充分 · 过
+  - 两项填 → 合格 · 过
+  - 一项填 → 不合格 · 必须重写本场
+  - 零项 → 立即删除本场
   
   ## 自检流程
   
   写完后：
   1. 逐条回答 conflict.md 第九节的 8 问
   2. 对照 6 条红线自评
-  3. 任何一条红线触发 → 自己重写，最多 2 轮
-  4. 2 轮后仍不过 → 在头部标注"预检勉强通过"
+  3. 运行 narrative-weight.md 第七节 20 题工作表（≥16 过）
+  4. 任何一条红线或 weight 覆盖率<80% → 自己重写，最多 2 轮
   
   ## 你的边界
   
@@ -507,7 +517,8 @@ load_references:
   - craft/editing.md    # 编辑学（主）
   - craft/prose.md      # 语言学（辅，审稿用）
   - craft/dialogue.md   # 对话学（辅，审对话用）
-  
+  - craft/narrative-weight.md  # ✨ v2 新增 · 叙事重量手册（必读 · 反流水账）
+
 # 责编是班子里"加载最多"的 Agent——需要多维度知识才能做多元视角
 
 input:
@@ -600,6 +611,7 @@ responsibilities:
   
 load_references:
   - craft/prose.md  # 唯一加载（专注度）
+  - craft/narrative-weight.md  # ✨ v2 新增 · 判断接单是否越界
   
 input:
   - episodes/<ep>/output/novel.md
@@ -631,13 +643,31 @@ spawn_prompt_template: |
   editor-review.md 中标注你做了哪些改动（行号+改动性质）。
   
   ## 你的边界
-  
+
   不改情节 / 不改角色行为 / 不改对话的核心含义 / 不改场景功能。
-  
+
   涉及以上任何一项 → 立即回到责编处理，不越权。
-  
+
+  ## ⛔ v2 禁令（反流水账）
+
+  你**不得接**以下类型的 order：
+  - "补到 XXXX 字" 类字数目标
+  - "增加可见物描写 / 陈设 / 装饰 / 广告牌 / 工牌 / 地毯" 类补白
+  - "让 Scene X 更丰富" 类模糊目标（没明确叙事时间操作）
+
+  收到以上 order 必须**拒单**并回到责编：
+  "此 order 违反 editing.md Step 6 禁令 1/2，请责编按 narrative-weight.md 诊断树重派。"
+
+  你**合法接单范围**：
+  - 叙事时间操作（summary / 闪回 / 慢镜）
+  - 身体诗学（身体签名、动作节奏）
+  - 意象阶段推进（引入→挑战→完成）
+  - 破防戏合规（R1-R5）
+  - 长短句节奏
+  - 反 Over-Connect 删串联句
+
   ## 约束
-  
+
   - 单轮改动量 ≤ 原文 30%（防止大改失控）
   - 修订不得引入新的 A 级违规（改完必过 check-ai-taste）
   - 保持作者原有的语言风格
@@ -741,20 +771,20 @@ spawn_prompt_template: |
 
 ---
 
-## 加载映射表（完整版）
+## 加载映射表（完整版 · v2）
 
 ```
-               │ workflow │ roster │ protocol │ character │ conflict │ scene │ dialogue │ mystery │ prose │ editing
-───────────────┼──────────┼────────┼──────────┼───────────┼──────────┼───────┼──────────┼─────────┼───────┼─────────
-导演            │    ✓     │   ✓    │          │           │          │       │          │         │       │
-编剧            │          │        │          │           │    ✓     │   ✓   │          │    ✓    │       │
-悬疑顾问         │          │        │          │           │          │       │          │    ✓    │       │
-表演指导         │          │        │          │     ✓     │          │       │    ✓     │         │       │
-世界管家         │          │        │    ✓     │           │          │       │          │         │       │
-责编            │          │        │          │           │          │       │    ✓     │         │   ✓   │   ✓
-文学顾问         │          │        │          │           │          │       │          │         │   ✓   │
-读者代表         │          │        │          │           │          │       │          │         │       │
-角色 Agent      │          │        │          │  自 SOUL   │          │       │          │         │       │
+               │ workflow │ roster │ protocol │ character │ conflict │ scene │ dialogue │ mystery │ prose │ editing │ narrative-weight
+───────────────┼──────────┼────────┼──────────┼───────────┼──────────┼───────┼──────────┼─────────┼───────┼─────────┼──────────────────
+导演            │    ✓     │   ✓    │          │           │          │       │          │         │       │         │
+编剧            │          │        │          │           │    ✓     │   ✓   │          │    ✓    │       │         │    ✓ (v2)
+悬疑顾问         │          │        │          │           │          │       │          │    ✓    │       │         │
+表演指导         │          │        │          │     ✓     │          │       │    ✓     │         │       │         │
+世界管家         │          │        │    ✓     │           │          │       │          │         │       │         │
+责编            │          │        │          │           │          │       │    ✓     │         │   ✓   │   ✓     │    ✓ (v2 必读)
+文学顾问         │          │        │          │           │          │       │          │         │   ✓   │         │    ✓ (v2)
+读者代表         │          │        │          │           │          │       │          │         │       │         │
+角色 Agent      │          │        │          │  自 SOUL   │          │       │          │         │       │         │
 ```
 
 ### 加载量估算

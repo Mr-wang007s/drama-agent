@@ -15,7 +15,7 @@
 - **Canon 保护**：world/bible.md 和 agents/*/SOUL.yaml 的核心身份字段受写保护。
 - **有界记忆**：每个 Agent 的 MEMORY.md 按 tier 有容量上限（S: 2000 / A: 1200 / B: 600 字符）。
 - **对话驱动**：所有能力通过自然对话触发 Skill，由主 Agent 识别意图后执行。
-- **轻 Skill + 重 Reference**：SKILL.md 保持精简骨架（~150 行），专业知识在 `references/craft/` 下 7 大领域按需加载。
+- **轻 Skill + 重 Reference**：SKILL.md 保持精简骨架（~150 行），专业知识在 `references/craft/` 下 **8 大领域**按需加载。
 
 ### 工作方式：对话 → Skill → 行动
 
@@ -59,14 +59,15 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
 │   │   ├── team-protocol.md      # Team 交互协议（世界管家核心）
 │   │   ├── compile-novel.md      # 小说编译规范
 │   │   ├── compile-screenplay.md # 剧本编译规范
-│   │   └── craft/                # 7 大专业知识文件（"有灵魂"的事实源）
+│   │   └── craft/                # 8 大专业知识文件（"有灵魂"的事实源）
 │   │       ├── characterology.md # 人物学（Stanislavski/Uta Hagen/创伤链/身体诗学）
 │   │       ├── conflict.md       # 冲突学（三幕/Save the Cat/7节点/反相位/编剧 8 问）
 │   │       ├── scene-design.md   # 场景学（8 功能分类/迟入早出/转折点/信息差）
 │   │       ├── dialogue.md       # 对话学（潜台词 7 层/说错话/沉默/语言指纹）
 │   │       ├── mystery.md        # 悬疑学（三铁律深化/线索三明治/钩子经济）
 │   │       ├── prose.md          # 语言学（A/B/C 级约束/破防 R1-R5/意象系统）
-│   │       └── editing.md        # 编辑学（责编 7 步 SOP/多元视角/修订优先级）
+│   │       ├── editing.md        # 编辑学（责编 8 步 SOP/多元视角/诊断前置/反流水账四禁）
+│   │       └── narrative-weight.md # ✨ v2 · 叙事重量（scene_weight/20 题工作表/6 真因诊断树）
 │   └── scripts/          # 4 个基建脚本（compile-novel / compile-screenplay / pre-compile-clean / validate-beat-sheet）
 │
 └── drama-critic/         # AI 味机械门控（仅 check-ai-taste.js）
@@ -79,12 +80,12 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
 | 成员 | 类型 | 出场阶段 | 加载的 craft 文件 | 核心职责 |
 |---|---|---|---|---|
 | **导演**（主 Agent） | 主 | 全程 | workflow + roster | 选角、定基调、仲裁 |
-| **编剧** | Task Agent | Phase 2 | conflict + scene-design + mystery | 写 beat-sheet v3（含 8 问自检） |
+| **编剧** | Task Agent | Phase 2 | conflict + scene-design + mystery + **narrative-weight** | 写 beat-sheet v3.1（8 问自检 + scene_weight 三项）|
 | **悬疑顾问** | Task Agent | Phase 2, 4 | mystery | 三铁律 + 钩子经济 + 线索三明治 |
 | **表演指导** | Task Agent | Phase 3 | characterology + dialogue | 9 问激活 + 监控演绎质量 |
 | **世界管家** | Task Agent | Phase 3 | team-protocol | 事件注入 + 信息裁判 + 场景节奏 |
-| **责编** | Task Agent | Phase 4 | editing + prose + dialogue | 7 步 SOP 内审（吸收原 9 评审） |
-| **文学顾问** | Task Agent | Phase 4（按需） | prose | 反 Over-Connect + 节奏润色 |
+| **责编** | Task Agent | Phase 4 | editing + prose + dialogue + **narrative-weight** | 8 步 SOP 内审（含诊断前置 · 反流水账四禁）|
+| **文学顾问** | Task Agent | Phase 4（按需） | prose + **narrative-weight** | 叙事时间/节奏/身体诗学（**不接陈设补白**）|
 | **读者代表** | Task Agent | Phase 5 | **不加载 craft** | 终审"会不会追下一集" |
 
 详细班子卡片见 `drama-director/references/team-roster.md`。

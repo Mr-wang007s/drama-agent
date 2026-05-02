@@ -111,9 +111,16 @@ node .codebuddy/skills/drama-world/scripts/init.js <ep-id> --story <name>
 ```markdown
 # Episode Brief · EP{XX}
 
-## 集位置
-- 在系列中：第 X 集（推进 / 沉淀 / 爆发 / 转折）
-- 字数预算：6500-8500
+## 集位置（v2 必填）
+- position: 推进集 / 沉淀集 / 爆发集 / 揭示集 / 转折集 / 过渡集  # 必填
+- 字数区间：{依 position 分级 · 见下表}
+
+| position | 字数下限 | 字数上限（软） |
+|---|---|---|
+| 爆发集 / 揭示集 | 6500 | 8500 |
+| 推进集 / 转折集 | 5500 | 7500 |
+| 沉淀集 | 4000 | 6000 |
+| 过渡集 | 3000 | 4500 |
 
 ## 导演基调
 > {一句话}
@@ -128,6 +135,10 @@ node .codebuddy/skills/drama-world/scripts/init.js <ep-id> --story <name>
 - 主线推进：...
 - 创伤触发目标：林墨对"金属门"的创伤在本集被二次激活
 - 钩子任务：回收 H03, 释放新 B 级钩子
+- 叙事时间规划（v2 新增 · 至少一项）：
+  - 闪回：...（可选）
+  - summary 压缩：...（可选）
+  - 慢镜拉伸：...（高潮场建议）
 
 ## 上下文摘要
 - carry_over：...
@@ -211,13 +222,56 @@ node .codebuddy/skills/drama-director/scripts/validate-beat-sheet.js \
      --story <name> --episode <ep-id>
 ```
 
-校验项：
-- 字数预算总和 ≥ 6000
+校验项（v2 升级）：
+- 字数门槛按 position 分级（爆发/揭示 ≥6500、推进/转折 ≥5500、沉淀 ≥4000、过渡 ≥3000）
 - 8 问答案块存在
 - 所有场景含三层动机
 - 前集事实核对清单存在
+- **scene_weight 覆盖率 ≥80%（软约束 · 警告不阻断）**
+- **position 显式声明（软约束 · 警告不阻断）**
 
-失败 → 编剧重写。
+失败 → 编剧重写。软警告 → 责编在 Phase 4 时重点关注。
+
+### Beat-Sheet yaml Schema（v3.1 · v2 升级）
+
+每个 scene 必含 `scene_weight` 三项：
+
+```yaml
+scenes:
+  - id: scene_3
+    title: "..."
+    budget_chars: 1900
+    function: F7 爆发
+    
+    # ✨ v2 新增：叙事重量三项测试（详见 craft/narrative-weight.md）
+    scene_weight:
+      irreversible_action: "林墨第一次主动开口问完整问题（沉默防御被打破·不可撤销）"
+      new_info_for_reader: "沈砚之承认'会听见'（A 级钩子 H-A3 深化）"
+      state_change:
+        from: "林墨-沈砚之是'监护人 vs 被监护人'"
+        to:   "林墨-沈砚之是'两个都听得见的人'"
+    
+    # ... 原有字段（冲突、反相位、三层动机、钩子等）
+```
+
+**scene_weight 填写标准**：
+- 三项都有 → 场景重量充分
+- 两项有 → 合格（沉淀/过渡场可少一项）
+- 一项 → 不合格 · 重写
+- 零项 → 立即删除本场
+
+**写入 episodes/<ep-id>/beat-sheet.md 顶部 yaml 元数据**中还需 position 字段：
+
+```yaml
+---
+story: jiu-ge
+episode: ep03-...
+title: "..."
+position: 沉淀集   # ✨ v2 必填 · 与 brief 一致
+word_budget: 5000   # 依 position 区间
+# ...
+---
+```
 
 **Step 2.5：导演批准 / 打回（战略决策）**
 
@@ -374,7 +428,7 @@ node .codebuddy/skills/drama-director/scripts/compile-novel.js \
 
 ### 步骤
 
-**Step 4.1：责编执行 7 步 SOP**（详见 `craft/editing.md` 第二节）
+**Step 4.1：责编执行 8 步 SOP**（v2 升级 · 详见 `craft/editing.md` 第二节）
 
 ```
 Step 4.1.1: 通读 novel.md
@@ -382,9 +436,18 @@ Step 4.1.2: 给直觉分数
 Step 4.1.3: 5 视角复查
 Step 4.1.4: 找共识问题
 Step 4.1.5: 根因诊断
-Step 4.1.6: 写修订指令清单
+Step 4.1.5.5: ✨ 诊断前置（对每个共识问题运行诊断树·参见 narrative-weight.md）
+Step 4.1.6: 写修订指令清单（严格遵守"反流水账四禁"）
 Step 4.1.7: 裁决
 ```
+
+**责编加载**：`editing.md` + `prose.md` + `dialogue.md` + **`narrative-weight.md`**（v2 新增必读）
+
+**v2 关键约束**：
+- ⛔ 禁止"补到 XXXX 字"类 order
+- ⛔ 文学顾问不得接陈设补白单
+- ⛔ 字数不足优先删场/改 position · 不优先补场
+- ⛔ position 声明必须先于字数判断（不允许事后反推）
 
 **Step 4.2：责编产出 editor-review.md**
 
