@@ -50,9 +50,11 @@ team:
 
 ### 执行模式
 
-- **Team 模式**（唯一合法模式）：team_create → spawn world-manager + agents → 交互 → scene_end → team_delete
-- **独幕演**（最小合法 Team，角色 ≤ 2 人时）：1 Agent + world-manager，仍为 Team 模式
+- **Team 模式**（唯一合法模式 · 回合制）：team_create → spawn world-manager + agents → **回合制交互**（每 Agent 每回合 ≤1 个 beat，≤150 字）→ scene_end → team_delete
+- **独幕演**（最小合法 Team，角色 ≤ 2 人时）：1 Agent + world-manager，仍为 Team 模式 + 回合制
 - ⚠️ **直写模式已废止**——任何场景必须使用 Team 模式
+- 🔴 **回合制硬约束**：禁止 Agent 一次性输出完整场景自述。详见 `references/team-protocol.md` 的"回合制交互协议"
+- 🔴 **第三人称编译硬约束**：novel.md 必须第三人称戏剧白描。Agent 的第一人称交互记录是素材不是成品。详见 `references/compile-novel.md` 的"硬约束 · 第三人称叙事视角"
 
 ---
 
@@ -82,32 +84,57 @@ Director 加载时：
 3. **Canon 保护**——bible.md 和 SOUL.yaml 核心字段不可修改
 4. **MEMORY 有界**——wrap 时按 tier 上限写入（S:2000/A:1200/B:600）
 5. **直写模式已废止**——任何场景必须使用 Team 模式（独幕演为最小合法单位）
-6. **迭代上限 2 轮**——Phase 4.5-4.9 循环最多 2 次，第 3 轮 Director 强裁
-7. **check-ai-taste exit:0 + 读者均分 ≥7.0**——双硬门控，缺一不可
+6. **回合制 Team**——每 Agent 每回合 ≤ 1 个 beat（≤150 字），禁止一次性输出完整场景自述
+7. **第三人称编译**——novel.md 必须第三人称戏剧白描，Agent 第一人称输出只能作为素材熔合（由 C6 门控规则强制）
+8. **迭代上限 2 轮**——Phase 4.5-4.9 循环最多 2 次，第 3 轮 Director 强裁
+9. **check-ai-taste exit:0 + 读者均分 ≥7.0**——双硬门控，缺一不可
 
 ---
 
-## 内容编译
+## 能力册索引（references · 按使用顺序）
 
-详见 references/：
-- `compile-novel.md` — 小说格式编译规范（默认）
-- `compile-screenplay.md` — 剧本格式编译规范
+> Director 不是流程执行者，是**剧场导演**。下列 references 是你的"手艺书"。
+> 按场景推进的时机加载对应能力册，不要一次全读。
 
-编译脚本位于 `scripts/compile-novel.js` 和 `scripts/compile-screenplay.js`。
+### 规划期（Phase 1 → Phase 1.5）
 
----
+| 能力册 | 用于 |
+|---|---|
+| `references/workflow-episode.md` | 整体流水线 SOP 定义（Phase 1-6） |
+| `references/coach-questions.md` | Phase 1.5 · Writing-Coach 8 问预检 |
+| `references/director-intuition.md` | 读完 beat-sheet 后的"开机前 7 问"（场景成熟度检查） |
+| `references/samples-and-antipatterns.md` | 速读 6 个成功样本 + 6 个反模式，校准戏剧审美 |
 
-## Team 协议
+### 演绎期（Phase 2 · Team 启动）
 
-详见 `references/team-protocol.md`：world-manager 角色定义、spawn 流程、施压/事件注入/内心独白机制、场景结束条件。
+| 能力册 | 用于 |
+|---|---|
+| `references/scene-staging.md` | 场景形态判定（独幕/对手/群戏）+ 视角锚 + 进出场节拍 |
+| `references/voice-orchestration.md` | 多角色声音校准表（spawn Team 前必填） |
+| `references/team-protocol.md` | 回合制交互协议（硬约束） |
+| `references/interaction-craft.md` | world-manager 施压手艺 + Agent 回合结构 |
 
-四类 Team 协议：
-- **演绎 Team**：角色碰撞生成内容（Phase 2）
-- **读者 Team**：4 画像并行打分（Phase 4.5，详见 `references/reader-panel-protocol.md`）
-- **专家 Team**：4 顾问并行诊断（Phase 4.6，详见 `references/expert-panel-protocol.md`）
-- **修订 Team**：定向改写（Phase 4.8）
+### 编译期（Phase 3 · 从交互到小说）
 
-Writing-Coach 预检详见 `references/coach-questions.md`。
+| 能力册 | 用于 |
+|---|---|
+| `references/compile-from-interactions.md` | 把 interactions.jsonl 熔合为第三人称剧场叙事的改写手艺 |
+| `references/compile-novel.md` | novel 格式规范 + 第三人称硬约束 + 去 AI 味禁令 |
+| `references/compile-screenplay.md` | 剧本格式（可选） |
+
+### 评估期（Phase 4 → Phase 4.9）
+
+| 能力册 | 用于 |
+|---|---|
+| `references/reader-panel-protocol.md` | 4 读者画像并行打分协议 |
+| `references/expert-panel-protocol.md` | 4 专家顾问并行诊断协议 |
+
+### 能力册使用准则
+
+- **初次阅读**：按上面顺序速读一遍（建立"场景感"心智模型）
+- **正式使用**：按 Phase 时机按需 read_file（不要一次全加载）
+- **卡住时**：如发现场景退化为"独白拼图"/"旁白堆砌"/"客套循环" → 立即回到对应能力册复查
+- **升级时**：Phase 6 系列复盘后，向 `samples-and-antipatterns.md` 增量追加新样本
 
 ---
 

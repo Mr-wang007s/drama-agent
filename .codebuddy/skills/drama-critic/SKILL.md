@@ -126,8 +126,19 @@ globs:
 
 | 脚本 | 用途 |
 |------|------|
-| `evaluate.js` | 从 runtime 交互记录 + SOUL 定义生成评估报告 |
-| `lint-output.js` | 运行时约束校验——检查产出是否违反 RULES.md |
+| `scripts/check-ai-taste.js` | AI 味量化门控（破折号/独占段/C5-C6 黑名单/EPxx 泄漏等 22+ 条规则） |
+| `scripts/evaluate.js` | 从 runtime 交互记录 + SOUL 定义生成评估报告 |
+| `scripts/lint-output.js` | 运行时约束校验——检查产出是否违反 RULES.md |
+
+### References（能力册）
+
+| 能力册 | 用于 |
+|------|------|
+| `references/critique-craft.md` | **戏剧评审手艺**——从"规则查错"升级到"戏剧顾问" |
+
+> Critic Agent 被 spawn 时**必须**先 read 这个 reference。
+> 它定义了评审的五个层（戏眼/角色语言/信息合规/戏剧张力/文本执行）和十个戏剧感判断问题。
+> 跑完 check-ai-taste 脚本只是"文本执行层"的底线检查，真正的价值在其他四层。
 
 ### 与 Harness 流程的集成
 
