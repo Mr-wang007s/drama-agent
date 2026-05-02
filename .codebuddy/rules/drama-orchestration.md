@@ -43,5 +43,21 @@ Phase 5: 收尾（MEMORY 有界写入 + state + timeline + wrap-report）
 
 #### Canon 保护
 
-- `world/bible.md` 和 `agents/*/SOUL.yaml` 核心字段（id/name/archetype/trauma/motivation）为写保护
-- 可更新字段：emotion.current、known_facts、relationships.trust、MEMORY.md、state.json、timeline.md
+Canon 层 = 系列常量层，所有故事（`stories/<name>/`）共同遵守：
+
+**写保护文件**
+
+- `stories/<name>/world/bible.md`（世界圣经）
+- `stories/<name>/agents/**/SOUL.yaml` 的核心身份字段：`id` / `name` / `archetype` / `trauma` / `motivation` / `secret`
+
+**可更新字段**（非 canon）
+
+- SOUL.yaml 内：`emotion.current` / `known_facts` / `relationships.trust`
+- 文件级：`MEMORY.md` / `world/state.json` / `world/timeline.md`
+
+**修改 canon 的原则**
+
+- 修改 canon 字段时必须显式说明原因：世界观修订 / 角色弧线重置 / 关系改写。
+- 不得将临时 run 结果、草稿台词、未经 Critic 验收的结论直接写进 canon。
+- 单集新发现的长期设定应先入 `wrap-report.md`，在下一次 `drama-world` 维护操作中再决定是否回写 canon。
+- 任何 canon 改动前必须先调用 `snapshot.js create` 做快照。

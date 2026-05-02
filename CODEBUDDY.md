@@ -81,12 +81,11 @@ stories/<name>/
 
 | 规则 | 作用域 |
 |---|---|
-| `drama-orchestration.md` | 三角 Skill 流水线编排（触发词 / Phase 顺序 / Critic 不可跳过） |
+| `drama-orchestration.md` | 三角 Skill 流水线编排（触发词 / Phase 顺序 / Critic 不可跳过 / Canon 保护） |
 | `writing-craft.md` | novel.md 正文写作硬约束（A 级 = Error 门控、B 级 = Warning） |
-| `canon-guardrails.md` | series-bible / SOUL 核心字段写保护 |
-| `dramaspec-workflow.md` | 单集四件套（brief/beat-sheet/spec/tasks）工作流 |
-| `harness-memory.md` | 世界状态 / MEMORY 有界机制 |
-| `plan-doc-sync.md` | plan 与文档同步 |
+| `episode-workflow.md` | 单集四件套（brief / beat-sheet / novel / wrap-report）工作流与命名规范 |
+| `harness-memory.md` | `world/` 状态层与 Agent MEMORY 有界机制、跨故事隔离 |
+| `plan-doc-sync.md` | Plan 完成后的核心文档（PRD/README/AGENTS/CODEBUDDY）同步规则 |
 
 ### 验证方式
 
