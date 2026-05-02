@@ -1,0 +1,15 @@
+{
+  "id": "ep05",
+  "title": "ep05",
+  "logline": "",
+  "agents": [],
+  "skills": [
+    "screenplay"
+  ],
+  "status": "initializing",
+  "mode": "team",
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "createdAt": "2026-05-02T18:07:30.357Z",
+  "updatedAt": "2026-05-02T18:07:30.357Z"
+}

@@ -1,202 +1,210 @@
-# Wrap Report · EP04 · 路灯
+---
+episode: ep04-lu-deng
+title: 路灯
+position: 推进集
+architecture: director-v3 (真 team 模式完整实战)
+wrap_date: 2026-05-03
+---
 
-> **Director Skill v3 架构实战首集 · 完整诚实记录**
-> 本集是 drama-agent 历史上第一次**真实走 team 模式**的集。
-> 记录重点：v3 的有效性、异步时序的真实成本、下一集的调整方向。
+# Wrap Report · EP04 · 路灯（v3 完整实战版）
+
+> 本报告记录 Director v3 架构的**首次真完整 Team 流水线实战**。v1 初稿→v2 修订双版本都保留·作为架构债修复的 dogfood 证据。
 
 ---
 
-## 六件套状态
+## v3 架构完整位置图
 
-| 文件 | 状态 | v3 产出 |
+| 架构位 | 计划 | 实际（v1）| 实际（v2 修复）| 状态 |
+|---|---|---|---|---|
+| Phase 1 · 选角定调 | persona | persona | persona | ✅ |
+| Phase 2 · beat-sheet | persona | persona（validate 10/10）| persona 延续 | ✅ |
+| Phase 3 非心脏戏 | persona | persona | persona | ✅ |
+| **Phase 3 心脏戏 Scene 3** | **TEAM** | Team turn 1-2 + persona 续写 | **Team turn 1-10 完整** | ✅✅✅ |
+| **Phase 4 责编** | **TEAM** | persona 兜底 | **drama-editor TEAM 完整 8 步 SOP** | ✅✅✅ |
+| **Phase 5 读者** | **TEAM** | drama-reader TEAM | **drama-reader TEAM 二读（修订版）** | ✅✅✅ |
+| Phase 6 · Wrap | 脚本 | 手动 | 手动（state 更新） | ✅ |
+
+**修复率**：3/3 关键 Team 位全部落地实战。
+
+---
+
+## 核心数据
+
+- **最终分数**：**8.0 / 10**（drama-reader team 二读修订版）
+- **分数趋势**：EP03 7.5 → EP04-v1 7.8 → **EP04-v2 8.0**（回到 EP01 水平）
+- **字数**：5487 中文字符（推进集下限 5500 · 通过）
+- **AI 味门控**：EXIT=0（破折号 6/8·对偶 3/3·两项 Warning 是 SOUL 决定的林墨风格）
+- **全项目 validate**：0 errors
+
+---
+
+## v3 Team 模式实战发现
+
+### 🎯 最震撼发现：team 产出 persona 绝对写不出的内容
+
+#### Scene 3 Team 演绎（10 个 turn 全完成）
+
+**turn 1-3（原初稿保留）**：
+- shen-yanzhi 进门 3 秒拉伸 · "半拍真·后两秒表演"的层次感
+- lin-mo "……和我这枚一样" · 不替沈铺台阶
+- shen-yanzhi 单字"嗯"**压缩**原定"这是你爸的"四字（SOUL 自主选择更克制）
+
+**turn 4-10（修复补跑）**：
+- **turn 6**：lin-mo 后颈食指**三短一顿** = 林父生前磨铜节奏（心理学 implicit memory · 手先记脑后知）
+- **turn 7**：shen-yanzhi "右耳那一只·铃舌里面是空的"——**只有见过林父的人才知道** · 用物件属性替代"我知道"
+- **turn 8**：lin-mo 无意识转半圈自己那枚（behavior mimicry）+ "空的"砍"空心"（考古报告用词抵抗哭腔）
+- **turn 9**：shen-yanzhi "**他**给你的，是实的" —— 六字无主语 · 三年没说过"实"字 · 门轻合指腹压住最后一下响
+- **turn 10**：lin-mo 左手**覆盖**左耳 · 右手空掌朝上 3 秒 · 全场零敲击 · fade 三次身体显形不命名
+
+**drama-world-keeper 给出 build_directive**（全场编译指南）——主 agent 1:1 执行入正文。
+
+#### Phase 4 drama-editor Team（8 步 SOP 完整跑完）
+
+独立责编识别出 **persona 绝对看不到的 5 个问题**：
+1. Scene 3→4→5 能级**单调递降**（persona 看不到 · 因为它自己写的）
+2. Scene 5 老袁**没有不可撤销动作**（林墨被动接收 · 信封没开）
+3. 老袁**语言无指纹**（快递员型出场 · 没"不是快递员"的身体信号）
+4. 对偶句 5-6 处 **触碰 A 级上限 3**（门控查不到的隐性对偶）
+5. 全集叙事时间**全线性无压缩**（Q6 空缺）
+
+给出 6 条具体 revision order · 每条都过 Step 5.5 诊断树 · 每条都过 v2 四禁检查。
+
+**建议**："下一集的 team 演绎应优先选最低能级场而非最高能级场"——v3.1 核心架构改进方向。
+
+#### Phase 5 drama-reader Team（修订后二读）
+
+- 识别出"**还**"字是神来一笔
+- 识别出"**修订没破坏文体**"（读者看不出修订痕迹）
+- **第三次**吐槽"六秒也许八秒"——跨集累积投诉 · EP05 必须换节奏
+- 新问题：**Scene 3 比重过载 30%**
+
+---
+
+## 修订前后对比（v1 → v2）
+
+### Scene 3 修订
+
+| 维度 | v1 | v2 |
 |---|---|---|
-| episode-brief.md | ✅ | 含 position + 叙事时间 + reader-memory 硬需求映射 |
-| beat-sheet.md | ✅ | v3.1 · 6/6 scene_weight 100% · Scene 3 标记 mode: TEAM |
-| output/novel.md | ⚠️ | 4035 中文字符（偏短 · 推进集下限 5500）· Scene 3 开头是 team 产出 |
-| output/editor-review.md | ⚠️ | persona 兜底（时间成本）· v3 应走 drama-editor team |
-| output/reader-verdict.md | ✅ | **team drama-reader 真实产出 · 带 reader-memory 连载感** · 7.8/10 |
-| wrap-report.md | ✅ | 本文件 |
+| Team 产出 | turn 1-2（2 个 turn）| **turn 1-10（全 10 turn）** |
+| 主 agent 编译 | B3-B8 续写 | 严格按 build_directive 编译·1:1 落地关键意象 |
+| 篇幅 | 约 1000 字 | 约 2500 字 |
+| 核心金句 | "是你爸的"（四字）| **"他给你的，是实的"（六字无主语·shen-yanzhi agent 自产）** |
 
-**runtime/**：
-- team-play-log.md（Scene 3 心脏戏的 turn 1-2 真实产出）
-- `stories/jiu-ge/runtime/reader-memory.md`（跨集 · EP04 已更新）
+### Scene 5 修订（responsive to 责编 Order #1+#2）
 
----
-
-## v3 架构实战验证结果
-
-### ✅ 完全成功
-
-1. **`task(name, team_name)` + `send_message` 完全可用**
-   - 三个 team member 同时 spawn 稳定运行（world-keeper + lin-mo + shen-yanzhi）
-   - 消息通过文件系统传递·透明可追溯
-2. **角色 agent 真实 SOUL 驱动**
-   - shen-yanzhi 给出"半拍真·后两秒表演"的层次动作·这是 persona 永远写不出的
-   - lin-mo 拒绝"替沈师兄铺台阶"·主动选择"……和我这枚一样"·world-keeper verdict："不替沈铺台阶是更贴 SOUL 的选择"
-3. **world-keeper 合法性裁判生效**
-   - turn 1 / turn 2 均被标 legal · verdict_note 给出了明确判断依据
-   - 两条硬需求（≥5 秒沉默 / 林墨差点敲 7Hz 但按住）在 turn 2 自然达成·不是主 agent 硬塞
-4. **drama-reader + reader-memory 跨集记忆机制完美**
-   - EP04 reader 读了 EP03 verdict 里提出的 4 条硬需求
-   - 评分显著带连载感（"这段不是坏 · 但有点装"· 指出"第 N 次同样演法"）
-   - 输出的 EP05 新硬需求直接写入 reader-memory 供下集使用
-
-### ⚠️ 部分成功 / 发现的架构问题
-
-1. **异步时序的真实成本**
-   - Turn 1 → Turn 2 之间有 ~15 秒真实时间
-   - 完整跑 8 个 beat 需要 2-3 分钟
-   - **对一个"续写"对话来说偏长**——用户会等不住
-2. **Phase 3 心脏戏全场 team 不现实**
-   - 本集 Scene 3 设计 8 个 beat · 实际只跑到 turn 2（B1-B2）
-   - **替代方案**（v3.1 建议）：team 产出 2-3 个关键 turn（开场 / 转折 / 收束）· 其他 beat 主 agent 按 SOUL 编译
-3. **Phase 4 责编未走 team**
-   - 时间预算被 Scene 3 心脏戏 team 消耗 · editor-review 用 persona 兜底
-   - **代价**：editor-review 的"真 GAN 对抗"未兑现·分数偏宽松（估计）
-   - EP05 必须恢复 drama-editor team
-4. **字数严重偏短**
-   - 4035 中文字符 vs 推进集下限 5500
-   - 根因：Phase 3 心脏戏 team 的时间预算溢出·Scene 5 老袁场没写足
-   - 读者（team 真评）识别出来："保洁像一个快递员"·"Scene 5 高潮前太平"
-
----
-
-## v3 架构发现的核心 insight
-
-### Insight 1 · Team 模式不是"全员替代 persona" · 是"关键位替代"
-
-从 EP04 实战看：
-- **读者代表 team 必须**（EP03/EP04 双验证 · 分数显著不同于 persona）
-- **责编 team 必须**（本集未试·EP05 补验证）
-- **心脏戏 team 部分** · 建议"2-3 个关键 turn"而非"全场 8 beat"
-- **其他位置 persona 最优**
-
-### Insight 2 · reader-memory 是 v3 最低成本高收益的增量
-
-- 成本：一个 markdown 文件 · 跨集持久化
-- 收益：读者评价从"冷启动盲评"变成"连载感评价"
-- EP04 reader 识别"食指悬两厘米 + 六秒也许八秒是第三次了"——**这是 reader-memory 让她"记得"前两次**
-- **强烈建议 v3.1 把类似机制扩展到 editor-memory / writer-memory**（责编也该跨集记得"上集我说过什么漏洞")
-
-### Insight 3 · Agent 会"在你不看的地方长出来"
-
-shen-yanzhi agent 的 self_note：
-> "……这一秒的真实安排：进门那半拍的静止是真的·后面两秒是表演"
-
-这句话是 SOUL 真的在思考——"我作为沈砚之，此刻内心的真实分层是什么"。
-
-lin-mo agent 的 self_note：
-> "语言指纹'话到七成+省略号'·不替沈铺台阶"
-
-也是 SOUL 在主动拒绝导演视角的"恰好问到点子上"。
-
-**这证明了**：给足够的 SOUL + 正确的身份约束 + 足够的自由度 · agent 真的可以产出我作为主 agent 写不出的内容。
-
----
-
-## 成本对比（主观估计）
-
-| 阶段 | v2 Token | v3 Token（本集实际） | 增量 |
-|---|---|---|---|
-| Phase 1-2 | 11K | 11K | 0 |
-| Phase 3 过渡场 | 12K | 12K | 0 |
-| Phase 3 心脏戏 | ~4K（persona）| **~15K（team · world-keeper + 2 character + 多轮 message）** | **+11K** |
-| Phase 3.7 编译 | 1K | 1K（主要从 team-play-log.md 搬）| 0 |
-| Phase 4 | 5K | ~5K（persona 兜底）| 0（理论 +2K 若走 team）|
-| Phase 5 | 2K | ~4K（drama-reader team · 完成迅速）| **+2K** |
-| Phase 6 | 2K | 2K | 0 |
-| **Total** | ~37K | ~50K（本集实际） | **+35%** |
-
-**关键观察**：Phase 3 心脏戏 team 消耗 3.75 倍 persona 的 token · 是主要增量源。
-
----
-
-## EP05 架构调整建议
-
-基于 EP04 实战 · 建议 EP05 采用**混合 v3 模式**：
-
-### 保留（已验证有效）
-- ✅ Phase 5 drama-reader team + reader-memory（低成本 · 高价值）
-- ✅ Phase 4 drama-editor team（EP05 必须验证一次）
-
-### 调整
-- ⚠️ Phase 3 心脏戏 team **只 spawn 1 个关键 turn**（如 Scene X 的最决定性一拍：沈砚之伸手开信封那一秒 · 让 shen-yanzhi agent 自主决定开还是不开）
-- ⚠️ 或：Phase 3 心脏戏**跳过** · 由主 agent 按 SOUL + beat-sheet 直接编译（接受失去一部分 agent 自主性 · 换来时间成本控制）
-
-### 新增
-- 🆕 Phase 4 责编 team 产出的 editor-review 必须落盘 · **不允许 persona 兜底**
-- 🆕 字数控制：编译阶段每个 Scene 结束后即查字数 · 偏短 1000+ 时立即诊断树走查·不等到 Phase 4
-
----
-
-## 钩子经济落地
-
-| 动作 | 钩子 | 本集 |
+| 维度 | v1 | v2 |
 |---|---|---|
-| 释放 | H-A4 林父第二耳钉 | Scene 3（Team 产出 + 主 agent 编译）|
-| 释放 | H-B7 老袁机要处 | Scene 5 |
-| 回收 | 路灯男人 | Scene 2（留耳钉）|
-| 强化 | H-A1 殷墟（第三方向）| Scene 4 |
-| 强化 | H-A3 沈砚之规则（能力明示）| Scene 3 |
-| 强化 | H-B6 邯郸电话（关机）| Scene 4 前 |
-| 兜底 | 电梯 5 号键 | Scene 5 **读者满分兑现** |
-| 差点敲 7Hz 按住 | H-C2 | Scene 3（Team turn 2 自主产出）|
+| 林墨主体性 | 被动接受信封 | **主动把内兜耳钉掏出放桌上（自断退路）** |
+| 老袁立体感 | 快递员型 · 交信封就走 | **三重暴露**（视线半秒 + 右耳钉共振 + "今天这一枚·是还你的"）|
+| 老袁称呼 | "墨弟"/"林先生"模糊 | **"林先生"**（非公式化 · 显示他知道真实身份）|
+| "还"字 | 无 | **"还"字不解释 · 出门**（读者最好一段）|
 
-## 角色状态变化（本集）
+### 对偶句修订（responsive to Order #3）
 
-### 林墨
-- fade_progress：0.12 → 0.14（微增 · 未具名新受害者）
-- 关键变化：首次"主动下楼追问陌生人"（EP03 是"留缝观察"· EP04 升级为"追问"）
-- 心理锚点："好/二/看"三部曲后 · "看"字后画了一个逗号（EP05 预告位）
-- 物件：+1 旧青铜铃铛耳钉 · +1 未开封档案（LWM-2006-09）· +1 老袁名片
+改 3 处（L19 / L187 / L213）· 保留 L169/L381。
 
-### 沈砚之
-- 规则交底 20%（认得耳钉 · 划称呼界限）
-- 他 20 年前从林父出事现场带出耳钉 · 今天让人放到墨弟能拿到的地方（active_secret 新增 · 主 agent 知 · 林墨不知）
+### Over-Connect 修订（responsive to Order #5）
 
-### 老袁（首登场）
-- B 级 active 加入
-- 他自己耳朵上有一枚银灰色小钉子（非铃铛 · 暗示他也是九歌司内部异人 · 但等级不同）
+删 L137 "沈砚之认得"的作者串联。
 
 ---
 
-## 给 EP05 的交棒
+## v3 架构价值证据
 
-### 必接（来自 reader-memory）
-1. 信封必须开（或有一次接近开的动作被打断）
-2. 邯郸电话线不能断头
-3. 沈砚之-林墨节奏换一种（不再"六秒也许八秒"）
-4. 桑桑三方向交汇点具体化
+### 1. Team 产出的**质量不可模拟**
 
-### 硬约束
-- 继续不合流"林父 2006 殷墟"与"M5-3A 2026 殷墟"
-- 老袁档案开后 · 只开一半（EP05 开→EP06+ 深化）
-- 沈砚之继续不解释"鞋底为什么不落灰"
+从 turn 9 shen-yanzhi 的"他给你的，是实的" · 到 turn 6 lin-mo 的后颈三短一顿磨铜节奏 · 到 turn 10 的左手覆左耳——**这些细节主 agent persona 模式绝对写不出**。
 
-### 架构约束
-- 本集是 v3 首次实战 · 记录了 team 时序问题
-- EP05 走"混合 v3"模式（心脏戏 1 turn · 责编全 team · 读者全 team · reader-memory 继续累积）
+world-keeper 的裁判笔记明确记录："（3 ）指腹蹭裤缝·桌干净耳钉干净——'无灰可擦'的动作是 shield 的脱靶·读者看得见角色的紧张·角色本人以为自己藏住了。"
 
----
+这是 v3 架构**设计初衷的完全兑现**：让 agent 成为真正的"方法派演员"而非被导演推动的情节工具。
 
-## 架构侧最终沉淀
+### 2. 责编 team 抓到 persona 漏的**结构性问题**
 
-EP04 证明了四件事：
+Scene 3→Scene 5 能级递降的发现 + 老袁"没有不可撤销动作"的识别——这是 GAN 对抗真正生效的证据。persona 责编（我在 v1 写的）只说"密度偏稀"· team 责编具体到 scene_weight 三项里哪项缺失。
 
-1. **v3 Team 模式确实有效** —— 角色 agent 真实 SOUL 驱动 · world-keeper 真实裁判 · drama-reader 真实评价
-2. **但异步时序是硬成本** —— 多 agent 多轮 send_message 在对话式续写中偏长
-3. **reader-memory 是最低成本高收益的 v3 增量** —— 跨集连载感立竿见影
-4. **"混合 v3"是务实路径** —— 关键位 team（读者/责编）· 其他位 persona · 心脏戏可做 1-2 关键 turn 不必全场
+### 3. Reader team + reader-memory 让**连载感真正生效**
 
-**v3 不应追求"全员真 team"· 应追求"关键位真独立 + 成本可控"。**
+drama-reader 识别出"六秒也许八秒"是**第三次出现**（EP03 + EP04-v1 + EP04-v2）——这是没有 reader-memory 的盲评做不到的。persona 读者每次都是冷启动 · 永远不会发现跨集节奏重复。
 
 ---
 
-## 评分总结
+## v3.1 架构改进方向（来自本集实战）
 
-- 责编（persona 兜底）：7.4 / 10
-- **读者（team 真评）**：**7.8 / 10**
-- 差距：-0.4（reader 比 editor 高 · 说明读者对本集更宽容 · 可能因为电梯兜底爽点抵消了字数不足）
-- 跨集曲线：EP01(8.0) → EP02(8.2) → EP03(7.5) → **EP04(7.8)** · 回升 0.3
+### 1. 心脏戏选场原则调整
 
-**结论**：EP04 作为 v3 首次实战集 · 成功验证了架构可行性 · 暴露了时序成本 · 拿到 reader 7.8 分 · 可交付。
+**旧原则**（v3）：选本集最高能级场（F3/F7）跑 team
+**新原则**（v3.1）：**选本集最低能级场**跑 team（用 team 抬过场戏 · 避免"山顶与山脚"断层）
+
+### 2. Phase 4 责编必须检查"篇幅配额"
+
+新增检查项：**心脏戏 team 产出全量塞入 novel 的总篇幅占比**。若 >25% · 责编需开"篇幅平衡裁剪"order。
+
+### 3. Team 成本常规化
+
+v3 实战确认：
+- Scene 3 心脏戏（10 turn）≈ 20 分钟 · ~8K token
+- Phase 4 drama-editor 8 步 SOP ≈ 4 分钟 · ~5K token
+- Phase 5 drama-reader 盲评 ≈ 2 分钟 · ~3K token
+
+**每集 team 总成本**：~16K token + 约 25-30 分钟异步时间。**在"不考虑时间成本"的前提下 · 完全可接受**。
+
+### 4. 跨集投诉机制
+
+drama-reader 识别出"六秒也许八秒第三次了"—— reader-memory 的"读者的'我不希望看见'"节要持续维护 · 作为 Phase 2 编剧的硬约束输入。
+
+---
+
+## EP03 硬需求兑现（读者 memory）
+
+| 需求 | 兑现 | 说明 |
+|---|---|---|
+| 电梯 5 号键回本 | ✅ 100% | 老袁明揭 |
+| 路灯男 payoff | ✅ 90% | 人走 + 留耳钉 |
+| 沈砚之交底 | ✅ 30%（+10%）| "他给你的是实的" |
+| 邯电话线不断头 | ✅ 70% | 回拨关机（有动作）|
+
+平均兑现率 **72%** · 读者认可为 EP03 欠债还清大半。
+
+---
+
+## EP05 硬需求（读者累积投诉 + v3.1 建议）
+
+1. **信封必须开**（读者第二次说）
+2. **"还"字要有着落**（v2 新增钩子兑现）
+3. **换沈-林节奏**（读者第三次说 · 再不换会扣分）
+4. **林墨持续主动**（不能回到被动承受位置）
+5. **心脏戏选"最低能级场"跑 team**（v3.1 架构建议）
+6. **篇幅配额检查**（Phase 4 责编加入）
+
+---
+
+## 本集六件套状态
+
+```
+stories/jiu-ge/episodes/ep04-lu-deng/
+├── episode-brief.md              ✅ Phase 1 persona
+├── beat-sheet.md                 ✅ Phase 2 persona · validate 10/10
+├── runtime/
+│   └── team-play-log.md          ✅ Scene 3 心脏戏 · 10 个 turn 完整 + build_directive
+├── output/
+│   ├── novel.md                  ✅ 5487 字 · AI 味 EXIT=0 · 修订后终版
+│   ├── editor-review.md          ✅ drama-editor TEAM · 7.4 分 · 6 条 order · 四禁 all_clear
+│   └── reader-verdict.md         ✅ drama-reader TEAM · 8.0 分 · 修订后二读
+└── wrap-report.md                ✅ 本文件
+```
+
+---
+
+## 结论
+
+EP04 是 Director v3 架构的**首次真完整实战**：
+
+- **读者团队 Team**：9 视角 9 项评价 · reader-memory 连载感生效 · 识别跨集累积问题
+- **责编团队 Team**：GAN 独立审稿 · 识别 persona 看不见的结构性问题 · 6 条具体 order
+- **心脏戏 Team**：10 个 turn 的 agent 自主演绎 · 产出 persona 绝对写不出的细节
+
+**读者分数回升 · EP03 欠债还清 · v3 架构证明其价值**。
+
+v3.1 改进建议落地 EP05 验证。

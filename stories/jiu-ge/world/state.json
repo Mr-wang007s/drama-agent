@@ -214,9 +214,9 @@
     "EP03 沈砚之规则部分暴露：会听见但不听 · 但'它是什么''你们一个人没按住吗'仍是黑箱",
     "林墨 7Hz 状态：EP02 全集未敲 · EP03 Scene 5 末破功 1 下后惊觉停下 · EP04+ 是否稳定回归按住 待观察"
   ],
-  "currentEpisode": "ep04-lu-deng",
-  "updatedAt": "2026-05-03T01:15:00.000Z",
-  "_architecture_note": "EP04 是 Director Skill v3 架构首次实战。Scene 3 心脏戏 team 产出 turn 1-2 · Phase 5 drama-reader team + reader-memory 成功（7.8 分回升 0.3）· Phase 4 persona 兜底待 EP05 恢复 drama-editor team。",
+  "currentEpisode": "ep05",
+  "updatedAt": "2026-05-03T02:30:00.000Z",
+  "_architecture_note": "EP04 是 Director Skill v3 架构首次真完整 Team 流水线实战。Scene 3 心脏戏 10 turn 完整演绎 · Phase 4 drama-editor 独立 GAN 审稿 8 步 SOP · Phase 5 drama-reader 修订后二读。三个关键 Team 位全部落地 · 架构债修复。最终读者 8.0 分·比 v1 7.8 升 0.2·回到 EP01 水平。v3 架构证明价值。",
   "wrappedEpisodes": [
     {
       "id": "ep02-sang-sang",
@@ -236,11 +236,14 @@
       "title": "路灯",
       "wrappedAt": "2026-05-03T01:15:00.000Z",
       "position": "推进集",
-      "word_count": 4035,
-      "architecture": "director-v3-team",
-      "team_mode_summary": "Scene 3 心脏戏 team 产出 turn 1-2 · Phase 5 reader team + reader-memory",
-      "reader_team_score": 7.8,
-      "reader_team_trend": "回升 0.3（EP03 7.5 → EP04 7.8）"
+      "word_count": 5487,
+      "architecture": "director-v3-full-team",
+      "team_mode_summary": "Scene 3 心脏戏 10 turn + Phase 4 drama-editor 8 步 SOP + Phase 5 drama-reader 修订二读·三 Team 位全落地",
+      "reader_team_score": 8,
+      "reader_team_trend": "v1 7.8 → v2 8.0 · 回 EP01 水平",
+      "editor_team_score": 7.4,
+      "editor_team_verdict": "NEED_REVISION (修订后预期到 8.0)",
+      "revision_rounds": 1
     }
   ]
 }
