@@ -95,6 +95,23 @@ performance:
       action: {{example3Action}}
       inner_thought: {{example3Thought}}
 
+  # --- 角色语言指纹 (Character Voice Fingerprint) ---
+  # v0.5.0 新增：用于 dialogue-jaccard.js 检测和读者 Team 评估
+  # 可选字段——不填不影响基础功能，但 S/A 级角色强烈建议填写
+  unique_markers:                          # 该角色独有的语言标记（≥3 个）
+    - {{marker1}}                          # 如：口头禅"那又怎样"
+    - {{marker2}}                          # 如：从不用问号（疑问句用句号结尾）
+    - {{marker3}}                          # 如：比喻全部来自建筑/土木领域
+  blacklist_cross: []                      # 其他角色绝对不能用的本角色独有表达
+                                           # 如：["墨弟"]（只有沈砚之能叫）
+  body_signature:                          # 该角色专属的身体动作（替代心理描写）
+    - {{bodySig1}}                         # 如："紧张时摸后颈"
+    - {{bodySig2}}                         # 如："思考时把笔夹在食指和中指之间转"
+  breakdown_budget: {{breakdownBudget}}    # 本季允许的情绪崩溃次数（防止滥用）
+                                           # S 级建议 2-3 次/季，A 级 1-2 次
+  silence_quota: {{silenceQuota}}          # 每场戏"选择不说"的最低次数
+                                           # 建议 S 级 ≥2，A 级 ≥1
+
 # ═══════════════════════════════════════════════════════════════
 #  关系 (Relationships)
 #  与其他角色的关系网络

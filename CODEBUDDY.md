@@ -8,7 +8,9 @@
 - **分级约定**：所有 agent 目录必须以 `s_` / `a_` / `b_` 开头（C 级合并到 `C-CLASS-INDEX.yaml`）。
 - **SOUL v4.0 三层结构**：身份层 → 心理层（OCEAN + 创伤链）→ 表演层
 - **故事 = stories/<name>/**：每个子目录是一个独立故事，包含 world/ + agents/ + episodes/
-- **三角架构**：`.codebuddy/skills/` 下仅 3 个 Skill（drama-world / drama-director / drama-critic）
+- **四角架构**：`.codebuddy/skills/` 下 4 个 Skill（drama-world / drama-director / drama-critic / writing-coach）
+- **三 Team 循环增强**：演绎 Team → 读者 Team → 专家 Team → 修订 → 回评（GAN 多轮迭代）
+- **直写模式已废止**：任何场景必须使用 Team 模式（独幕演 = 最小合法 Team）
 - **Canon 保护**：world/bible.md 和 agents/*/SOUL.yaml 的核心身份字段受写保护。
 - **有界记忆**：每个 Agent 的 MEMORY.md 按 tier 有容量上限（S: 2000 / A: 1200 / B: 600 字符）。
 - **对话驱动**：所有能力通过自然对话触发 Skill，由主 Agent 识别意图后执行。
@@ -48,13 +50,15 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
 │   ├── SKILL.md          # 精简骨架
 │   ├── references/       # 详细规范（brainstorm-sop / character-spec / canon-rules / interaction-protocol）
 │   └── scripts/          # 18 个工具脚本
-├── drama-director/       # 导演 Owner（Workflow 编排 + 多 Agent Team + 编译）
-│   ├── SKILL.md          # 精简骨架
-│   ├── references/       # 详细规范（workflow-episode / compile-novel / compile-screenplay / team-protocol）
-│   └── scripts/          # compile-novel.js + compile-screenplay.js
-└── drama-critic/         # 独立评审（GAN Evaluator）
-    ├── SKILL.md
-    └── scripts/          # check-ai-taste.js + evaluate.js
+├── drama-director/       # 导演 Owner（三 Team 循环增强编排 + 多 Agent Team + 编译）
+│   ├── SKILL.md          # 精简骨架（Phase 1-6 含循环环）
+│   ├── references/       # 详细规范（workflow-episode / team-protocol / reader-panel-protocol / expert-panel-protocol / coach-questions / compile-novel / compile-screenplay）
+│   └── scripts/          # 10 个工具脚本（含 reader-panel / expert-panel / dialogue-jaccard 等）
+├── drama-critic/         # 独立评审（GAN Evaluator，6 维度含读者吸引力 25%）
+│   ├── SKILL.md
+│   └── scripts/          # check-ai-taste.js（22 条规则含 C5.1-C5.10）+ evaluate.js
+└── writing-coach/        # 内部辅助（Phase 1.5 预检，不暴露触发词）
+    └── SKILL.md          # 8 问 + 6 条打回判定
 ```
 
 ### 故事子项目结构
@@ -63,8 +67,8 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
 stories/<name>/
 ├── .story.json              # 故事元数据（title/genre/seedSource）
 ├── agents/                  # Agent 居民（SOUL + MEMORY + RULES）
-├── world/                   # 世界状态（bible + state + timeline）
-└── episodes/                # 模拟产出（按集归档）
+├── world/                   # 世界状态（bible + state + timeline + imagery-ledger + hooks-ledger）
+└── episodes/                # 模拟产出（按集归档，六件套）
 ```
 
 ### 修改建议
@@ -73,7 +77,8 @@ stories/<name>/
 - **改能力**：修改 `.codebuddy/skills/*/SKILL.md` 或 `.codebuddy/skills/*/scripts/*.js`
 - **加触发词**：修改 Skill 头部的 `description` 字段
 - **改故事内容**：修改 `stories/<name>/agents/*/SOUL.yaml` 或 `world/`
-- **改写作硬约束**：修改 `.codebuddy/rules/writing-craft.md`（A/B 级约束）
+- **改写作硬约束**：修改 `.codebuddy/rules/writing-craft.md`（A/B/C 级约束 + 悬疑三铁律 + 破防戏 R1-R5）
+- **改循环增强流程**：修改 `.codebuddy/rules/drama-orchestration.md`（Phase 1-6 含 4.5-4.9 循环）
 
 ### 项目规则（Always-Applied Rules）
 
@@ -81,11 +86,12 @@ stories/<name>/
 
 | 规则 | 作用域 |
 |---|---|
-| `drama-orchestration.md` | 三角 Skill 流水线编排（触发词 / Phase 顺序 / Critic 不可跳过 / Canon 保护） |
-| `writing-craft.md` | novel.md 正文写作硬约束（A 级 = Error 门控、B 级 = Warning） |
-| `episode-workflow.md` | 单集四件套（brief / beat-sheet / novel / wrap-report）工作流与命名规范 |
+| `drama-orchestration.md` | 四角 Skill 流水线编排（Phase 1-6 含三 Team 循环增强 / 触发词 / 仲裁优先级 / Canon 保护） |
+| `writing-craft.md` | novel.md 正文写作硬约束（A 级 Error + B 级 Warning + C 级正向 + 悬疑三铁律 + 破防戏 R1-R5） |
+| `episode-workflow.md` | 单集六件套（brief / beat-sheet / novel / critic-report / reader-panel-report / wrap-report）工作流与命名规范 |
 | `harness-memory.md` | `world/` 状态层与 Agent MEMORY 有界机制、跨故事隔离 |
-| `doc-sync.md` | 代码 / Skill / 规则 / 脚本变更后的核心文档（PRD/README/AGENTS/CODEBUDDY/SKILL.md/rules）同步规则 |
+| `pro-advisory-notes.md` | 四专家顾问长期沉淀参考（Phase 6 系列复盘时更新） |
+| `doc-sync.md` | 代码 / Skill / 规则 / 脚本变更后的核心文档同步规则 |
 
 ### 验证方式
 

@@ -29,22 +29,30 @@ team:
 
 ---
 
-## Workflow 骨架
+## Workflow 骨架（三 Team 循环增强）
 
 执行前 `read_file` 加载 `references/workflow-episode.md` 获取详细定义。
 
 | Phase | 名称 | 类型 | 核心动作 | 门控 |
 |-------|------|------|---------|------|
-| 1 | 规划 | 混合 | 校验 + 快照 + 选角 + beat-sheet | beat-sheet 存在 |
-| 2 | 导演 | 灵活 | Team spawn + Agent 自由交互 | 场景覆盖 |
-| 3 | 编译 | 混合 | novel/screenplay 编译 + AI味检测 | check-ai-taste exit:0 |
-| 4 | 评审 | 确定 | 独立 Critic Task Agent | 无 Error 级问题 |
+| 1 | 规划 | 混合 | 校验 + 快照 + 选角 + beat-sheet v2 | beat-sheet + validate-beat-sheet 通过 |
+| 1.5 | 预检 | 确定 | writing-coach 8 问审问 | 6 条否决全通过 |
+| 2 | 导演 | 灵活 | 强制 Team spawn + Agent 自由交互 | 场景覆盖 |
+| 3 | 编译 | 混合 | novel 编译 + AI味检测 + 辅助门控 | check-ai-taste exit:0 + Jaccard<0.25 |
+| 4 | 评审 | 确定 | 独立 Critic Task Agent（6 维度） | 无 Error 级问题 |
+| 4.5 | 读者 | 确定 | 4 读者画像并行打分 | 均分 ≥7.0 |
+| 4.6 | 专家 | 按需 | 4 专家顾问并行诊断 | 读者均分 <8.0 或每 3 集强制 |
+| 4.7 | 仲裁 | 确定 | Director 裁决冲突 + 修订指令 | — |
+| 4.8 | 修订 | 灵活 | 定向修订 Team 执行改写 | — |
+| 4.9 | 回评 | 确定 | 返回 Phase 3.1 重跑 | ≤2 轮迭代 |
 | 5 | 收尾 | 确定 | MEMORY + state + timeline 回写 | 容量未超限 |
+| 6 | 复盘 | 按需 | 每 3 集系列回顾（读者+专家联合长评） | — |
 
 ### 执行模式
 
-- **Team 模式**（默认，角色 > 2 人）：team_create → spawn world-manager + agents → 交互 → scene_end → team_delete
-- **直写模式**（降级，角色 ≤ 2 人或用户要求"快速"）：Director 直接写作
+- **Team 模式**（唯一合法模式）：team_create → spawn world-manager + agents → 交互 → scene_end → team_delete
+- **独幕演**（最小合法 Team，角色 ≤ 2 人时）：1 Agent + world-manager，仍为 Team 模式
+- ⚠️ **直写模式已废止**——任何场景必须使用 Team 模式
 
 ---
 
@@ -70,9 +78,12 @@ Director 加载时：
 ## 不可妥协约束
 
 1. **Critic 始终独立**——Phase 4 必须 spawn 独立 Task Agent，不是自评
-2. **Canon 保护**——bible.md 和 SOUL.yaml 核心字段不可修改
-3. **MEMORY 有界**——wrap 时按 tier 上限写入（S:2000/A:1200/B:600）
-4. **每次生成应评审**——Phase 4 是质量底线，check-ai-taste exit:0 是唯一硬门控
+2. **读者 Team 不可跳过**——Phase 4.5 每集必跑，均分 <7.0 硬阻断
+3. **Canon 保护**——bible.md 和 SOUL.yaml 核心字段不可修改
+4. **MEMORY 有界**——wrap 时按 tier 上限写入（S:2000/A:1200/B:600）
+5. **直写模式已废止**——任何场景必须使用 Team 模式（独幕演为最小合法单位）
+6. **迭代上限 2 轮**——Phase 4.5-4.9 循环最多 2 次，第 3 轮 Director 强裁
+7. **check-ai-taste exit:0 + 读者均分 ≥7.0**——双硬门控，缺一不可
 
 ---
 
@@ -89,6 +100,14 @@ Director 加载时：
 ## Team 协议
 
 详见 `references/team-protocol.md`：world-manager 角色定义、spawn 流程、施压/事件注入/内心独白机制、场景结束条件。
+
+四类 Team 协议：
+- **演绎 Team**：角色碰撞生成内容（Phase 2）
+- **读者 Team**：4 画像并行打分（Phase 4.5，详见 `references/reader-panel-protocol.md`）
+- **专家 Team**：4 顾问并行诊断（Phase 4.6，详见 `references/expert-panel-protocol.md`）
+- **修订 Team**：定向改写（Phase 4.8）
+
+Writing-Coach 预检详见 `references/coach-questions.md`。
 
 ---
 

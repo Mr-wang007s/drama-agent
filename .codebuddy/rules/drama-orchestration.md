@@ -22,24 +22,46 @@ alwaysApply: true
 
 > Director 不"转发"意图给其他 Skill。如果用户在 Director 加载后提出管理类请求，告知用户使用对应触发词。
 
-#### 生成流水线（必须完整执行）
+#### 生成流水线（三 Team 循环增强·必须完整执行）
 
 ```
-Phase 1: 规划（校验 + 快照 + 选角 + beat-sheet，含"前集事实核对清单"）
-Phase 2: 导演（Team 模式：多 Agent 自由交互；或直写模式）
+Phase 1:   规划（校验 + 快照 + 选角 + beat-sheet v2，含悬疑三铁律 + 前集事实核对清单）
+Phase 1.5: Writing-Coach 预检（8 问审问 + 6 条打回判定，不通过则回 Phase 1 修订 beat-sheet）
+Phase 2:   导演（强制 Team 模式：多 Agent 自由交互，最小合法 Team = 独幕演 1Agent + world-manager）
 Phase 3.0: 编译前清理（pre-compile-clean.js 批量消除破折号/加粗/标题）
-Phase 3.1: AI 味门控（check-ai-taste.js 必须 EXIT=0）
-Phase 4: 评审（独立 drama-critic Task Agent，prompt 含连续性核对指令，不可跳过）
-Phase 5: 收尾（MEMORY 有界写入 + state + timeline + wrap-report）
+Phase 3.1: AI 味门控（check-ai-taste.js 含 C5.1-C5.10 必须 EXIT=0）
+Phase 3.2: 辅助门控（dialogue-jaccard + imagery-ledger + hooks-ledger + breakdown-spec）
+Phase 4:   评审（独立 drama-critic Task Agent，6 维度含读者吸引力 25%，不可跳过）
+Phase 4.5: 读者 Team（4 画像并行打分，均分 <7.0 阻断，均分 ≥8.0 直接通过）
+Phase 4.6: 专家 Team（4 顾问并行诊断，当读者均分 <8.0 时触发 / 每 3 集强制触发 1 次）
+Phase 4.7: Director 仲裁（读者 vs 专家报告冲突裁决，产出修订指令清单）
+Phase 4.8: 定向修订 Team（spawn 修订 Agent 按指令清单改写正文）
+Phase 4.9: 回评（返回 Phase 3.1 重跑 → Phase 4.5 读者复查，≤2 轮迭代，第 3 轮 Director 强裁）
+Phase 5:   收尾（MEMORY 有界写入 + state + timeline + wrap-report）
+Phase 6:   系列复盘（每 3 集触发，读者+专家联合长评 → pro-advisory-notes 沉淀）
 ```
 
-> 正文写作的硬约束详见 `.codebuddy/rules/writing-craft.md`（A/B 级约束 + Director 必做清单 + 常见陷阱示例）。
+> ⚠️ **直写模式已废止**。角色 ≤2 人时使用"独幕演"（1 Agent + world-manager），仍为合法 Team。
+> 正文写作的硬约束详见 `.codebuddy/rules/writing-craft.md`（A/B/C 级约束 + 悬疑三铁律 + 破防戏 R1-R5）。
+
+#### 仲裁优先级
+
+- 读者共识（≥3 人一致）> 专家共识（≥3 人一致）> 单人极端意见
+- 迭代上限 2 轮（第 3 轮 Director 强行裁决并记录理由写入 wrap-report）
+- 读者 vs 专家冲突时：读者体验优先（"好不好看"胜于"技巧是否规范"）
+
+#### 读者 Team 不可跳过原则
+
+> 三 Team 循环增强核心：演绎 Team（Generator）、读者 Team（Evaluator-1）、专家 Team（Evaluator-2）三者形成 GAN 对抗。
+> 每次生成后**必须**经过读者 Team 打分。均分 <7.0 为硬阻断，不得绕过。
+> 专家 Team 按需触发（读者均分 <8.0 或每 3 集强制），不可完全跳过。
 
 #### Critic 不可跳过原则
 
 > GAN 架构核心：Generator（Director）和 Evaluator（Critic）必须分离。
 > 每次生成后必须输出 `critic-report.md`。
 > 🔴 Error 级别问题必须向用户标红提示。
+> drama-critic 是工程合规检查（Phase 4），读者 Team 是体验满意度检查（Phase 4.5），两者互补不替代。
 
 #### Canon 保护
 
