@@ -9,6 +9,7 @@
 - **SOUL v4.0 三层结构**：身份层 → 心理层（OCEAN + 创伤链）→ 表演层
 - **故事 = stories/<name>/**：每个子目录是一个独立故事，包含 world/ + agents/ + episodes/
 - **三角架构**：`.codebuddy/skills/` 下 3 个 Skill（drama-world / drama-director / drama-critic）
+- **Team 模式（v3）**：`.codebuddy/agents/` 下 6 个 drama 专用 subagent（drama-editor / drama-reader / drama-writer / drama-character / drama-world-keeper / drama-advisor）· 用于 Phase 3 心脏戏 / Phase 4 责编 / Phase 5 读者终审
 - **豪华 8 人创作班子**：导演 + 编剧 + 责编 + 表演指导 + 文学顾问 + 悬疑顾问 + 读者代表 + 世界管家
 - **6 阶段线性流水线**：选角定调 → 班子开盘 → 大 Team 演绎 → 责编内审 → AI 味门控+读者终审 → Wrap
 - **直写模式已废止**：任何场景必须使用 Team 模式（独幕演 = 最小合法 Team）
@@ -41,6 +42,20 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
 - **`stories/`**：故事子项目目录（每个子目录是一个独立故事）
 - **`examples/`**：样板归档
 - **`.codebuddy/skills/`**：Skill 能力层（三角架构：world / director / critic），工具脚本归属在各 Skill 的 `scripts/` 子目录
+
+### Subagent 架构（v3 Team 模式）
+
+```
+.codebuddy/agents/              # ✨ v3 新增：项目级 subagent
+├── drama-editor.md             # Phase 4 责编（TEAM 必须 · GAN 对抗核心）
+├── drama-reader.md             # Phase 5 读者代表（TEAM 必须 · 跨集 reader-memory）
+├── drama-writer.md             # Phase 2 编剧（persona 默认 · 特殊情况 team）
+├── drama-character.md          # Phase 3 心脏戏角色 agent 通用模板（TEAM 必须）
+├── drama-world-keeper.md       # Phase 3 心脏戏节奏/信息裁判（TEAM 必须）
+└── drama-advisor.md            # 顾问通用模板（mystery/prose/performance · persona 为主）
+```
+
+每个 subagent 声明 `tools`（权限）· 加载对应的 craft 文件 · 保证身份封闭与独立判断。
 
 ### Skill 架构（三角）
 
@@ -75,18 +90,24 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
     └── scripts/          # check-ai-taste.js（A 级硬约束 + C5.1-C5.10 句式黑名单）
 ```
 
-### 8 人创作班子编制
+### 8 人创作班子编制（v3 Team 模式）
 
-| 成员 | 类型 | 出场阶段 | 加载的 craft 文件 | 核心职责 |
-|---|---|---|---|---|
-| **导演**（主 Agent） | 主 | 全程 | workflow + roster | 选角、定基调、仲裁 |
-| **编剧** | Task Agent | Phase 2 | conflict + scene-design + mystery + **narrative-weight** | 写 beat-sheet v3.1（8 问自检 + scene_weight 三项）|
-| **悬疑顾问** | Task Agent | Phase 2, 4 | mystery | 三铁律 + 钩子经济 + 线索三明治 |
-| **表演指导** | Task Agent | Phase 3 | characterology + dialogue | 9 问激活 + 监控演绎质量 |
-| **世界管家** | Task Agent | Phase 3 | team-protocol | 事件注入 + 信息裁判 + 场景节奏 |
-| **责编** | Task Agent | Phase 4 | editing + prose + dialogue + **narrative-weight** | 8 步 SOP 内审（含诊断前置 · 反流水账四禁）|
-| **文学顾问** | Task Agent | Phase 4（按需） | prose + **narrative-weight** | 叙事时间/节奏/身体诗学（**不接陈设补白**）|
-| **读者代表** | Task Agent | Phase 5 | **不加载 craft** | 终审"会不会追下一集" |
+| 成员 | spawn_mode | subagent | 出场阶段 | 加载的 craft 文件 | 核心职责 |
+|---|---|---|---|---|---|
+| **导演**（主 Agent）| main-agent | — | 全程 | workflow + roster | 选角、定基调、仲裁 |
+| **编剧** | persona（默认）/ team（特殊）| `drama-writer` | Phase 2 | conflict + scene-design + mystery + narrative-weight | 写 beat-sheet v3.1 |
+| **悬疑顾问** | persona | `drama-advisor(mystery)` | Phase 2, 4 | mystery | 三铁律 + 钩子经济 |
+| **表演指导** | persona | `drama-advisor(performance)` | Phase 3 | characterology + dialogue | performance-briefing |
+| **世界管家** | **TEAM**（心脏戏）| `drama-world-keeper` | Phase 3 | team-protocol + scene-design | 节奏/信息裁判 |
+| **角色 Agent × N** | **TEAM**（心脏戏）| `drama-character` | Phase 3 | 自己 SOUL + MEMORY | SOUL 驱动的对话演绎 |
+| **责编** | **TEAM 必须** | `drama-editor` | Phase 4 | editing + prose + dialogue + narrative-weight | 8 步 SOP · 反流水账四禁 |
+| **文学顾问** | persona | `drama-advisor(prose)` | Phase 4（按需）| prose + narrative-weight | 只执行责编 order |
+| **读者代表** | **TEAM 必须** | `drama-reader` | Phase 5 | **不加载 craft** | 跨集盲评（reader-memory）|
+
+**v3 反 persona 三条标准**（命中 ≥2 必须 Team）：
+1. 身份独立性（与作者视角分离？）
+2. 信息封闭性（不该读内部文档？）
+3. 对抗性（使命是挑毛病？）
 
 详细班子卡片见 `drama-director/references/team-roster.md`。
 

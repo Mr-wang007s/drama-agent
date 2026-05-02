@@ -1,10 +1,35 @@
-# Team Roster · 8 人创作班子
+# Team Roster · 8 人创作班子（v3 Team 模式升级）
 
 > DramaAgent 的豪华创作班底。
 > 本文件定义 8 个班子成员的身份、职责、加载策略、spawn prompt 蓝本。
 > 配合 `workflow.md` 使用——workflow 定义"什么时候干什么"，本文件定义"谁来干怎么干"。
+>
+> **v3 关键变化**：每个 role 现在有 `spawn_mode` 字段 · 明确**真 Team**还是**persona**执行。
 
 ---
+
+## v3 · 执行模式总览
+
+| 角色 | spawn_mode | 对应 subagent | 反 persona 三标准命中 |
+|---|---|---|---|
+| 导演 | main-agent | — | N/A（必然主 agent）|
+| 编剧 | persona（默认）/ team（特殊）| `drama-writer` | 1/3 |
+| 悬疑顾问 | persona | `drama-advisor`(mystery) | 0.5/3 |
+| 表演指导 | persona | `drama-advisor`(performance) | 0/3 |
+| 世界管家 | **team**（心脏戏必须）| `drama-world-keeper` | — 功能性必须 |
+| 责编 | **team 必须** | `drama-editor` | 3/3 |
+| 文学顾问 | persona | `drama-advisor`(prose) | 0.5/3 |
+| 读者代表 | **team 必须** | `drama-reader` | 3/3 |
+| 角色 Agent | **team**（心脏戏必须）| `drama-character` | 2/3 |
+
+**反 persona 三条硬标准**（命中 ≥2 → 必须 team）：
+1. 身份独立性（TA 的判断需要与作者视角分离？）
+2. 信息封闭性（TA 应看不到某些内部文档？）
+3. 对抗性（TA 的作用是挑毛病？）
+
+---
+
+
 
 ## 班子总览
 
@@ -134,6 +159,12 @@ role:
   type: task-agent
   phases: [2]
   spawn_timing: "Phase 2 开盘时 spawn，Phase 2 结束后 delete"
+  spawn_mode: "persona-default-team-optional"  # ✨ v3
+  subagent_file: ".codebuddy/agents/drama-writer.md"  # ✨ v3
+  team_triggers:                           # ✨ v3
+    - "新故事的首集（需要独立视角定基调）"
+    - "已出现问题的修订集（reader_score < 7 · 回 Phase 2 重写 beat-sheet · 独立编剧避免旧惯性）"
+    - "编剧 8 问自检 2 轮未过（persona 可能陷入思维定式）"
   stand_by_in: [3]  # Phase 3 保持 stand-by 监控偏离
   
 responsibilities:
@@ -257,6 +288,8 @@ role:
   type: task-agent
   phases: [2, 4]  # Phase 2 主要工作，Phase 4 按需复审
   spawn_timing: "Phase 2 开盘时与编剧并行 spawn"
+  spawn_mode: "persona"                    # ✨ v3（建议清单不是判决 · persona 足够）
+  subagent_file_optional: ".codebuddy/agents/drama-advisor.md（identity: mystery）"  # ✨ v3 · 可选
   
 trigger_condition: |
   仅当 .story.json 的 genre 包含 mystery/thriller/crime 时必须 spawn。
@@ -339,6 +372,9 @@ role:
   type: task-agent
   phases: [3]
   spawn_timing: "Phase 3 开始时 spawn，Phase 3 结束后 delete"
+  spawn_mode: "persona"                    # ✨ v3（持续辅助 · 不做独立判决 · persona 足够）
+  subagent_file_optional: ".codebuddy/agents/drama-advisor.md（identity: performance）"  # ✨ v3 · 可选
+  v3_note: "心脏戏 team 模式下 · 表演指导的 9 问激活 checklist 以 performance-briefing.md 形式交给 drama-world-keeper · 不再实时介入"
   
 responsibilities:
   - 给每个角色 Agent 发送 9 问激活 prompt（Uta Hagen 体系）
@@ -419,6 +455,13 @@ role:
   type: task-agent
   phases: [3]
   spawn_timing: "Phase 3 开始时 spawn，Phase 3 结束后 delete"
+  spawn_mode: "team-required-for-heart-scenes"  # ✨ v3（仅心脏戏 F3/F7 · 其他场 persona 直写）
+  subagent_file: ".codebuddy/agents/drama-world-keeper.md"  # ✨ v3
+  v3_responsibilities:                     # ✨ v3
+    - "Phase 3 心脏戏的节奏裁判 + 信息裁判 + 事件注入"
+    - "协调 drama-character × N 的发言顺序"
+    - "拦截角色 agent 的'导演作弊倾向'（恰好问到点子上）"
+    - "写入 runtime/team-play-log.md 供 Phase 3.7 编译"
   
 responsibilities:
   - 场景事件注入（电话响、有人来、物品出现）
@@ -501,6 +544,12 @@ role:
   type: task-agent
   phases: [4]
   spawn_timing: "Phase 4 开始时 spawn，Phase 4 结束后 delete"
+  spawn_mode: "team-required"              # ✨ v3
+  subagent_file: ".codebuddy/agents/drama-editor.md"  # ✨ v3
+  anti_persona_reasons:                    # ✨ v3
+    independence: "responsive GAN 对抗核心·主 agent 无法公正自审"
+    closure: "不该读 reader-verdict（终审后）·不该读 beat-sheet 意图字段"
+    adversarial: "使命就是挑毛病·persona 下'对抗性'是伪对抗"
   
 responsibilities:
   - 执行 7 步内审 SOP（详见 craft/editing.md）
@@ -598,6 +647,9 @@ role:
   type: task-agent
   phases: [4]
   spawn_timing: "Phase 4 中责编召集时 spawn"
+  spawn_mode: "persona"                    # ✨ v3（只执行责编 order · 无独立判断）
+  subagent_file_optional: ".codebuddy/agents/drama-advisor.md（identity: prose）"  # ✨ v3 · 可选
+  v2_hard_constraint: "⛔ 拒单陈设补白 / 工牌/广告牌/LOGO 类 order · 仅接叙事时间/节奏/身体诗学单"
   is_optional: true  # 仅在责编需要时 spawn
   
 responsibilities:
@@ -684,6 +736,13 @@ role:
   type: task-agent
   phases: [5]
   spawn_timing: "Phase 5 AI 味门控通过后 spawn，终审完成后 delete"
+  spawn_mode: "team-required"              # ✨ v3（EP03 试跑已验证 · persona 9.0 vs team 7.5）
+  subagent_file: ".codebuddy/agents/drama-reader.md"  # ✨ v3
+  anti_persona_reasons:                    # ✨ v3
+    independence: "读者视角绝对独立·主 agent 刚写完 novel 无法回到读者位"
+    closure: "严格禁读 craft/beat-sheet/editor-review/brief/wrap-report"
+    adversarial: "读者的'不追下一集'就是最强对抗信号"
+  cross_episode_memory: "stories/<name>/runtime/reader-memory.md"  # ✨ v3 跨集连载感
   
 responsibilities:
   - 终审：我会追下一集吗？
@@ -989,6 +1048,98 @@ Screenwriter (stand-by) ──► Director  （Phase 3 报警）
 
 ---
 
-> 班子的核心原则：**每个人只做自己最擅长的事**。
-> 导演统筹、编剧骨架、悬疑顾问专项、表演指导激活、世界管家物理、责编质检、文学顾问润色、读者代表直觉。
-> 当 8 个人各司其职时，整体能力 > 任何一个人单打独斗 × 2。
+---
+
+## 9. 角色 Agent（v3 新增独立章节）
+
+```yaml
+role:
+  id: drama-character-instance
+  name: 角色 Agent（每个出场角色 1 个）
+  type: task-agent
+  phases: [3]
+  spawn_timing: "心脏戏开始前 spawn · 心脏戏结束后 delete（每场重 spawn）"
+  spawn_mode: "team-required-for-heart-scenes"  # ✨ v3
+  subagent_file: ".codebuddy/agents/drama-character.md"  # ✨ v3 · 通用模板
+  anti_persona_reasons:
+    independence: "每个角色按自己 SOUL 自主决定·主 agent 无法公正分饰多角"
+    closure: "严格不知其他角色的 active_secrets · 不知 beat-sheet 走向"
+    adversarial: "N/A（不是评审·是演员）· 但'对话的自主性'等价于真戏剧"
+```
+
+### 加载策略
+
+**只加载自己的东西**：
+- `stories/<name>/agents/<tier>_<your-id>/SOUL.yaml`
+- `stories/<name>/agents/<tier>_<your-id>/MEMORY.md`
+- `stories/<name>/agents/<tier>_<your-id>/RULES.md`（如存在）
+- 主 agent 在 spawn prompt 中明确给出的"眼前场景"条件
+
+**严格不加载**：
+- 其他角色的 SOUL/MEMORY（除非角色在世界内已知该事实）
+- `world/state.json`（他是凡人·不全知）
+- beat-sheet.md / brief（不知剧情）
+- bible.md（不知设定层）
+
+### 交互协议
+
+- 通过 `send_message` 与 **drama-world-keeper** 通信（不直接与其他角色 agent 通信）
+- 每次回应返回结构化内容（台词 / 身体动作 / 内部信号 / 持续时长 / self_note）
+- 沉默是合法回应
+
+### Spawn prompt 蓝本
+
+```
+你是 <角色 id>。
+你的 SOUL：<path>
+你的 MEMORY：<path>
+你所在的场景（世界管家给定）：<场景条件包>
+你刚刚听到/看到的：<world-keeper 发来的消息>
+你的回应：基于你的 SOUL · 用结构化格式返回
+```
+
+### Scale
+
+每集 1-2 场心脏戏 · 每场 2-3 个角色 agent · 每集总 spawn 数 = 2-6 个角色 agent + 2 个 world-keeper + 1 个 editor + 1 个 reader = **~8 个独立 agent / 集**
+
+---
+
+## 10. 加载映射表（v3）
+
+```
+               │ workflow │ roster │ protocol │ character │ conflict │ scene │ dialogue │ mystery │ prose │ editing │ narrative-weight │ SOUL/MEMORY
+───────────────┼──────────┼────────┼──────────┼───────────┼──────────┼───────┼──────────┼─────────┼───────┼─────────┼──────────────────┼────────────
+导演            │    ✓     │   ✓    │          │           │          │       │          │         │       │         │                  │
+编剧 (persona)   │          │        │          │           │    ✓     │   ✓   │          │    ✓    │       │         │    ✓             │ 只读
+编剧 (team)      │          │        │          │           │    ✓     │   ✓   │          │    ✓    │       │         │    ✓             │ 只读
+悬疑顾问         │          │        │          │           │          │       │          │    ✓    │       │         │                  │
+表演指导         │          │        │          │     ✓     │          │       │    ✓     │         │       │         │                  │
+世界管家 (team)  │          │        │    ✓     │           │          │   ✓   │          │         │       │         │                  │ 受限
+责编 (team)      │          │        │          │           │          │       │    ✓     │         │   ✓   │   ✓     │    ✓             │ 不读
+文学顾问         │          │        │          │           │          │       │          │         │   ✓   │         │    ✓             │ 不读
+读者代表 (team)  │          │        │          │           │          │       │          │         │       │         │                  │ 不读
+角色 Agent(team) │          │        │          │  自 SOUL   │          │       │          │         │       │         │                  │ 只读自己
+```
+
+**v3 关键变化**：
+- 角色 Agent 从 persona（主 agent 分饰）升级为 **独立 drama-character spawn**
+- 责编 / 读者代表 / 世界管家 / 角色 Agent 通过 team 模式 spawn · 其他 persona
+
+---
+
+## v3 一页总览
+
+**必须 Team**：
+- 读者代表（drama-reader）· Phase 5 · 已验证
+- 责编（drama-editor）· Phase 4 · GAN 对抗核心
+- 角色 Agent × N（drama-character）· Phase 3 心脏戏 · 对话自主性
+- 世界管家（drama-world-keeper）· Phase 3 心脏戏 · 协调角色 agent
+
+**Persona 默认**：
+- 编剧（drama-writer）· 特殊情况 team（新故事首集 / 修订集 / 2 轮自检未过）
+- 悬疑顾问 / 表演指导 / 文学顾问（drama-advisor · 可选）
+
+**绝不 Team**：
+- 导演（必须是主 agent）
+
+

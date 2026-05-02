@@ -1,23 +1,52 @@
-# Workflow · 6 阶段创作流水线
+# Workflow · 6 阶段创作流水线（v3 · Team 模式升级）
 
 > 基于"豪华八人班子"的剧集生成流水线。
-> 核心变化：从旧版 10 阶段（含三 Team 循环）压缩为 6 阶段线性流水线，责编吸收原读者+专家+Critic 评审职责。
-> 设计哲学：**Token 预算回归创作**——创作环节占比从 24% 提升到 67%，评审环节从 40% 降到 15%。
+> **v3 关键变化**（EP04+ 生效）：把 Phase 3 心脏戏 / Phase 4 责编 / Phase 5 读者终审升级为**真 Team 模式**（task(name, team_name) + send_message）· 替代 persona 切换。其他阶段保持 persona。
+> 设计哲学：**Token 预算回归创作**——创作环节占比从 24% 提升到 67%，评审环节从 40% 降到 15%。v3 在此基础上把关键评审/演绎位替换为真独立 agent。
+
+---
+
+## v3 Team 模式使用矩阵
+
+| Phase | 子步骤 | 执行者 | 模式 |
+|---|---|---|---|
+| Phase 1 | 选角定调 | 导演 | 主 agent persona |
+| Phase 2 | 编剧写 beat-sheet | drama-writer | **Team**（新故事首集或读者 < 7 的修订集）/ persona（默认）|
+| Phase 2 | 悬疑顾问写建议 | drama-advisor(mystery) | persona（或 Team · 极少数）|
+| Phase 3 | 过渡场 / 沉淀场 | 主 agent | persona |
+| Phase 3 | **心脏戏（F3 冲突 / F7 爆发）** | drama-character × N + drama-world-keeper | **Team 必须** |
+| Phase 3.7 | 编译 novel.md | 主 agent | persona |
+| Phase 4 | 责编 8 步 SOP | drama-editor | **Team 必须** |
+| Phase 4 | 文学顾问按 order 修订 | drama-advisor(prose) | persona |
+| Phase 5 | AI 味硬门控 | check-ai-taste.js | 确定性脚本 |
+| Phase 5 | 读者盲评 | drama-reader | **Team 必须**（已验证·EP03 试跑）|
+| Phase 6 | Wrap | drama-world scripts | 确定性脚本 |
+
+### 反 persona 三条标准（何时必须 Team）
+
+**命中 ≥2 条必须 Team 化**：
+
+1. **身份独立性**：TA 的判断需要与作者视角分离吗？
+2. **信息封闭性**：TA 应该看不到某些内部文档吗？
+3. **对抗性**：TA 的作用是挑毛病吗？
 
 ---
 
 ## 流水线总览
 
 ```
-Phase 1: 导演独立选角定调
-Phase 2: 创作班子开盘（编剧 + 悬疑顾问）
-Phase 3: 大 Team 演绎（表演指导 + 世界管家 + 角色 Agents）
-Phase 4: 责编内审 + 文学顾问润色（迭代 ≤2 轮）
-Phase 5: AI 味机械门控 + 读者代表终审
-Phase 6: Wrap 收尾（调用 drama-world 能力）
+Phase 1: 导演独立选角定调                         [persona]
+Phase 2: 创作班子开盘（编剧 + 悬疑顾问）            [persona · 特殊情况 team]
+Phase 3: 演绎
+  ├── 过渡场 / 沉淀场                           [persona]
+  └── 心脏戏                                   [TEAM]
+Phase 4: 责编内审                              [TEAM]
+         文学顾问润色                          [persona]
+Phase 5: AI 味机械门控 + 读者代表终审             [TEAM]
+Phase 6: Wrap 收尾                             [脚本]
 ```
 
-### 与旧版对比
+### 与 v2 / 旧版对比
 
 | 项 | 旧版 | 新版 | 变化 |
 |---|---|---|---|
@@ -311,87 +340,159 @@ word_budget: 5000   # 依 position 区间
 | **FSM 状态** | planning → simulating |
 | **Token 预算** | ~20K（占全集最大） |
 
-### 目的
+### ✨ v3 执行规则（EP04+ 生效）
 
-**所有创作班子+角色 Agent 同台协作**。这是八人班子最核心的阶段。
+Phase 3 按**场景功能分级**选择执行模式：
 
-### 班子成员
+| 场景功能 | 执行模式 | 班子成员 |
+|---|---|---|
+| F3 冲突（高点）| **Team** | drama-character × 2-3 + drama-world-keeper |
+| F7 爆发 | **Team** | drama-character × 2-3 + drama-world-keeper |
+| F4 披露（高潜台词）| **Team**（可选）| 同上 |
+| F1 建立 / F2 设定 | persona | 主 agent |
+| F5 沉淀 / F6 过渡 | persona | 主 agent |
+| F8 收束 | persona | 主 agent |
 
-- **表演指导**（Task Agent，load: characterology.md + dialogue.md）
-- **世界管家**（Task Agent，load: team-protocol.md）
-- **所有出场角色**（各自 spawn 一个 Agent，load: 自己的 SOUL + MEMORY）
-- 编剧（Task Agent，stand-by：监控是否偏离 beat-sheet）
-- 导演（主 Agent 自己，战略监督）
+**每集默认 1-2 场心脏戏走 Team**。过多会失控 · 过少失去 Team 价值。
 
-### 步骤
+**选场原则**：看 beat-sheet 的 scene_weight · `irreversible_action` 最重、new_info_for_reader 最硬的场 = 心脏戏。
 
-**Step 3.1：调用 drama-world 的场景构建能力**
+---
 
-```bash
-node .codebuddy/skills/drama-world/scripts/build-scene.js \
-     --story <name> --episode <ep-id> --scene <scene-id>
+### v3 Team 模式的核心优势
+
+- **对话真实性**：角色 agent 根据 SOUL 自主决定 · 主 agent 无法"全知分饰多角"作弊
+- **SOUL 扎根**：角色的每个选择必须可追溯到 want/need/fear
+- **世界管家裁判**：合法性检查拦截"恰好问到点子上"的导演作弊
+- **记录可复盘**：team-play-log.md 保留每一轮交互 · Phase 3.7 编译有原始素材
+
+---
+
+### 班子成员（v3）
+
+- **drama-world-keeper**（Team · spawn · 加载 team-protocol.md）· 节奏/信息/事件裁判
+- **drama-character × N**（Team · 每个出场角色独立 spawn · 只加载自己 SOUL + MEMORY）
+- **drama-advisor(performance)**（Phase 3 前 · persona · 可选 · 写 performance-briefing.md 给世界管家）
+- **导演（主 Agent）**· 战略监督 + 仲裁 + 最终编译
+
+---
+
+### 步骤（v3 心脏戏）
+
+**Step 3.1：选心脏戏 · 准备场景条件**
+
+```
+根据 beat-sheet 的 scene_weight 选出 1-2 场心脏戏。
+对每场心脏戏：
+  - 读 beat-sheet 的 scene 元数据（迟入条件、三层动机、scene_weight）
+  - 读出场角色的 SOUL.yaml + MEMORY.md
+  - 起草"世界管家场景条件包"（时间/地点/光线/角色物理距离）
 ```
 
-为每个 beat-sheet 中的场景构建初始条件。
+**Step 3.2：Team 建团**
 
-**Step 3.2：创建 Team**
-
-```
-team_create(name: "ep{XX}-scene{N}")
-├── spawn 表演指导（mode: bypassPermissions）
-├── spawn 世界管家（mode: bypassPermissions）
-├── spawn 编剧（mode: acceptEdits, stand-by）
-└── 对每个出场角色：
-    spawn agent-{id}（mode: acceptEdits）
-    load: SOUL.yaml + MEMORY.md + known_facts + 场景初始状态
+```javascript
+team_create({
+  team_name: "ep<XX>-scene<N>",
+  description: "EP<XX> 心脏戏 Team 演绎 · Scene <N>"
+})
 ```
 
-**Step 3.3：场景演绎**
+**Step 3.3：Spawn Team 成员**
+
+按顺序 spawn（**世界管家先起** · 才能接收角色回复）：
+
+```javascript
+// 3.3.1 spawn 世界管家
+task({
+  subagent_name: "drama-world-keeper",
+  name: "world-keeper",
+  team_name: "ep<XX>-scene<N>",
+  prompt: "你负责 Scene <N> 的节奏和信息裁判 · beat-sheet 路径 X · 场景条件包 Y · 开始注入场景"
+})
+
+// 3.3.2 对每个出场角色 spawn drama-character
+task({
+  subagent_name: "drama-character",
+  name: "lin-mo",  // 角色 id
+  team_name: "ep<XX>-scene<N>",
+  prompt: "你的 SOUL：stories/<name>/agents/s_lin-mo/SOUL.yaml · MEMORY · 场景开场条件 · 等世界管家的消息"
+})
+
+task({
+  subagent_name: "drama-character",
+  name: "shen-yanzhi",
+  team_name: "ep<XX>-scene<N>",
+  prompt: "..."
+})
+```
+
+**Step 3.4：触发演绎**
+
+主 agent 给世界管家发消息 · 让它启动排队：
+
+```javascript
+send_message({
+  type: "message",
+  recipient: "world-keeper",
+  content: "Scene <N> 可以开始 · 第一个发言角色由你决定 · 请按 beat-sheet 推进"
+})
+```
+
+然后主 agent**进入等待状态** · 监听 team-lead inbox。
+
+**Step 3.5：演绎循环（由世界管家主导）**
 
 ```
-世界管家 → broadcast: 场景开场描述
-表演指导 → 对每个角色 Agent 发送 9 问激活 prompt（详见 characterology.md）
-角色 Agent → 交互（基于 SOUL + 表演指导的引导）
-世界管家 → 按 beat-sheet 节奏注入事件
-表演指导 → 在关键时刻发送 [inner_prompt] 触发内心独白
-编剧 → 如发现场景严重偏离 beat-sheet，通知导演
+世界管家 → send_message 给角色 A：场景条件 + 听到看到的
+角色 A → send_message 给世界管家：台词/动作/沉默
+世界管家 → 裁判 + 记录 team-play-log.md + 选下一发言
+世界管家 → send_message 给角色 B：...
 ...
-世界管家 → 判断结束条件 → broadcast: 场景结束
 ```
 
-**Step 3.4：防死循环**
+主 agent 只在两种情况介入：
+1. 世界管家请求仲裁（`send_message from world-keeper with type=request`）
+2. 循环超过 ~20 轮无推进（主 agent 主动 shutdown 并回主线）
 
-- 单场景 max_turns: 30
-- 连续 3 轮无新信息（重复客套） → 世界管家注入打破性事件
-- 超过 max_turns → 表演指导强制推进到下一 beat
+**Step 3.6：本场结束**
 
-**Step 3.5：场景切换**
+世界管家判定 beat 完成 → send_message 主 agent："Scene <N> 完成 · team-play-log.md 已写入"
 
-一个场景结束后，世界管家 broadcast 场景结束信号。班子进入下一场景：
+**Step 3.7：Team 收尾**
 
-- 保留角色 Agent（不 delete）
-- 重新 build-scene（更新场景初始条件）
-- 表演指导重新发送 9 问激活 prompt
-- 继续演绎
-
-**Step 3.6：Team 清理**
-
-所有场景演绎完毕：
-
-```
-world-manager → broadcast: 本集演绎结束
-team_delete → 所有 Agent 销毁
-interactions 保存到 episodes/<ep-id>/runtime/interactions.jsonl
+```javascript
+// 每个成员
+send_message({ type: "shutdown_request", recipient: <member> })
+// 等 shutdown_response
+team_delete()
 ```
 
-**Step 3.7：编译 novel.md 草稿**
+**Step 3.8：下一场 / 编译**
+
+- 如果还有心脏戏 → 回 Step 3.2 建下一 team（每场 team 独立）
+- 如果心脏戏全跑完 → 主 agent 进入编译
+
+**Step 3.9：编译 novel.md 草稿（v3）**
 
 ```bash
 node .codebuddy/skills/drama-director/scripts/compile-novel.js \
      --story <name> --episode <ep-id>
 ```
 
-从 interactions.jsonl 生成 `episodes/<ep-id>/output/novel.md`（草稿）。
+编译输入：
+- 心脏戏：`runtime/team-play-log.md`（每场一份）
+- 非心脏戏：主 agent persona 写的草稿段落
+
+编译规则：
+- 心脏戏部分**严格按 team-play-log.md 的台词/动作落地** · 不得改动
+- 非心脏戏部分**主 agent 自由发挥** · 但要与 team 段落的文风一致
+
+---
+
+### 步骤（v2 · 非心脏戏 persona）
+
+非心脏戏场（F1/F2/F5/F6/F8）继续 persona 执行 · 不走 team · 主 agent 直接按 beat-sheet 写入 novel.md。
 
 ### Checkpoint
 
@@ -412,23 +513,53 @@ node .codebuddy/skills/drama-director/scripts/compile-novel.js \
 
 | 属性 | 值 |
 |---|---|
-| **类型** | 确定性（每集必跑）+ 按需迭代（修订 ≤ 2 轮） |
+| **类型** | ✨ **v3 Team 必须**（责编）+ 按需迭代（修订 ≤ 2 轮） |
 | **FSM 状态** | simulating → reviewing |
-| **Token 预算** | ~5K（责编 5K + 可选文学顾问 3K） |
+| **Token 预算** | ~5K（责编 Team 5K + 可选文学顾问 3K） |
 
 ### 目的
 
 **责编一人吸收原 9 人评审的职责**：打分 + 诊断 + 修订指令 + 多元视角。
 
-### 班子成员
+### ✨ v3 执行规则
 
-- **责编**（Task Agent，load: editing.md + prose.md + dialogue.md）
-- **文学顾问**（按需 spawn，load: prose.md）
-- 导演（主 Agent，战略监督）
+Phase 4 的**责编必须 Team 化**（反 persona 三条标准全部命中 3/3）。
 
-### 步骤
+- **责编** → spawn `drama-editor` subagent（独立上下文 · 不加载 beat-sheet 的作者意图字段 · 不读 reader-verdict）
+- **文学顾问** → 主 agent persona 扮演（`drama-advisor(prose)` 仅特殊情况 spawn）
+- **导演（主 Agent）** → 战略监督 + 仲裁
 
-**Step 4.1：责编执行 8 步 SOP**（v2 升级 · 详见 `craft/editing.md` 第二节）
+### 步骤（v3）
+
+**Step 4.1：Spawn 独立责编**
+
+```javascript
+team_create({ team_name: "ep<XX>-review" })
+
+task({
+  subagent_name: "drama-editor",
+  name: "editor",
+  team_name: "ep<XX>-review",
+  prompt: "审 stories/<name>/episodes/<ep-id>/output/novel.md · 执行 8 步 SOP · 写入 editor-review.md · 完成后 send_message 给 main 报告分数和修订清单摘要"
+})
+```
+
+**Step 4.2：等责编完成**
+
+主 agent 监听 team-lead inbox 等责编 send_message：
+
+```yaml
+# editor → main 消息格式
+final_score: 8.2
+verdict: PASS | NEED_REVISION | NEED_REVISION_HEAVY | REGRESS_TO_PHASE_2
+revision_orders:
+  - { target: ..., priority: high, executor: 文学顾问/编剧/责编自执行 }
+  - ...
+step_5_5_diagnosis_summary: "..."
+four_taboos_check: "all clear | 触发了禁令 X"
+```
+
+**Step 4.3：责编执行 8 步 SOP 的内部流程**（由 drama-editor 自主执行 · 主 agent 不介入）
 
 ```
 Step 4.1.1: 通读 novel.md
@@ -436,58 +567,77 @@ Step 4.1.2: 给直觉分数
 Step 4.1.3: 5 视角复查
 Step 4.1.4: 找共识问题
 Step 4.1.5: 根因诊断
-Step 4.1.5.5: ✨ 诊断前置（对每个共识问题运行诊断树·参见 narrative-weight.md）
+Step 4.1.5.5: ✨ 诊断前置（诊断树走查 · 参见 narrative-weight.md）
 Step 4.1.6: 写修订指令清单（严格遵守"反流水账四禁"）
-Step 4.1.7: 裁决
+Step 4.1.8: 裁决
 ```
 
-**责编加载**：`editing.md` + `prose.md` + `dialogue.md` + **`narrative-weight.md`**（v2 新增必读）
+**责编加载**：`editing.md` + `prose.md` + `dialogue.md` + **`narrative-weight.md`**
 
-**v2 关键约束**：
+**v2 关键约束（由 drama-editor 内部强制）**：
 - ⛔ 禁止"补到 XXXX 字"类 order
 - ⛔ 文学顾问不得接陈设补白单
 - ⛔ 字数不足优先删场/改 position · 不优先补场
-- ⛔ position 声明必须先于字数判断（不允许事后反推）
+- ⛔ position 声明必须先于字数判断
 
-**Step 4.2：责编产出 editor-review.md**
-
-写入 `stories/<name>/episodes/<ep-id>/output/editor-review.md`。
-
-**Step 4.3：裁决分支**
+**Step 4.4：裁决分支（由主 agent 基于责编报告判断）**
 
 ```yaml
 if editor_score >= 8.0:
   verdict: PASS
-  next: Phase 5
+  next: shutdown editor → team_delete → Phase 5
 
 elif editor_score >= 7.0:
   verdict: NEED_REVISION
-  next: Step 4.4 → 可能需要 1 轮修订
+  next: Step 4.5 → 可能需要 1 轮修订
 
 else (editor_score < 7.0):
   verdict: NEED_REVISION_HEAVY
-  next: Step 4.4 → 必须至少 1 轮修订
+  next: Step 4.5 → 必须至少 1 轮修订
 
-if need_beatsheet_redo (responsive to reverse-engineering):
+if need_beatsheet_redo:
   verdict: REGRESS_TO_PHASE_2
-  next: 回 Phase 2 让编剧重写 beat-sheet
+  next: shutdown editor → 回 Phase 2 · 考虑 spawn drama-writer 重写 beat-sheet
 ```
 
-**Step 4.4：spawn 文学顾问执行修订（按需）**
+**Step 4.5：执行修订（persona 执行 · 非 Team）**
 
-责编判断需要文学顾问介入时：
+按责编的 revision_orders 分类执行：
 
+```yaml
+executor: 责编自执行
+  → drama-editor 自己小改（≤3 行 · 已有 Write 权限）
+
+executor: 文学顾问
+  → 主 agent persona 扮演文学顾问 · 按 narrative-weight.md 第八节禁令自检
+  → 或特殊情况 spawn drama-advisor(prose)
+
+executor: 编剧
+  → 回 Phase 2 · 考虑 spawn drama-writer 重写本场 beat
 ```
-责编 → spawn 文学顾问:
-  输入：novel.md + editor-review.md + 修订指令清单
-  任务：对 high/medium 指令做定向改写
-  产出：更新后的 novel.md + diff 报告
-  约束：不改情节/不改核心对话/不改场景功能
+
+**Step 4.6：责编复审（第二轮 · 可选）**
+
+修订完成后 · 如果 verdict 是 NEED_REVISION_HEAVY：
+
+```javascript
+// 复用同一 team（责编已有上下文）
+send_message({
+  type: "message",
+  recipient: "editor",
+  content: "修订已完成 · 请复审 novel.md · 给出新的裁决分数"
+})
 ```
 
-文学顾问只执行责编的指令，不越权。
+最多 2 轮。2 轮后仍不通过 → 主 agent 强裁（写入 wrap-report）。
 
-**Step 4.5：责编复审**
+**Step 4.7：Team 收尾**
+
+```javascript
+send_message({ type: "shutdown_request", recipient: "editor" })
+// 等 shutdown_response
+team_delete()
+```
 
 文学顾问完成改写后，责编复查：
 
@@ -565,42 +715,76 @@ node .codebuddy/skills/drama-critic/scripts/check-ai-taste.js \
 - EXIT=1 → 阻断。详细问题清单给责编，进入 Phase 4 的第 2 轮修订（如果还没用满）
 - 若已达 2 轮上限，Warn 继续（wrap-report 标注遗留问题）
 
-**Step 5.3：spawn 读者代表（Task Agent）**
+**Step 5.3：Spawn 独立读者（v3 Team 必须）**
 
+```javascript
+team_create({ team_name: "ep<XX>-reader" })
+
+task({
+  subagent_name: "drama-reader",
+  name: "reader",
+  team_name: "ep<XX>-reader",
+  prompt: "你是连载读者 · 只读 stories/<name>/episodes/<ep-id>/output/novel.md · 若 stories/<name>/runtime/reader-memory.md 存在请先读 · 给出 7 项读者反馈 · send_message 给 main · 可选：更新 reader-memory.md"
+})
 ```
-导演 → spawn 读者代表:
-  load: 无（纯读者直觉，不加载知识文件）
-  prompt: |
-    你是一个普通读者。你在手机/Kindle 上读这篇连载小说。
-    你不是作者、不是评论家、不是 AI。
-    
-    读完 novel.md 后，回答一个核心问题：
-    "我会追下一集吗？"
-    
-    并给出 3 个理由（追 / 不追 都要有具体理由）。
-    
-    打分 1-10：
-    - ≥8：会立刻追
-    - 6-7：可能会追
-    - ≤5：不会追
-    
-    产出：reader-verdict.md
-```
+
+**关键约束**（drama-reader 内部强制）：
+- ❌ 禁读 craft / beat-sheet / editor-review / brief / wrap-report / mystery-advisor-notes
+- ✅ 只读 novel.md + 可选前 1-2 集 novel.md + 可选 reader-memory.md
+
+**v3 对比 v2 的关键变化**：
+- v2：主 agent persona 扮演读者（已验证**分数偏高 20%**）
+- v3：drama-reader subagent 独立 spawn · 严格身份封闭
+- v3 试跑结果（EP03）：persona 9.0 → team 7.5 · 差距显著
+
+**Step 5.3.5：读者回传**
+
+主 agent 监听 inbox · 接收读者的 7 项回答：
+1. 一句话感受
+2. 会不会追下一集
+3. 评分（1-10）
+4. 最好一段（引用原文）
+5. 最不爽一段（引用原文）
+6. 困惑清单（3-7 条）
+7. 对作者的话
+
+主 agent 负责把 7 项答案落盘到 `stories/<name>/episodes/<ep-id>/output/reader-verdict.md`。
+
+**Step 5.3.6：更新 reader-memory.md（v3 跨集记忆）**
+
+读者回传后 · 主 agent 视情况请 drama-reader 更新 `stories/<name>/runtime/reader-memory.md`：
+- 本集分数加入评分曲线
+- 本集困惑加入"积累的困惑"
+- 本集对作者的话加入"累积意见"
+
+这份 memory 会在下一集 Phase 5 被新 spawn 的 drama-reader 读到 · 保证"连载感"。
 
 **Step 5.4：读者终审裁决**
 
 ```yaml
 if reader_score >= 7.0:
   verdict: PASS
-  next: Phase 6
+  next: shutdown reader → team_delete → Phase 6
 
 if reader_score < 7.0:
-  if 读者给出的理由是"情节问题" → 回 Phase 2（编剧重做 beat-sheet）
-  if 读者给出的理由是"语言/节奏问题" → 回 Phase 4（责编再审）
+  if 读者给出的理由是"情节问题" → 回 Phase 2（考虑 spawn drama-writer 重做 beat-sheet）
+  if 读者给出的理由是"语言/节奏问题" → 回 Phase 4（重 spawn drama-editor 再审）
   
   迭代上限：
     - Phase 4-5 循环最多 2 轮
     - 第 3 轮强行通过，wrap-report 标注
+
+# 特殊情况：reader_score 显著低于 editor_score（差距 ≥ 1.5 分）
+if editor_score - reader_score >= 1.5:
+  warning: "责编可能也被作者视角污染 · 下一集责编复用前 · 考虑改派新 drama-editor 实例"
+```
+
+**Step 5.5：Team 收尾**
+
+```javascript
+send_message({ type: "shutdown_request", recipient: "reader" })
+// 等 shutdown_response
+team_delete()
 ```
 
 ### Checkpoint
