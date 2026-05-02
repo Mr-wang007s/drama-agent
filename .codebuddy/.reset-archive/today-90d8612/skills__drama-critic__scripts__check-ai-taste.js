@@ -207,6 +207,84 @@ const RULES = [
     level: 'error',
     hint: '"嘴角上扬" 超 1 处。笑有一万种写法：眼尾的纹路 / 声音变轻 / 手指松开来。',
   },
+  // ═══════════════════════════════════════════════════════════════
+  //  C6 第三人称叙述视角检测（叙述段落泄漏第一人称 = 独白拼图退化）
+  //  2026-05-02 新增：解决 EP01 v2 重写时 6 个 Agent 各写第一人称独白拼接的失败
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'c6_1_first_person_narrative',
+    name: 'C6.1 叙述段落以"我"/"我们"开头',
+    limit: 1,
+    level: 'error',
+    hint: 'novel.md 必须第三人称叙事。叙述段落（对白引号外）以"我"/"我们"/"咱"开头是把第一人称独白当叙事。改为"他/她"+动作。对白引号内的"我"是合法的。上限 1 处（留给极个别自由间接引语的特殊用法）。',
+    // 自定义检测：段落首句不在引号内 + 以"我"/"我们"/"咱"开头
+    customCheck: (text) => {
+      // 先去掉全部中/英双引号及其内容（排除对白）
+      const stripped = text
+        .replace(/"[^"]*"/g, '')
+        .replace(/"[^"]*"/g, '')
+        .replace(/'[^']*'/g, '');
+      const paragraphs = stripped.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+      const matches = [];
+      for (const p of paragraphs) {
+        // 去掉段首的标点和空白
+        const clean = p.replace(/^[\s「『（(【]+/, '');
+        if (/^(我|我们|咱|咱们)[^\w]/.test(clean) || /^(我|我们|咱|咱们)[，。！？、\s]/.test(clean)) {
+          matches.push(p.slice(0, 40));
+        }
+      }
+      return matches;
+    },
+  },
+  {
+    id: 'c6_2_first_person_density',
+    name: 'C6.2 叙述段落"我"字密度（千字比）',
+    limit: 5,
+    level: 'warning',
+    hint: '叙述段落（去除对白引号后）"我"字密度超过 5‰ 通常意味着正文是第一人称独白而非第三人称叙事。剧场应用"他/她"做叙述主语。',
+    customCheck: (text) => {
+      const stripped = text
+        .replace(/"[^"]*"/g, '')
+        .replace(/"[^"]*"/g, '')
+        .replace(/'[^']*'/g, '');
+      const cjk = (stripped.match(/[\u4e00-\u9fa5]/g) || []).length;
+      const wo = (stripped.match(/我/g) || []).length;
+      if (cjk === 0) return [];
+      const permille = Math.round((wo * 1000) / cjk);
+      // 把"值"放到一个虚拟"匹配样例"中用于 contexts 显示
+      if (permille > 5) {
+        return Array(permille).fill(`叙述段落"我"字密度 ${permille}‰（上限 5‰ · 对白已排除）`);
+      }
+      return [];
+    },
+  },
+  {
+    id: 'c6_3_character_name_headings',
+    name: 'C6.3 角色名独白小标题（第一人称分段头）',
+    limit: 0,
+    level: 'error',
+    hint: '禁止用"林墨\\n\\n"、"李医生\\n\\n" 等角色名作为第一人称独白的分段标题。novel.md 是统一第三人称叙事，不是 N 个角色各占一段独白。',
+    // 检测：独立成段的纯中文人名（2-4 字）后跟空行 + 下一段前 30 字内含"我"
+    customCheck: (text) => {
+      const matches = [];
+      const lines = text.split(/\n/);
+      for (let i = 0; i < lines.length - 2; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        if (!/^[\u4e00-\u9fa5]{2,4}$/.test(line)) continue;
+        if (lines[i + 1].trim() !== '') continue;
+        let j = i + 2;
+        while (j < lines.length && lines[j].trim() === '') j++;
+        if (j >= lines.length) continue;
+        const nextPara = lines[j].trim().slice(0, 30);
+        // 下一段前 30 字内出现"我"字（任意位置）
+        if (/我/.test(nextPara)) {
+          matches.push(`"${line}"（后接含"我"的段）`);
+        }
+      }
+      return matches;
+    },
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -278,12 +356,22 @@ function main() {
   const text = fs.readFileSync(file, 'utf8');
   const metrics = textMetrics(text);
 
-  // 运行所有规则
+  // 运行所有规则（支持两种模式：pattern 正则 / customCheck 函数）
   const results = RULES.map((rule) => {
-    const matches = text.match(rule.pattern) || [];
+    let matches;
+    let contexts;
+    if (typeof rule.customCheck === 'function') {
+      // 自定义检测：返回匹配样例数组
+      const samples = rule.customCheck(text);
+      const count = samples.length;
+      const passed = count <= rule.limit;
+      contexts = passed ? [] : samples.slice(0, 3);
+      return { ...rule, count, passed, contexts };
+    }
+    matches = text.match(rule.pattern) || [];
     const count = matches.length;
     const passed = count <= rule.limit;
-    const contexts = passed ? [] : findContexts(text, rule.pattern, 3);
+    contexts = passed ? [] : findContexts(text, rule.pattern, 3);
     return { ...rule, count, passed, contexts };
   });
 

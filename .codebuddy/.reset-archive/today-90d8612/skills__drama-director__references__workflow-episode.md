@@ -98,20 +98,24 @@ Director 加载时先检测断点：
 | **可用能力** | World.场景构建 / Team 工具（team_create/spawn/send_message/team_delete） |
 | **FSM 状态** | context-ready → simulating |
 
-### Team 模式（唯一合法模式）
+### Team 模式（唯一合法模式 · 回合制）
 
 ```
 1. team_create（创建团队）
-2. spawn world-manager（世界管理者——导演的代理人）
-3. spawn agents（每个参演角色一个 Agent）
-4. Agent 自由交互（world-manager 负责施压/事件注入/内心独白引导）
-5. 场景结束条件满足 → team_delete
+2. spawn world-manager（世界管理者——导演的代理人，唯一调度者）
+3. spawn agents（每个参演角色一个 Agent，按 references/team-protocol.md 的 Agent Prompt 模板）
+4. 回合制交互：world-manager 按"A → B → A → B"交替 @ 角色；每个 Agent 每回合只输出 1 个 beat（≤ 150 字）
+5. 每 3 回合 world-manager 注入 1 个外部事件
+6. 场景结束条件满足 → team_delete
+7. interactions 保存到 episodes/<ep-id>/runtime/interactions.jsonl
 ```
+
+> ⚠️ **回合制是 Team 模式的硬约束**。如果 Agent 在一次 reply 里输出完整场景，就退化为"独白拼图"不是"剧场"。详见 `references/team-protocol.md` 的"回合制交互协议"。
 
 ### 独幕演（最小合法 Team，角色 ≤ 2 人时）
 
 角色 ≤ 2 人时仍使用 Team 模式，仅 spawn 1 Agent + world-manager。
-world-manager 承担更重的施压职责（因为缺少角色间碰撞）。
+world-manager 承担更重的施压职责（因为缺少角色间碰撞），但仍走**回合制**：Agent 每回合输出 1 个 beat，world-manager 每回合注入环境变化。
 
 ⚠️ **直写模式已废止**。Director 不再以全知视角直写——即使独角戏也必须通过 Agent + world-manager 的 Team 交互生成。
 
@@ -149,9 +153,10 @@ world-manager 承担更重的施压职责（因为缺少角色间碰撞）。
    - 默认：调用 compile-novel.js 或按 references/compile-novel.md 规范手工编译
    - 可选：compile-screenplay.js 编译剧本格式
    - 编译时遵循去 AI 味规范
+   - 🔴 **第三人称硬约束**：novel.md 必须是第三人称戏剧白描，Agent 的第一人称交互记录只能作为素材熔合，不能直接拼接（详见 compile-novel.md 的"硬约束 · 第三人称叙事视角"）
 
-2. **AI 味检测**（确定性门控）
-   - 调用 Critic 的 `check-ai-taste.js` 检测产出文本
+2. **AI 味检测 + 叙事视角检测**（确定性门控）
+   - 调用 Critic 的 `check-ai-taste.js` 检测产出文本（破折号/独占段/C5 句式黑名单 + C6 第一人称叙述泄漏）
    - 退出码 0 → 通过，进入 Phase 4
    - 退出码 1 → 按量化问题清单自动修订
    - **失败策略**：最多修订 3 轮。3 轮后仍不过 → 标注问题继续推进（不永远阻断）
