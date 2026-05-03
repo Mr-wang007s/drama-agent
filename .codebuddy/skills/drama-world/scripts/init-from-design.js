@@ -177,7 +177,7 @@ function main() {
   console.log('✅ 初始化完成');
   console.log(`\n目录: ${storyRoot}`);
   console.log('\n下一步:');
-  console.log(`  1. 编辑角色 pack（参考 templates/character-pack.yaml）`);
+  console.log(`  1. 编辑角色 pack（参考 .codebuddy/skills/drama-world/templates/character-pack.yaml）`);
   console.log(`  2. 运行: node scripts/import-characters.js --story ${args.name} --from <pack.yaml>`);
 }
 

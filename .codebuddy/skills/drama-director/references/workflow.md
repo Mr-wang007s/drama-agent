@@ -91,6 +91,74 @@ Director 加载时先检测断点：
 
 ---
 
+## 非 novel 产物字数配额（v4.1 新增 · 唯一事实源）
+
+> **核心原则**：novel.md 是**核心产出**，其余所有文件都是**为 novel 服务的**。非 novel 产物总量应 ≤ novel.md 的 1.5× ~ 2×。超量即 token 浪费 · 生成时间膨胀 · 读者价值为零。
+
+### 8 个产物硬配额表
+
+| 产物 | 中文字上限 | 级别 | 说明 |
+|---|---:|---|---|
+| `episode-brief.md` | **1500** | error | 战略意图 + writers-room 成员 + 硬需求映射 · 不重复 SOUL |
+| `beat-sheet.md` | **2500** | error | 7 场 key_beats + agent_voices 种子 + 冲突表 · 不保留 v0 全文 |
+| `runtime/reader-preview.md` | **800** | error | 只写直觉 · 不做评分 · 不复述骨架 |
+| `runtime/agent-audit-log.md` | **1500** | error | 每角色 ≤ 375 字要点（反对/争取/台词种子 3 段）|
+| `runtime/beats-*.md`（每文件）| **400** | error | 个人场次摘要 · 不含其他角色 secret |
+| `output/editor-review.md` | **1200** | warning | 8 步 SOP 结论 + Order 清单 · 不复述 novel 原文 |
+| `output/reader-verdict.md` | **1500** | warning | 10 项 verdict 要点化 · 硬需求清单用表格 |
+| `wrap-report.md` | **1200** | warning | 集结论 + 硬需求兑现 + 下集传递 · 不复述 verdict/review |
+
+**合计目标**：~11800 中文字 ≈ 1.75× novel（揭示集 6500-8500 字区间 · 推进集/沉淀集类比）。
+
+### 核心精简原则（五条）
+
+1. **去冗余**：wrap-report 不再复述 reader-verdict 全文，只写"结论 + 差异点 + 下集传递项"（引用而非复制）
+2. **去复述**：beat-sheet v1 不保留 v0 全文，只保留 v1 + 可选的"diff from v0"要点（≤200 字 · 计入 2500）
+3. **压缩表达**：agent_voices 的 dialogue_seeds 每条 ≤30 字（台词种子本身就是短的）
+4. **要点化**：agent-audit-log 每角色"反对/争取/台词种子"3 段要点（每段 ≤125 字 · 4 角色 × 375 字 = 1500 字）
+5. **分层存放**：v4 架构复盘、token 用量等**元数据**不放六件套，迁到 `state.json._architecture_note` 或 `runtime/architecture-notes.md`（非六件套 · 不计入配额）
+
+### 门控机制
+
+- **Phase 5→6 之间**：主 agent 必须跑 `validate-episode-artifacts.js`（EXIT=0 才允许进 Phase 6 wrap）
+- **error 级超量**：阻断流水线 · 必须先精简到配额内
+- **warning 级超量**：允许继续但必须在 wrap-report 注明"超量原因"（便于后续复盘调参）
+
+### `runtime/architecture-notes.md`（非六件套 · 按需创建）
+
+**用途**：存放本集架构级复盘（v4 首跑、架构演进证据、token 实测、subagent spawn 统计等元数据）· **不计入配额**。
+
+**何时创建**：
+- 该集是某架构版本的**首次实战**（如 v4 首跑）
+- 该集有重大流程变更实验（如 writers-room 人数调整）
+- 用户显式要求"保留架构证据"
+
+**何时不创建**：常规集（沿用当前架构 · 无实验变化）不必创建 · 免得增加认知负担。
+
+**模板骨架**：
+
+```markdown
+# Architecture Notes · EP{XX}
+
+## 架构版本
+director-v4-deep-team
+
+## 本集架构级变更
+- （若有 · 每条 ≤ 50 字）
+
+## Team 实测数据
+- writers-room spawn 数：4
+- 采纳率：20/20
+- token 估算：~40K
+
+## 与上一架构版本的对比
+- （若有 · 每条 ≤ 80 字）
+```
+
+**字数指引**：≤ 800 字（软限制 · 不走校验脚本 · 主 agent 自律）。
+
+---
+
 ## Phase 1: 导演独立选角定调
 
 | 属性 | 值 |
@@ -208,6 +276,7 @@ node .codebuddy/skills/drama-world/scripts/init.js <ep-id> --story <name>
 - [ ] episode 目录初始化
 - [ ] episode-brief.md 已写入
 - [ ] reader-memory 硬需求已在 brief 中列出
+- [ ] **brief 中文字 ≤ 1500**（v4.1 新增 · 超量即触发 error 级门控）
 
 ### 失败策略
 
@@ -518,6 +587,8 @@ v4 新增校验项（缺失 warning 不 error · 保证旧集兼容）：
 - [ ] agent-audit-log.md 已产出 · 所有 writers-room 成员都发言（Phase 2.3）
 - [ ] beat-sheet v1 含 agent_voices + reader_preview_notes
 - [ ] validate-beat-sheet 脚本通过
+- [ ] **beat-sheet v1 中文字 ≤ 2500**（v4.1 新增 · validate-beat-sheet 已内置此检查）
+- [ ] **reader-preview.md ≤ 800**、**agent-audit-log.md ≤ 1500**、**每个 beats-*.md ≤ 400**（v4.1 新增）
 
 ### 失败策略
 
@@ -561,6 +632,25 @@ Phase 3 **完全回归 persona 直写**：
 3. **台词种子必须原样使用或轻微润色**（不改变语义）
 4. 遵守 A 级硬约束（破折号 ≤8 / 无加粗 / 无标题 / "不是 X，是 Y" ≤3 / 无 EPxx 泄漏）
 
+**Step 3.2.5：编译前格式自检（v4.1 新增 · 避免把 beat-sheet 结构直接带进正文）**
+
+编译前主 agent 必须在脑子里过一遍"从 beat-sheet 到 novel.md 的结构脱敏"——beat-sheet 里的**结构性元素**不能照搬到 novel 里。
+
+| beat-sheet 元素 | ❌ 禁带进 novel | ✅ novel 合格做法 |
+|---|---|---|
+| Scene 1/2/3...场次编号 | 独立段"一/二/三"、"1/2/3"、"（一）/（1）" | 一个空行 + 场景首句的时间/地点锚（如"10:20。电话响。"）|
+| B1/B2/B3 beat 标号 | 任何形式的 B1/B2 标签 | 纯段落推进 |
+| scene_weight 三项 | 出现在正文 | 仅存在于 beat-sheet 和 editor-review 判断依据 |
+| agent_voices / dialogue_seeds | 作者标注"这是 XX 的台词种子" | 直接落地为对话 |
+| canon_check / writer_self_check | 出现在正文 | 仅存在于 beat-sheet |
+| 括号标注（100 字）/（慢镜四拍）| 出现在正文 | 只影响段落体量·不显式标注 |
+
+**编译前最后一道自检**（写第一个字之前自问）：
+1. 我准备在正文用什么方式切换场景？（答：空行 + 场景首句锚 · 或全篇至多一次 `＊ ＊ ＊`）
+2. 我有没有把 Scene 编号带进去？（答：绝对不能）
+3. 我有没有用 `**加粗**` 强调某句？（答：改用短句独段或句子结构）
+4. 我有没有在正文提到"EP01"/"前集"/"上一章"这种元语言？（答：改为角色内心时间词"昨晚"/"前天"/"三月十四号那天"）
+
 **Step 3.3：字数预检**
 
 编译完成后主 agent 自检：
@@ -568,11 +658,29 @@ Phase 3 **完全回归 persona 直写**：
 - 单场是否超 25% 集字数
 - 单字独段是否 ≤5
 
+**Step 3.4：格式门控预跑（v4.1 新增 · 强烈建议）**
+
+编译完成进入 Phase 4 之前，主 agent 建议先跑一次 `check-ai-taste.js` 做预检：
+
+```bash
+node .codebuddy/skills/drama-critic/scripts/check-ai-taste.js \
+     --file stories/<name>/episodes/<ep-id>/output/novel.md
+```
+
+目的：在责编内审之前提前发现"章节数字分节"、"markdown 标题泄漏"、"EPxx 泄漏"、"`＊ ＊ ＊` 滥用"等**结构性 Error**，避免 Phase 4 责编因格式硬伤浪费回合。
+
+若本步发现 Error：
+- 结构性（标题/数字分节/`＊ ＊ ＊`/`---`/EPxx）→ 主 agent 自行用 sed/脚本批量修 · 不进 Phase 4
+- 内容性（破折号超量/对偶句超量/C5.x 句式黑名单）→ 主 agent 标注 · 带入 Phase 4 让责编做文本层微调
+
 ### Checkpoint
 
 - [ ] novel.md 已编译
 - [ ] 所有 S/A 角色的 dialogue_seeds 在正文中可追溯
 - [ ] 字数在 position 区间
+- [ ] **格式门控预跑 check-ai-taste.js EXIT=0**（v4.1 新增 · 或仅剩内容性 warning）
+- [ ] **无章节内数字分节**（"一"/"二"/"（一）"独立段 = 0）
+- [ ] **`＊ ＊ ＊` 全篇 ≤ 1 次**（若有必须是真正大跨度时空跳跃）
 
 ### 失败策略
 
@@ -672,6 +780,7 @@ executor: 编剧
 - [ ] 责编最终打分 ≥ 7.0（或已达 2 轮上限）
 - [ ] 反流水账四禁全合规
 - [ ] 若有修订 · diff 已记录到 revision-log.md
+- [ ] **editor-review.md 中文字 ≤ 1200**（v4.1 新增 · warning 级 · 超量需在 wrap 注明原因）
 
 ### 失败策略
 
@@ -800,6 +909,31 @@ team_delete()
 - [ ] reader-verdict.md 已产出
 - [ ] reader-memory.md 已追加本集节 + 下集硬需求
 - [ ] 读者打分 ≥ 7.0（或已达上限）
+- [ ] **reader-verdict.md 中文字 ≤ 1500**（v4.1 新增 · warning 级）
+- [ ] **Phase 5 → 6 artifacts 配额门控 EXIT=0**（v4.1 新增 · 硬门控 · 见下）
+
+### Phase 5 → 6 之间：Artifacts 配额门控（v4.1 新增 · 硬门控）
+
+进 Phase 6 wrap 之前必须跑一次整集字数配额校验：
+
+```bash
+node .codebuddy/skills/drama-director/scripts/validate-episode-artifacts.js \
+     --story <name>
+```
+
+**EXIT=0 才允许进 Phase 6**。EXIT=1 时必须先精简 error 级超量文件：
+
+| 超量文件 | 典型超量原因 | 精简动作 |
+|---|---|---|
+| episode-brief.md | 战略论述过多 / SOUL 复述 | 删"论述段"· 保留交代要点 |
+| beat-sheet.md | v0 全文残留 / dialogue_seeds 过长 | 去 v0 全文 · 种子 ≤30 字 · 场景环境挪 novel |
+| reader-preview.md | 复述骨架 / 给评分 | 只保留直觉 5 条 + 风险 3 条 |
+| agent-audit-log.md | 保留角色原始长段发言 | 每角色 3 段要点（反对/争取/种子）各 ≤125 字 |
+| beats-*.md | 场景描写过多 | 只列场次号 + 1 句作用 + 个人主要 beat |
+
+**warning 级超量**（editor-review / reader-verdict / wrap-report）不阻断 · 但必须在 wrap-report 里写一行"超量原因"（如"v4 首跑架构首次复盘所需"）。
+
+若确有例外（如架构首跑）· 架构复盘元数据应放 `runtime/architecture-notes.md`（非六件套 · 不计入配额）· 而不是硬塞进 wrap-report。
 
 ---
 
@@ -867,17 +1001,18 @@ FSM transition → wrapped → idle
 
 ## 每集必需件（v4）
 
-| 文件 | 作用 | 产出阶段 |
-|---|---|---|
-| `episode-brief.md` | 导演选角定调 + writers-room 成员 + reader-memory 硬需求映射 | Phase 1 |
-| `beat-sheet.md` | 编剧骨架 v1（含 agent_voices + reader_preview_notes）| Phase 2.4 |
-| `runtime/reader-preview.md` | **v4 新增** · 预读者盲测预测 | Phase 2.2 |
-| `runtime/agent-audit-log.md` | **v4 新增** · 角色 writers-room 发言记录 | Phase 2.3 |
-| `runtime/beats-<agent-id>.md` | **v4 新增** · 每个 writers-room 成员的个人 beat 摘要（信息封闭用） | Phase 2.3 起点 |
-| `output/novel.md` | 正文 | Phase 3-4（迭代） |
-| `output/editor-review.md` | 责编 persona 内审 | Phase 4 |
-| `output/reader-verdict.md` | 终审读者 team 产出 | Phase 5 |
-| `wrap-report.md` | 集收尾总结（含 v4 架构数据）| Phase 6 |
+| 文件 | 作用 | 产出阶段 | 字数上限（v4.1）|
+|---|---|---|---:|
+| `episode-brief.md` | 导演选角定调 + writers-room 成员 + reader-memory 硬需求映射 | Phase 1 | 1500 · error |
+| `beat-sheet.md` | 编剧骨架 v1（含 agent_voices + reader_preview_notes）| Phase 2.4 | 2500 · error |
+| `runtime/reader-preview.md` | **v4 新增** · 预读者盲测预测 | Phase 2.2 | 800 · error |
+| `runtime/agent-audit-log.md` | **v4 新增** · 角色 writers-room 发言记录 | Phase 2.3 | 1500 · error |
+| `runtime/beats-<agent-id>.md` | **v4 新增** · 每个 writers-room 成员的个人 beat 摘要（信息封闭用） | Phase 2.3 起点 | 400 · error |
+| `output/novel.md` | 正文 | Phase 3-4（迭代） | position 区间（非 quota）|
+| `output/editor-review.md` | 责编 persona 内审 | Phase 4 | 1200 · warning |
+| `output/reader-verdict.md` | 终审读者 team 产出 | Phase 5 | 1500 · warning |
+| `wrap-report.md` | 集收尾总结（含 v4 架构数据）| Phase 6 | 1200 · warning |
+| `runtime/architecture-notes.md` | 架构级复盘（按需创建 · 非六件套）| 任意 | ~800 软限（非 quota）|
 
 可选产出：
 - `runtime/mystery-advisor-notes.md`（Phase 2.1 悬疑顾问意见 · 可内嵌 beat-sheet 代替）

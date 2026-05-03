@@ -64,4 +64,4 @@ alwaysApply: true
 #### 跨故事隔离
 
 - `stories/A/` 下的 state / MEMORY / bible **严禁**引用 `stories/B/` 下的任何文件。
-- 公共模板放在 `templates/` 或 `examples/`，不放在具体故事目录内。
+- 公共模板放在 `.codebuddy/skills/<skill>/templates/` 或 `examples/`，不放在具体故事目录内。

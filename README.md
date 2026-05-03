@@ -133,7 +133,6 @@ drama-agent/
 │   │   ├── pro-advisory-notes.md    # 历史沉淀日志
 │   │   └── doc-sync.md              # 文档同步规则
 │   └── commands/drama/     # 历史命令描述（保留作参考）
-├── templates/              # 初始化模板（SOUL v4.0 + beat-sheet + character-pack + preset）
 ├── stories/                # 故事子项目目录
 │   ├── jiu-ge/
 │   │   ├── .story.json

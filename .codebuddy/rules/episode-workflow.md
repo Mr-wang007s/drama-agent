@@ -16,28 +16,31 @@
 
 生成流水线完成后，`stories/<name>/episodes/<ep-id>/` 下必须存在：
 
-| 文件 | 作用 | 生命周期 |
-|---|---|---|
-| `episode-brief.md` | 导演选角定调 + writers-room 成员 + reader-memory 硬需求映射 | Phase 1 产出 |
-| `beat-sheet.md` | 编剧骨架 v1（scene_weight 三项 + agent_voices + reader_preview_notes + 核心一句话 + 情绪弧线 + 8 问自检）| Phase 2.4 产出 |
-| `output/novel.md` | 本集正文（小说形态） | Phase 3-4 产出（迭代） |
-| `output/editor-review.md` | 责编 persona 8 步 SOP 报告（含 Step 5.5 诊断前置 · 反流水账四禁） | Phase 4 产出（必需） |
-| `output/reader-verdict.md` | 终审读者 team 盲评（10 项 + 下集硬需求） | Phase 5 产出（必需） |
-| `wrap-report.md` | 本集落幕总结（含 v4 架构数据）+ 回写 state / MEMORY 的依据 | Phase 6 收尾产出 |
+| 文件 | 作用 | 生命周期 | 字数上限（v4.1）|
+|---|---|---|---:|
+| `episode-brief.md` | 导演选角定调 + writers-room 成员 + reader-memory 硬需求映射 | Phase 1 产出 | **1500 · error** |
+| `beat-sheet.md` | 编剧骨架 v1（scene_weight 三项 + agent_voices + reader_preview_notes + 核心一句话 + 情绪弧线 + 8 问自检）| Phase 2.4 产出 | **2500 · error** |
+| `output/novel.md` | 本集正文（小说形态） | Phase 3-4 产出（迭代） | position 区间（非 quota）|
+| `output/editor-review.md` | 责编 persona 8 步 SOP 报告（含 Step 5.5 诊断前置 · 反流水账四禁） | Phase 4 产出（必需） | **1200 · warning** |
+| `output/reader-verdict.md` | 终审读者 team 盲评（10 项 + 下集硬需求） | Phase 5 产出（必需） | **1500 · warning** |
+| `wrap-report.md` | 本集落幕总结（含 v4 架构数据）+ 回写 state / MEMORY 的依据 | Phase 6 收尾产出 | **1200 · warning** |
 
 v4 新增可选运行态产物：
 
-- **`runtime/reader-preview.md`** · **v4 新增**：Phase 2.2 预读者 persona 盲测骨架的追更预测（无评分）
-- **`runtime/agent-audit-log.md`** · **v4 新增**：Phase 2.3 writers-room 各角色独立发言记录（反对 + 争取 + 台词种子 + 编剧综合意见）
-- **`runtime/beats-<agent-id>.md`** · **v4 新增**：Phase 2.3 每个 writers-room 成员的个人 beat 摘要（信息封闭用 · 只含该角色出现的场）
+- **`runtime/reader-preview.md`** · **v4 新增**：Phase 2.2 预读者 persona 盲测骨架的追更预测（无评分）· 上限 **800 · error**
+- **`runtime/agent-audit-log.md`** · **v4 新增**：Phase 2.3 writers-room 各角色独立发言记录（反对 + 争取 + 台词种子 + 编剧综合意见）· 上限 **1500 · error**
+- **`runtime/beats-<agent-id>.md`** · **v4 新增**：Phase 2.3 每个 writers-room 成员的个人 beat 摘要（信息封闭用 · 只含该角色出现的场）· 上限 **400 · error**（每文件独立计算）
 
 其他可选：
 - `runtime/mystery-advisor-notes.md`：悬疑类故事 Phase 2.1 悬疑顾问意见
 - `runtime/performance-briefing.md`：Phase 3 前表演指导 9 问激活 checklist（v4 可选）
 - `runtime/revision-log.md`：Phase 4 多轮修订 diff 记录
+- **`runtime/architecture-notes.md`**（v4.1 新增 · 非六件套 · 不计入配额）：架构级复盘（架构首跑 / 实验记录 / token 实测等元数据）· 按需创建 · 软上限 ~800 字
 
 跨集：
 - `stories/<name>/runtime/reader-memory.md`：终审读者跨集连载感积累（Phase 2.2 预读者**读** · Phase 5 终审读者**写**）
+
+**⚠️ 字数配额唯一事实源**：workflow.md "## 非 novel 产物字数配额"节。所有 8 产物配额由 `validate-episode-artifacts.js` 在 Phase 5 → 6 之间强制门控。详见下方硬约束第 14 条。
 
 ---
 
@@ -86,6 +89,12 @@ v4 新增可选运行态产物：
 12. **wrap 前必须完成 check**：`wrap-report.md` 只能在责编打分 ≥ 7.0 且终审读者打分 ≥ 7.0 后生成（或已达上限强行通过并标注）。`wrappedEpisodes[].architecture` 必须标记 `director-v4-deep-team`。
 
 13. **EPxx 泄漏硬阻断**：`check-ai-taste.js` 的 A6 规则是 error 级 · 正文出现任何 `EP01/EP02/.../Episode 3` 立即阻断。详见 `writing-craft.md`。
+
+14. **Artifacts 配额门控**（v4.1 新增 · Phase 5 → 6 之间硬门控）：进 Phase 6 wrap 之前必须跑：
+    ```
+    node .codebuddy/skills/drama-director/scripts/validate-episode-artifacts.js --story <name>
+    ```
+    **EXIT=0** 才允许进 Phase 6。error 级超量（brief / beat-sheet / reader-preview / agent-audit-log / beats-*）直接阻断；warning 级超量（editor-review / reader-verdict / wrap-report）允许继续但必须在 wrap-report 注明超量原因。配额表见 workflow.md "## 非 novel 产物字数配额"节。
 
 ---
 

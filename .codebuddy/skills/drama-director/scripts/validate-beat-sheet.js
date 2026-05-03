@@ -193,6 +193,20 @@ function validate(text) {
         : `⚠️ 未检测到 reader_preview_notes 字段（v4 新增 · v3 及旧集可忽略 · EP06+ 建议补齐）`,
   });
 
+  // 12 (v4.1 新增 · 硬约束). beat-sheet 文件体量上限（中文字 ≤ 2500）
+  //    核心原则：beat-sheet 是为 novel 服务的骨架，不是第二部小说
+  //    超量通常由 v0 全文残留 / agent_voices 种子过长 / 场景环境描写过多导致
+  const bsChineseChars = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+  const BS_LIMIT = 2500;
+  checks.push({
+    id: 'beat_sheet_word_limit',
+    name: `beat-sheet 中文字 ≤ ${BS_LIMIT}`,
+    passed: bsChineseChars <= BS_LIMIT,
+    hint: bsChineseChars <= BS_LIMIT
+      ? `✓ 当前 ${bsChineseChars} 字（${Math.round(bsChineseChars / BS_LIMIT * 100)}% of ${BS_LIMIT} 上限）`
+      : `❌ 当前 ${bsChineseChars} 字超过 ${BS_LIMIT} 上限（${Math.round(bsChineseChars / BS_LIMIT * 100)}%）· 精简建议：去 v0 全文（只留 diff ≤200 字）· dialogue_seeds 每条 ≤30 字 · 场景环境描写挪到 novel · 详见 workflow.md "## 非 novel 产物字数配额"`,
+  });
+
   // 软约束 id 列表——不通过仅警告，不阻断
   const SOFT_CHECKS = new Set([
     'position_declared',

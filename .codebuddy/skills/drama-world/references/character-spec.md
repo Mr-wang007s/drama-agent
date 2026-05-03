@@ -6,10 +6,10 @@
 
 | 级别 | 推荐数量 | 目录形式 | 字段要求 | 模板 |
 |------|---------|---------|---------|------|
-| **S 级** | 5-8 | `s_<id>/` | 完整 v4.0 + arc + ≥2 关系 + 3 examples | `templates/soul-s.yaml` |
-| **A 级** | 10-15 | `a_<id>/` | 完整 v4.0（略简）+ 2 examples | `templates/soul-a.yaml` |
-| **B 级** | 20-30 | `b_<id>/` | 核心 OCEAN + trauma(ghost/wound) + want/fear | `templates/soul-b.yaml` |
-| **C 级** | 30-50 | 合并在 `C-CLASS-INDEX.yaml` | id + name + tag + one_liner + quirk | `templates/c-class-index.yaml` |
+| **S 级** | 5-8 | `s_<id>/` | 完整 v4.0 + arc + ≥2 关系 + 3 examples | `.codebuddy/skills/drama-world/templates/soul-s.yaml` |
+| **A 级** | 10-15 | `a_<id>/` | 完整 v4.0（略简）+ 2 examples | `.codebuddy/skills/drama-world/templates/soul-a.yaml` |
+| **B 级** | 20-30 | `b_<id>/` | 核心 OCEAN + trauma(ghost/wound) + want/fear | `.codebuddy/skills/drama-world/templates/soul-b.yaml` |
+| **C 级** | 30-50 | 合并在 `C-CLASS-INDEX.yaml` | id + name + tag + one_liner + quirk | `.codebuddy/skills/drama-world/templates/c-class-index.yaml` |
 
 长篇小说（150-200 万字）推荐总数 **65-100 人**。
 
@@ -69,7 +69,7 @@ Ghost（过去的创伤事件）
 
 ## pack.yaml 格式
 
-批量导入角色使用的数据格式（参考 `templates/character-pack.yaml`）：
+批量导入角色使用的数据格式（参考 `.codebuddy/skills/drama-world/templates/character-pack.yaml`）：
 
 ```yaml
 S:

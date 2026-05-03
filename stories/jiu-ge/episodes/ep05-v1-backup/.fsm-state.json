@@ -1,0 +1,57 @@
+{
+  "state": "context-ready",
+  "episodeId": "ep05",
+  "storyName": "jiu-ge",
+  "agents": [],
+  "turnCount": 0,
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "startedAt": null,
+  "history": [
+    {
+      "event": "created",
+      "timestamp": "2026-05-02T18:07:30.355Z",
+      "state": "idle",
+      "episodeId": "ep05",
+      "storyName": "jiu-ge",
+      "maxTurns": 50,
+      "maxDurationMs": 1800000
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-02T18:07:30.356Z",
+      "state": "initializing",
+      "from": "idle",
+      "to": "initializing",
+      "payload": []
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-02T18:07:30.358Z",
+      "state": "context-ready",
+      "from": "initializing",
+      "to": "context-ready",
+      "payload": [
+        "episodeDir",
+        "agents"
+      ]
+    },
+    {
+      "event": "transition-rejected",
+      "timestamp": "2026-05-02T18:41:37.897Z",
+      "state": "context-ready",
+      "from": "context-ready",
+      "to": "wrapping",
+      "error": "Illegal transition: context-ready → wrapping. Allowed: [simulating, failed]"
+    },
+    {
+      "event": "transition-rejected",
+      "timestamp": "2026-05-02T18:41:37.900Z",
+      "state": "context-ready",
+      "from": "context-ready",
+      "to": "wrapped",
+      "error": "Illegal transition: context-ready → wrapped. Allowed: [simulating, failed]"
+    }
+  ],
+  "savedAt": "2026-05-02T18:41:37.900Z"
+}

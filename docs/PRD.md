@@ -563,11 +563,9 @@ drama-agent/
 │   ├── recall.md
 │   └── roll.md
 │
-├── templates/                # 初始化模板
-│   ├── series-bible.md       # 世界观模板
-│   ├── soul.yaml             # Agent SOUL 模板
-│   ├── memory.md             # Agent MEMORY 模板
-│   └── rules.md              # Agent RULES 模板
+├── .codebuddy/skills/<skill>/templates/   # Skill 专属模板（v4.1 迁移）
+│   ├── drama-world/templates/             # series-bible / soul / character-pack / presets 等
+│   └── drama-director/templates/          # episode-brief / beat-sheet / wrap-report 骨架
 │
 ├── harness/hooks/            # 生命周期钩子（不动）
 ├── scripts/hooks/            # Hook 脚本（不动）

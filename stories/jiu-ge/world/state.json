@@ -227,8 +227,8 @@
     "H-A1/H-A2/H-A3 三条 A 级钩子已开放 5 集 · EP06-07 必须至少回收/深度强化 1 条（钩子通胀预警）"
   ],
   "currentEpisode": "ep05",
-  "updatedAt": "2026-05-03T02:40:00.000Z",
-  "_architecture_note": "EP05 是 Director Skill v3 架构第二次实战集（混合 v3 模式）· 责编 team drama-editor 恢复（EP04 persona 兜底欠债还上）· 读者 team drama-reader + reader-memory 继续 · 心脏戏 Scene 5 未 spawn team（直接 SOUL 推断）· 节奏换法反 EP04 慢镜 · AI 味门控 EXIT=0 · 读者 8.4 分 · 责编 8.1 分 · 跨集曲线创新高",
+  "updatedAt": "2026-05-03T10:45:00.000Z",
+  "_architecture_note": "EP05 v4 重跑版（director-v4-deep-team 首次实战）· writers-room 4 角色 team（lin-mo + shen-yanzhi + chen-huaiyu + li-doctor）+ persona 执行收敛 · 责编 persona 8.3 分 · 读者 team 8.5 分 · 跨集曲线新高 · v3-hybrid 原版归档 ep05-v1-backup/ 保留作为架构演进证据 · 20/20 writers-room 意见全采纳 · 7/7 台词种子全保留",
   "wrappedEpisodes": [
     {
       "id": "ep02-sang-sang",
@@ -252,23 +252,41 @@
       "architecture": "director-v3-team",
       "team_mode_summary": "Scene 3 心脏戏 team 产出 turn 1-10（v2 修订）· Phase 5 reader team + reader-memory",
       "reader_team_score_v1": 7.8,
-      "reader_team_score_v2": 8.0,
+      "reader_team_score_v2": 8,
       "reader_team_trend": "回升 0.3→再升 0.2（EP03 7.5 → EP04-v1 7.8 → EP04-v2 8.0）"
     },
     {
-      "id": "ep05",
-      "title": "信封",
+      "id": "ep05-v1-backup",
+      "title": "信封（v3-hybrid 原版 · 归档）",
       "wrappedAt": "2026-05-03T02:40:00.000Z",
       "position": "揭示集",
       "word_count": 5148,
       "architecture": "director-v3-hybrid",
-      "team_mode_summary": "Phase 4 team drama-editor 恢复 · Phase 5 team drama-reader + reader-memory · Scene 5 心脏戏未 spawn team（主 agent SOUL 推断）· 反 EP04 慢镜教训全部落实",
       "editor_team_score": 8.1,
       "reader_team_score": 8.4,
-      "reader_editor_gap": "+0.3（读者 > 责编 · 第三次一致正向差）",
-      "reader_team_trend": "EP04-v2 8.0 → EP05 8.4 · 升 0.4 · 系列新高",
-      "hard_requirements_fulfilled": "6/6（读者口径）· 5.5/6（责编口径）",
-      "word_count_note": "合法结构性短 · SOUL 驱动 + 极简独角戏 · 责编 Step 5.5 诊断判定 · 读者 8.4 验证"
+      "archive_path": "stories/jiu-ge/episodes/ep05-v1-backup/",
+      "note": "原版归档·v4 重跑后保留作为架构演进证据"
+    },
+    {
+      "id": "ep05",
+      "title": "信封（v4 重跑版）",
+      "wrappedAt": "2026-05-03T10:45:00.000Z",
+      "position": "揭示集",
+      "word_count": 6763,
+      "architecture": "director-v4-deep-team",
+      "team_mode_summary": "Phase 2.3 writers-room 4 角色 team（lin-mo + shen-yanzhi + chen-huaiyu + li-doctor · 20/20 意见全采纳 · 7/7 台词种子保留）· Phase 5 team drama-reader · Phase 3-4 全 persona 执行收敛 · v4 首次实战",
+      "editor_persona_score": 8.3,
+      "reader_team_score": 8.5,
+      "reader_editor_gap": "+0.2（读者 > 责编 · v3-hybrid 差 +0.3 缩小）",
+      "reader_team_trend": "EP05-v1 8.4 → EP05-v4 8.5 · 跨集曲线新高",
+      "hard_requirements_fulfilled": "6/6（读者口径·超预期 2 项 #3 换手法 #5 老袁坐下来）· 6/6（责编口径）",
+      "v4_architecture_data": {
+        "writers_room_size": 4,
+        "objections_adopted": "20/20 全采纳",
+        "dialogue_seeds_preserved": "7/7 全保留",
+        "reader_preview_predicted_binge_hit": true,
+        "token_used_estimate": "~40K"
+      }
     }
   ]
 }

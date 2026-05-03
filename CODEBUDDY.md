@@ -38,10 +38,10 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
 
 ### 目录职责
 
-- **`templates/`**：初始化模板（SOUL v4.0 四级分档 + character-pack + story-seed + presets）
+- **`.codebuddy/skills/<skill>/templates/`**：Skill 专属产出模板（drama-world 下有 SOUL v4.0 四级 / character-pack / story-seed / presets · drama-director 下有 episode-brief / beat-sheet / wrap-report 骨架）
 - **`stories/`**：故事子项目目录（每个子目录是一个独立故事）
 - **`examples/`**：样板归档
-- **`.codebuddy/skills/`**：Skill 能力层（三角架构：world / director / critic），工具脚本归属在各 Skill 的 `scripts/` 子目录
+- **`.codebuddy/skills/`**：Skill 能力层（三角架构：world / director / critic），每个 Skill 下有 `references/` + `scripts/` + `templates/`
 
 ### Subagent 架构（v4 单点深度 Team）
 
@@ -68,38 +68,39 @@ v4 相对 v3 的 subagent 用法变化：
 | drama-reader | Phase 5 team 必须 | **Phase 5 team 必须**（保留）+ **Phase 2.2 persona 预读者**（加载模式不同）|
 | drama-advisor | persona | persona（同）|
 
-### Skill 架构（三角）
+### Skill 架构（三角 · v4.1 各 Skill 自管 templates/）
 
 ```
 .codebuddy/skills/
 ├── drama-world/          # 世界引擎（筹备 + 角色 + 状态 + 工程守护）
-│   ├── SKILL.md          # 精简骨架
-│   ├── references/       # brainstorm-sop / character-spec / canon-rules / interaction-protocol
-│   └── scripts/          # 18 个工具脚本（能力名映射）
+│   ├── SKILL.md          # 精简骨架（93 行 / 641 字 · ≤150/800 硬上限）
+│   ├── references/       # brainstorm-sop / character-spec / canon-rules
+│   ├── scripts/          # 19 个工具脚本（含新增 validate-doc-size.js）
+│   └── templates/        # ✨ v4.1 · soul-s/a/b/base · character / character-pack / c-class-index / story-seed / series-bible / three-act-preset / state / memory / rules + presets/
 │
-├── drama-director/       # 导演 Owner（8 人班子编排 + 6 阶段流水线）
-│   ├── SKILL.md          # 精简骨架（150 行）
+├── drama-director/       # 导演 Owner（9 人班子编排 + 6 阶段流水线）
+│   ├── SKILL.md          # 精简骨架（125 行 / 800 字 · ≤150/800 硬上限）
 │   ├── references/
-│   │   ├── workflow.md           # 6 阶段流水线详细定义
-│   │   ├── team-roster.md        # 8 人班子卡片 + spawn prompt 蓝本 + 加载映射表
-│   │   ├── team-protocol.md      # Team 交互协议（世界管家核心）
+│   │   ├── workflow.md           # 6 阶段流水线详细定义 + 非 novel 产物字数配额
+│   │   ├── team-roster.md        # 9 人班子卡片 + spawn prompt 蓝本 + 加载映射表
+│   │   ├── team-protocol.md      # Team 交互协议
 │   │   ├── compile-novel.md      # 小说编译规范
 │   │   ├── compile-screenplay.md # 剧本编译规范
-│   │   └── craft/                # 8 大专业知识文件（"有灵魂"的事实源）
-│   │       ├── characterology.md # 人物学（Stanislavski/Uta Hagen/创伤链/身体诗学）
-│   │       ├── conflict.md       # 冲突学（三幕/Save the Cat/7节点/反相位/编剧 8 问）
-│   │       ├── scene-design.md   # 场景学（8 功能分类/迟入早出/转折点/信息差）
-│   │       ├── dialogue.md       # 对话学（潜台词 7 层/说错话/沉默/语言指纹）
-│   │       ├── mystery.md        # 悬疑学（三铁律深化/线索三明治/钩子经济）
-│   │       ├── prose.md          # 语言学（A/B/C 级约束/破防 R1-R5/意象系统）
-│   │       ├── editing.md        # 编辑学（责编 8 步 SOP/多元视角/诊断前置/反流水账四禁）
-│   │       └── narrative-weight.md # ✨ v2 · 叙事重量（scene_weight/20 题工作表/6 真因诊断树）
-│   └── scripts/          # 4 个基建脚本（compile-novel / compile-screenplay / pre-compile-clean / validate-beat-sheet）
+│   │   └── craft/                # 8 大专业知识文件（事实源）
+│   │       ├── characterology.md / conflict.md / scene-design.md / dialogue.md
+│   │       └── mystery.md / prose.md / editing.md / narrative-weight.md
+│   ├── scripts/          # 6 个脚本（compile-novel / compile-screenplay / pre-compile-clean / validate-beat-sheet / validate-episode-artifacts · v4.1 新增后者）
+│   └── templates/        # ✨ v4.1 · episode-brief / beat-sheet / wrap-report 骨架 + beat-sheet-v2（历史）
 │
 └── drama-critic/         # AI 味机械门控（仅 check-ai-taste.js）
-    ├── SKILL.md
+    ├── SKILL.md          # 精简骨架（99 行 / 432 字）
     └── scripts/          # check-ai-taste.js（A 级硬约束 + C5.1-C5.10 句式黑名单）
 ```
+
+**文档体积硬上限**（v4.1 新增 · 由 `drama-world/scripts/validate-doc-size.js` 门控）：
+- SKILL.md ≤ 150 行 / 800 中文字 · error 级
+- rules/*.md ≤ 250 行 / 1800 中文字 · warning 级
+- 详见 `.codebuddy/rules/doc-sync.md` "核心文档体积上限"节
 
 ### 创作班子编制（v4 · 9 位）
 
@@ -133,14 +134,32 @@ Phase 2: 创作班子开盘（内部 5 步）
   ├── 2.2 预读者 persona 盲测骨架 → reader-preview.md（无评分）
   ├── 2.3 writers-room TEAM 审骨架（drama-character × N · 三问：反对/争取/台词种子）
   ├── 2.4 编剧 persona 改稿 → v1（含 agent_voices + reader_preview_notes）
-  └── 2.5 validate-beat-sheet 脚本校验
+  └── 2.5 validate-beat-sheet 脚本校验（含字数 ≤2500 硬门控 · v4.1）
 Phase 3: 演绎编译 novel.md（主 agent / 编剧 persona 直写）
 Phase 4: 责编 persona 内审 + 文学顾问 persona 润色（迭代 ≤ 2 轮）
 Phase 5: AI 味门控（check-ai-taste EXIT=0）+ 终审读者 TEAM 盲评 ≥ 7.0
+        ├── v4.1 新增：validate-episode-artifacts 整集字数配额门控（EXIT=0 才进 Phase 6）
 Phase 6: Wrap 收尾（调用 drama-world 能力 + 更新 hooks/imagery ledgers · architecture=director-v4-deep-team）
 ```
 
-**Token 预算**：v4 ~40K/集（与 v3 ~41K 持平 · 但对抗前置到 Phase 2 · ROI 显著提升 · 创作占比 75%）。
+**Token 预算**：v4 ~40K/集（与 v3 ~41K 持平 · 但对抗前置到 Phase 2 · ROI 显著提升 · 创作占比 75%）。v4.1 通过非 novel 产物 61% 精简 · 实测预算降至 **~28K/集**。
+
+### 非 novel 产物字数配额（v4.1 新增 · 硬门控）
+
+novel.md 是核心产出 · 其余所有文件都是为 novel 服务的 · 总量应 ≤ novel 的 1.5× ~ 2×。唯一事实源：`workflow.md "## 非 novel 产物字数配额"` 节。
+
+| 产物 | 上限 | 级别 |
+|---|---:|---|
+| episode-brief.md | 1500 | error |
+| beat-sheet.md | 2500 | error |
+| runtime/reader-preview.md | 800 | error |
+| runtime/agent-audit-log.md | 1500 | error |
+| runtime/beats-*.md（每文件）| 400 | error |
+| output/editor-review.md | 1200 | warning |
+| output/reader-verdict.md | 1500 | warning |
+| wrap-report.md | 1200 | warning |
+
+Phase 5 → 6 之间由 `validate-episode-artifacts.js` 强制门控。架构复盘等元数据外溢到 `runtime/architecture-notes.md`（非六件套 · 不计入配额）。
 
 ### 故事子项目结构（v4）
 
@@ -153,28 +172,31 @@ stories/<name>/
 │   └── reader-memory.md     # 终审读者跨集积累（Phase 2.2 读 · Phase 5 写）
 └── episodes/                # 单集产出
     └── <ep-id>/
-        ├── episode-brief.md         # Phase 1 产出（含 writers-room 成员）
-        ├── beat-sheet.md            # Phase 2.4 产出（v1 · agent_voices + reader_preview_notes）
+        ├── episode-brief.md         # Phase 1 产出（含 writers-room 成员）· ≤1500 字
+        ├── beat-sheet.md            # Phase 2.4 产出（v1 · agent_voices + reader_preview_notes）· ≤2500 字
         ├── runtime/                 # 集内运行态
-        │   ├── reader-preview.md    # v4 · Phase 2.2 预读者盲测
-        │   ├── agent-audit-log.md   # v4 · Phase 2.3 writers-room 发言记录
-        │   └── beats-<agent-id>.md  # v4 · 每个 writers-room 成员的个人 beat 摘要
+        │   ├── reader-preview.md    # v4 · Phase 2.2 预读者盲测 · ≤800 字
+        │   ├── agent-audit-log.md   # v4 · Phase 2.3 writers-room 发言记录 · ≤1500 字
+        │   ├── beats-<agent-id>.md  # v4 · 每个 writers-room 成员的个人 beat 摘要 · ≤400 字/文件
+        │   └── architecture-notes.md # v4.1 · 按需创建 · 架构复盘元数据（非六件套 · 不计入配额）
         ├── output/
-        │   ├── novel.md             # Phase 3-4 正文
-        │   ├── editor-review.md     # Phase 4 责编 persona 产出
-        │   └── reader-verdict.md    # Phase 5 终审读者 team 产出
-        └── wrap-report.md           # Phase 6 收尾（含 v4 架构数据）
+        │   ├── novel.md             # Phase 3-4 正文（position 区间 · 非 quota）
+        │   ├── editor-review.md     # Phase 4 责编 persona 产出 · ≤1200 字（warning）
+        │   └── reader-verdict.md    # Phase 5 终审读者 team 产出 · ≤1500 字（warning）
+        └── wrap-report.md           # Phase 6 收尾（含 v4 架构数据）· ≤1200 字（warning）
 ```
 
 ### 修改建议
 
-- **改模板**：修改 `templates/*.yaml` 或 `templates/presets/*.yaml`
+- **改初始化模板**：修改 `.codebuddy/skills/drama-world/templates/*.yaml` 或 `presets/*.yaml`
+- **改产出骨架**：修改 `.codebuddy/skills/drama-director/templates/*.template.md`
 - **改流水线**：修改 `.codebuddy/skills/drama-director/references/workflow.md`
 - **改班子成员**：修改 `.codebuddy/skills/drama-director/references/team-roster.md`
 - **改专业知识**：修改对应的 `.codebuddy/skills/drama-director/references/craft/*.md`
 - **改触发词**：修改 Skill 头部的 `description` 字段
 - **改故事内容**：修改 `stories/<name>/agents/*/SOUL.yaml` 或 `world/`
 - **改硬约束清单**：修改 `.codebuddy/rules/writing-craft.md`（索引层）+ `craft/prose.md`（详细层）
+- **改文档体积上限**：修改 `.codebuddy/rules/doc-sync.md` "核心文档体积上限"节 + `validate-doc-size.js` 配额配置（两处必须同步）
 
 ### 项目规则（Always-Applied Rules）
 
