@@ -216,7 +216,7 @@
     "H-A1 殷墟 M5-3A（开放 7 集）· H-A2 林父殷墟事故（EP07 回收半步：父亲字迹 canon 继承）· EP08 必回收 H-A1 至少一步（钩子通胀硬预警第 3 次）"
   ],
   "currentEpisode": "ep08",
-  "updatedAt": "2026-05-03T14:07:00.575Z",
+  "updatedAt": "2026-05-03T14:47:34.957Z",
   "_architecture_note": "EP07 v4 第 3 次常规集实战 · writers-room 4 人（lin-mo+qu-lingjun 首进 S+chen-huaiyu+lin-mu-mother）· 24/24 采纳 · 13/13 种子保留 · 屈灵均 canon 保护级否决《礼魂》→《湘夫人》路径保留 · 陈怀瑜 canon 洞察（骨片成年男性磨）不告知·林墨唯一性守（不仪式化'阿姨'）· 读者 9.1 连载首次破 9 · 责编 8.2 · 连续两集新高（EP06 8.9 → EP07 9.1）· 自 EP03 谷底反弹 1.6 分",
   "wrappedEpisodes": [
     {
@@ -308,6 +308,11 @@
         "canon_save_count": 2,
         "token_used_estimate": "~42K"
       }
+    },
+    {
+      "id": "ep08",
+      "title": "ep08",
+      "wrappedAt": "2026-05-03T14:47:34.956Z"
     }
   ]
 }

@@ -35,7 +35,23 @@
         "episodeDir",
         "agents"
       ]
+    },
+    {
+      "event": "transition-rejected",
+      "timestamp": "2026-05-03T14:47:34.954Z",
+      "state": "context-ready",
+      "from": "context-ready",
+      "to": "wrapping",
+      "error": "Illegal transition: context-ready → wrapping. Allowed: [simulating, failed]"
+    },
+    {
+      "event": "transition-rejected",
+      "timestamp": "2026-05-03T14:47:34.957Z",
+      "state": "context-ready",
+      "from": "context-ready",
+      "to": "wrapped",
+      "error": "Illegal transition: context-ready → wrapped. Allowed: [simulating, failed]"
     }
   ],
-  "savedAt": "2026-05-03T14:07:00.576Z"
+  "savedAt": "2026-05-03T14:47:34.957Z"
 }
