@@ -1,0 +1,41 @@
+{
+  "state": "context-ready",
+  "episodeId": "ep08",
+  "storyName": "jiu-ge",
+  "agents": [],
+  "turnCount": 0,
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "startedAt": null,
+  "history": [
+    {
+      "event": "created",
+      "timestamp": "2026-05-03T14:07:00.574Z",
+      "state": "idle",
+      "episodeId": "ep08",
+      "storyName": "jiu-ge",
+      "maxTurns": 50,
+      "maxDurationMs": 1800000
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-03T14:07:00.575Z",
+      "state": "initializing",
+      "from": "idle",
+      "to": "initializing",
+      "payload": []
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-03T14:07:00.576Z",
+      "state": "context-ready",
+      "from": "initializing",
+      "to": "context-ready",
+      "payload": [
+        "episodeDir",
+        "agents"
+      ]
+    }
+  ],
+  "savedAt": "2026-05-03T14:07:00.576Z"
+}

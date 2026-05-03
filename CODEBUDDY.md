@@ -210,6 +210,7 @@ stories/<name>/
 | `harness-memory.md` | `world/` 状态层与 Agent MEMORY 有界机制、跨故事隔离 |
 | `pro-advisory-notes.md` | 历史沉淀日志（专家方法论已迁入 craft/，本文件改为变更记录） |
 | `doc-sync.md` | 代码 / Skill / 规则 / 脚本变更后的核心文档同步规则 |
+| `minimal-edit.md` | 反膨胀：默认最小改动 · 显式"重构/refactor/plan"才解锁大改 |
 
 ### 验证方式
 
