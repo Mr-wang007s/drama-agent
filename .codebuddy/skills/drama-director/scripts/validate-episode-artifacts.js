@@ -41,7 +41,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
-// ============ 配额表（唯一事实源） ============
+// ============ 配额表（唯一事实源 · v4.2 加 20% 缓冲）============
+// 两层阈值：target（擦边提示·不阻断）· hard = target × 1.2（真失控阻断）
+// 100%-120% = soft-warn · >120% = 按 level 处理（error 阻断 / warning 警告）
+const BUFFER_RATIO = 1.2;
 const ARTIFACT_QUOTAS = [
   { name: 'episode-brief.md',             relPath: 'episode-brief.md',                limit: 1500, level: 'error' },
   { name: 'beat-sheet.md',                relPath: 'beat-sheet.md',                   limit: 2500, level: 'error' },
@@ -56,6 +59,9 @@ const ARTIFACT_QUOTAS = [
 const GLOB_QUOTAS = [
   { name: 'runtime/beats-*.md',           glob:    /^runtime\/beats-.+\.md$/,         limit: 400,  level: 'error' },
 ];
+
+// 计算 hard 上限
+function hardLimit(target) { return Math.round(target * BUFFER_RATIO); }
 
 // ============ 工具函数 ============
 function parseArgs(argv) {
@@ -116,15 +122,29 @@ function validateArtifacts(story, episode) {
       const text = fs.readFileSync(fullPath, 'utf8');
       words = countChineseChars(text);
     }
-    const overLimit = words > quota.limit;
+    const hard = hardLimit(quota.limit);
+    const overTarget = words > quota.limit;
+    const overHard = words > hard;
+    // status 规则：
+    //   不存在 → MISSING
+    //   ≤target → OK
+    //   target<w≤hard → SOFT_WARN（擦边 · 不阻断）
+    //   >hard + error 级 → FAIL
+    //   >hard + warning 级 → WARN
+    let status;
+    if (!exists) status = 'MISSING';
+    else if (!overTarget) status = 'OK';
+    else if (!overHard) status = 'SOFT_WARN';
+    else status = quota.level === 'error' ? 'FAIL' : 'WARN';
     results.push({
       name: quota.name,
       path: `stories/${story}/episodes/${episode}/${quota.relPath}`,
       exists,
       words,
       limit: quota.limit,
+      hard,
       level: quota.level,
-      status: !exists ? 'MISSING' : overLimit ? (quota.level === 'error' ? 'FAIL' : 'WARN') : 'OK',
+      status,
     });
   }
 
@@ -146,15 +166,22 @@ function validateArtifacts(story, episode) {
     for (const file of files) {
       const text = fs.readFileSync(file.fullPath, 'utf8');
       const words = countChineseChars(text);
-      const overLimit = words > glob.limit;
+      const hard = hardLimit(glob.limit);
+      const overTarget = words > glob.limit;
+      const overHard = words > hard;
+      let status;
+      if (!overTarget) status = 'OK';
+      else if (!overHard) status = 'SOFT_WARN';
+      else status = glob.level === 'error' ? 'FAIL' : 'WARN';
       results.push({
         name: file.name,
         path: `stories/${story}/episodes/${episode}/${file.relPath}`,
         exists: true,
         words,
         limit: glob.limit,
+        hard,
         level: glob.level,
-        status: overLimit ? (glob.level === 'error' ? 'FAIL' : 'WARN') : 'OK',
+        status,
       });
     }
   }
@@ -163,6 +190,7 @@ function validateArtifacts(story, episode) {
   const totalWords = results.filter(r => r.exists).reduce((sum, r) => sum + r.words, 0);
   const fails = results.filter(r => r.status === 'FAIL');
   const warns = results.filter(r => r.status === 'WARN');
+  const softWarns = results.filter(r => r.status === 'SOFT_WARN');
   const missings = results.filter(r => r.status === 'MISSING');
 
   // novel 字数参考（不强制存在 · Phase 2/3 之前还没有）
@@ -183,6 +211,7 @@ function validateArtifacts(story, episode) {
       ratio,                   // 非 novel 总量 / novel 字数
       fails: fails.length,
       warns: warns.length,
+      softWarns: softWarns.length,
       missings: missings.length,
       passed: fails.length === 0,
     },
@@ -200,7 +229,7 @@ function printHuman(result, strict) {
   console.log(`Story:   ${result.story}`);
   console.log(`Episode: ${result.episode}\n`);
 
-  const ICON = { OK: '✅', WARN: '⚠️ ', FAIL: '❌', MISSING: '⚪' };
+  const ICON = { OK: '✅', WARN: '⚠️ ', FAIL: '❌', MISSING: '⚪', SOFT_WARN: '⚠️ ' };
   const nameWidth = Math.max(...result.artifacts.map(a => a.name.length), 25);
   for (const a of result.artifacts) {
     const icon = ICON[a.status] || '?';
@@ -208,7 +237,8 @@ function printHuman(result, strict) {
     const limitStr = String(a.limit).padStart(4);
     const pct = a.exists ? ` (${Math.round((a.words / a.limit) * 100)}%)` : '';
     const levelTag = a.level === 'error' ? '[error]' : '[warn] ';
-    console.log(`${icon} ${levelTag} ${a.name.padEnd(nameWidth)} ${wordStr} / ${limitStr}${pct}`);
+    const suffix = a.status === 'SOFT_WARN' ? ` · 擦边 · hard ${a.hard}` : '';
+    console.log(`${icon} ${levelTag} ${a.name.padEnd(nameWidth)} ${wordStr} / ${limitStr}${pct}${suffix}`);
   }
 
   console.log('');
@@ -224,12 +254,14 @@ function printHuman(result, strict) {
   const normalFail = result.summary.fails > 0;
 
   if (normalFail) {
-    console.log(`\n❌ 配额校验失败：${result.summary.fails} 个 error 级超量`);
-    console.log(`   必须精简到配额内才能进 Phase 6 wrap · 详见 workflow.md "## 非 novel 产物字数配额"`);
+    console.log(`\n❌ 配额校验失败：${result.summary.fails} 个 error 级超量（>hard 上限）`);
+    console.log(`   必须精简到 hard 上限内才能进 Phase 6 wrap · 详见 workflow.md "## 非 novel 产物字数配额"`);
   } else if (strictFail) {
     console.log(`\n❌ --strict 模式下失败：${result.summary.warns} 个 warning 级超量`);
   } else if (result.summary.warns > 0) {
     console.log(`\n⚠️  ${result.summary.warns} 个 warning 级超量（允许继续 · 但建议在 wrap-report 注明原因）`);
+  } else if (result.summary.softWarns > 0) {
+    console.log(`\n✅ 所有配额通过（含 ${result.summary.softWarns} 项擦边 100%-120% · 不阻断 · 后续自然减重即可）`);
   } else {
     console.log(`\n✅ 所有配额通过`);
   }

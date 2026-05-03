@@ -38,7 +38,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
-// ============ 配额表（唯一事实源 · 同步于 doc-sync.md） ============
+// ============ 配额表（唯一事实源 · v4.2 加 20% 缓冲 · 同步于 doc-sync.md） ============
+// 两层阈值：target（擦边提示·不阻断）· hard = target × 1.2（真失控按 level 处理）
+// 100%-120% = soft-warn · >120% = error 阻断 / warning 警告
+const BUFFER_RATIO = 1.2;
 const DOC_CATEGORIES = [
   {
     name: 'SKILL.md（入口文件 · 严格上限）',
@@ -57,6 +60,8 @@ const DOC_CATEGORIES = [
     level: 'warning',
   },
 ];
+
+function hardLimit(target) { return Math.round(target * BUFFER_RATIO); }
 
 // ============ 工具函数 ============
 function parseArgs(argv) {
@@ -104,19 +109,37 @@ function validateFile(absPath, category) {
   const text = fs.readFileSync(absPath, 'utf8');
   const lines = countLines(text);
   const chars = countChineseChars(text);
+  const hardLines = hardLimit(category.maxLines);
+  const hardChars = hardLimit(category.maxChars);
   const overLines = lines > category.maxLines;
   const overChars = chars > category.maxChars;
-  const overLimit = overLines || overChars;
+  const overHardLines = lines > hardLines;
+  const overHardChars = chars > hardChars;
+  const overTarget = overLines || overChars;
+  const overHard = overHardLines || overHardChars;
+  // status：
+  //   未超 target → OK
+  //   target<w≤hard → SOFT_WARN（擦边 · 不阻断）
+  //   >hard + error 级 → FAIL
+  //   >hard + warning 级 → WARN
+  let status;
+  if (!overTarget) status = 'OK';
+  else if (!overHard) status = 'SOFT_WARN';
+  else status = category.level === 'error' ? 'FAIL' : 'WARN';
   return {
     path: relFromRoot(absPath),
     lines,
     chars,
     maxLines: category.maxLines,
     maxChars: category.maxChars,
+    hardLines,
+    hardChars,
     level: category.level,
-    status: overLimit ? (category.level === 'error' ? 'FAIL' : 'WARN') : 'OK',
+    status,
     overLines,
     overChars,
+    overHardLines,
+    overHardChars,
   };
 }
 
@@ -146,13 +169,15 @@ function runValidation(filterRel) {
 function printHuman(categories, strict) {
   console.log('\n=== 核心文档体积巡检 ===\n');
 
-  const ICON = { OK: '✅', WARN: '⚠️ ', FAIL: '❌' };
+  const ICON = { OK: '✅', WARN: '⚠️ ', FAIL: '❌', SOFT_WARN: '⚠️ ' };
   let totalFails = 0;
   let totalWarns = 0;
+  let totalSoftWarns = 0;
 
   for (const cat of categories) {
     console.log(`\n### ${cat.name}`);
-    console.log(`    上限：≤${cat.maxLines} 行 · ≤${cat.maxChars} 中文字 · [${cat.level}]\n`);
+    console.log(`    target：≤${cat.maxLines} 行 · ≤${cat.maxChars} 中文字 · [${cat.level}]`);
+    console.log(`    hard  ：≤${hardLimit(cat.maxLines)} 行 · ≤${hardLimit(cat.maxChars)} 中文字（120% 缓冲）\n`);
     if (cat.files.length === 0) {
       console.log('    （无匹配文件）');
       continue;
@@ -162,24 +187,28 @@ function printHuman(categories, strict) {
       const icon = ICON[f.status];
       const linesMark = f.overLines ? `*${f.lines}*` : `${f.lines}`;
       const charsMark = f.overChars ? `*${f.chars}*` : `${f.chars}`;
-      console.log(`    ${icon} ${f.path.padEnd(pathWidth)}  ${String(linesMark).padStart(6)} 行 / ${String(charsMark).padStart(6)} 字`);
+      const suffix = f.status === 'SOFT_WARN' ? ' · 擦边 · 未超 hard' : '';
+      console.log(`    ${icon} ${f.path.padEnd(pathWidth)}  ${String(linesMark).padStart(6)} 行 / ${String(charsMark).padStart(6)} 字${suffix}`);
       if (f.status === 'FAIL') totalFails++;
-      if (f.status === 'WARN') totalWarns++;
+      else if (f.status === 'WARN') totalWarns++;
+      else if (f.status === 'SOFT_WARN') totalSoftWarns++;
     }
   }
 
   console.log('');
-  console.log('（斜体 *n* = 该维度超出上限）\n');
+  console.log('（斜体 *n* = 该维度超出 target）\n');
 
-  const strictFail = strict && (totalFails > 0 || totalWarns > 0);
+  const strictFail = strict && (totalFails > 0 || totalWarns > 0 || totalSoftWarns > 0);
 
   if (totalFails > 0) {
-    console.log(`❌ 失败：${totalFails} 个 SKILL.md error 级超量 · 必须瘦身到上限内`);
+    console.log(`❌ 失败：${totalFails} 个 SKILL.md 超过 hard 上限 · 必须瘦身`);
     console.log(`   瘦身指引：把重复内容下沉到 references/ · 用一句话 + 引用链接代替`);
   } else if (strictFail) {
-    console.log(`❌ --strict 模式下失败：${totalWarns} 个 warning 级超量`);
+    console.log(`❌ --strict 模式下失败：${totalWarns + totalSoftWarns} 个超量`);
   } else if (totalWarns > 0) {
-    console.log(`⚠️  ${totalWarns} 个 rules/ warning 级超量（允许继续 · 建议按机会精简）`);
+    console.log(`⚠️  ${totalWarns} 个 rules/ 超过 hard 上限（允许继续 · 按机会精简）`);
+  } else if (totalSoftWarns > 0) {
+    console.log(`✅ 所有核心文档体积达标（${totalSoftWarns} 项擦边 100%-120% · 不阻断）`);
   } else {
     console.log('✅ 所有核心文档体积达标');
   }

@@ -193,18 +193,26 @@ function validate(text) {
         : `⚠️ 未检测到 reader_preview_notes 字段（v4 新增 · v3 及旧集可忽略 · EP06+ 建议补齐）`,
   });
 
-  // 12 (v4.1 新增 · 硬约束). beat-sheet 文件体量上限（中文字 ≤ 2500）
-  //    核心原则：beat-sheet 是为 novel 服务的骨架，不是第二部小说
+  // 12 (v4.1 新增 · 硬约束 · v4.2 加 20% 缓冲). beat-sheet 文件体量
+  //    两层阈值：target 2500（擦边提示）· hard 3000（真失控阻断）
+  //    100%-120% = soft-warn · >120% = error（阻断）
+  //    核心原则：beat-sheet 是为 novel 服务的骨架·不是第二部小说
   //    超量通常由 v0 全文残留 / agent_voices 种子过长 / 场景环境描写过多导致
   const bsChineseChars = (text.match(/[\u4e00-\u9fff]/g) || []).length;
-  const BS_LIMIT = 2500;
+  const BS_TARGET = 2500;
+  const BS_HARD = Math.round(BS_TARGET * 1.2);  // 3000
+  const bsOverTarget = bsChineseChars > BS_TARGET;
+  const bsOverHard = bsChineseChars > BS_HARD;
   checks.push({
     id: 'beat_sheet_word_limit',
-    name: `beat-sheet 中文字 ≤ ${BS_LIMIT}`,
-    passed: bsChineseChars <= BS_LIMIT,
-    hint: bsChineseChars <= BS_LIMIT
-      ? `✓ 当前 ${bsChineseChars} 字（${Math.round(bsChineseChars / BS_LIMIT * 100)}% of ${BS_LIMIT} 上限）`
-      : `❌ 当前 ${bsChineseChars} 字超过 ${BS_LIMIT} 上限（${Math.round(bsChineseChars / BS_LIMIT * 100)}%）· 精简建议：去 v0 全文（只留 diff ≤200 字）· dialogue_seeds 每条 ≤30 字 · 场景环境描写挪到 novel · 详见 workflow.md "## 非 novel 产物字数配额"`,
+    name: `beat-sheet 中文字 ≤ ${BS_TARGET}（hard ${BS_HARD}）`,
+    passed: !bsOverHard,  // 只有超过 hard 才算硬失败
+    soft_warn: bsOverTarget && !bsOverHard,  // 擦边 soft-warn 不阻断
+    hint: !bsOverTarget
+      ? `✓ 当前 ${bsChineseChars} 字（${Math.round(bsChineseChars / BS_TARGET * 100)}% of ${BS_TARGET} target）`
+      : !bsOverHard
+        ? `⚠️ 当前 ${bsChineseChars} 字擦边超量（${Math.round(bsChineseChars / BS_TARGET * 100)}% of ${BS_TARGET} target · 未超 ${BS_HARD} hard 上限）· 不阻断 · 后续自然减重`
+        : `❌ 当前 ${bsChineseChars} 字超过 ${BS_HARD} hard 上限（${Math.round(bsChineseChars / BS_HARD * 100)}%）· 精简建议：去 v0 全文 · dialogue_seeds 每条 ≤30 字 · 场景环境描写挪到 novel · 详见 workflow.md`,
   });
 
   // 软约束 id 列表——不通过仅警告，不阻断
@@ -251,8 +259,15 @@ function main() {
     'reader_preview_notes',
   ]);
   for (const c of result.checks) {
-    const icon = c.passed ? '✅' : (SOFT_CHECKS.has(c.id) ? '⚠️ ' : '❌');
+    const icon = c.soft_warn
+      ? '⚠️ '
+      : (c.passed ? '✅' : (SOFT_CHECKS.has(c.id) ? '⚠️ ' : '❌'));
     console.log(`${icon} ${c.name} — ${c.hint}`);
+  }
+
+  const softWarns = result.checks.filter(c => c.soft_warn).length;
+  if (softWarns > 0) {
+    console.log(`\n⚠️  ${softWarns} 项擦边超量（100%-120% · 不阻断 · 后续自然减重即可）`);
   }
 
   if (result.warnings && result.warnings.length > 0) {
