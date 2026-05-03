@@ -1,6 +1,6 @@
 {
-  "id": "ep05",
-  "title": "ep05",
+  "id": "ep07",
+  "title": "ep07",
   "logline": "",
   "agents": [],
   "skills": [
@@ -10,9 +10,9 @@
   "mode": "team",
   "maxTurns": 50,
   "maxDurationMs": 1800000,
-  "createdAt": "2026-05-02T18:07:30.357Z",
-  "updatedAt": "2026-05-02T18:41:37.899Z",
-  "wrappedAt": "2026-05-02T18:41:37.899Z",
+  "createdAt": "2026-05-03T13:35:05.168Z",
+  "updatedAt": "2026-05-03T13:58:59.335Z",
+  "wrappedAt": "2026-05-03T13:58:59.335Z",
   "fsmStats": {
     "totalTurns": 0,
     "maxTurns": 50,
