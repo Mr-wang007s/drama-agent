@@ -9,14 +9,14 @@
 - **SOUL v4.0 三层结构**：身份层 → 心理层（OCEAN + 创伤链）→ 表演层
 - **故事 = stories/<name>/**：每个子目录是一个独立故事，包含 world/ + agents/ + episodes/
 - **三角架构**：`.codebuddy/skills/` 下 3 个 Skill（drama-world / drama-director / drama-critic）
-- **Team 模式（v3）**：`.codebuddy/agents/` 下 6 个 drama 专用 subagent（drama-editor / drama-reader / drama-writer / drama-character / drama-world-keeper / drama-advisor）· 用于 Phase 3 心脏戏 / Phase 4 责编 / Phase 5 读者终审
-- **豪华 8 人创作班子**：导演 + 编剧 + 责编 + 表演指导 + 文学顾问 + 悬疑顾问 + 读者代表 + 世界管家
-- **6 阶段线性流水线**：选角定调 → 班子开盘 → 大 Team 演绎 → 责编内审 → AI 味门控+读者终审 → Wrap
-- **直写模式已废止**：任何场景必须使用 Team 模式（独幕演 = 最小合法 Team）
+- **Team 模式（v4 单点深度）**：`.codebuddy/agents/` 下 6 个 drama 专用 subagent · v4 只在 2 处 TEAM 必须——Phase 2.3 `drama-character` × N 审骨架 + Phase 5 `drama-reader` 终审盲评
+- **创作班子 9 位**（v4）：导演 + 编剧 + 预读者 + 角色 × N + 悬疑顾问 + 表演指导 + 责编 + 文学顾问 + 终审读者
+- **6 阶段流水线（Phase 2 内部 5 步）**：选角定调 → Phase 2.1-2.5（编剧起草 → 预读者盲测 → writers-room 审骨架 → 编剧改稿 → 脚本校验）→ persona 编译 → 责编 persona 审 → AI 味门控+终审读者 → Wrap
+- **对抗前置**（v4 核心）：对抗集中在 Phase 2（编剧 team + 角色 writers-room + 预读者），Phase 3-4 全 persona
 - **Canon 保护**：world/bible.md 和 agents/*/SOUL.yaml 的核心身份字段受写保护。
 - **有界记忆**：每个 Agent 的 MEMORY.md 按 tier 有容量上限（S: 2000 / A: 1200 / B: 600 字符）。
 - **对话驱动**：所有能力通过自然对话触发 Skill，由主 Agent 识别意图后执行。
-- **轻 Skill + 重 Reference**：SKILL.md 保持精简骨架（~150 行），专业知识在 `references/craft/` 下 **8 大领域**按需加载。
+- **轻 Skill + 重 Reference**：SKILL.md 保持精简骨架（~180 行），专业知识在 `references/craft/` 下 **8 大领域**按需加载。
 
 ### 工作方式：对话 → Skill → 行动
 
@@ -43,19 +43,30 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
 - **`examples/`**：样板归档
 - **`.codebuddy/skills/`**：Skill 能力层（三角架构：world / director / critic），工具脚本归属在各 Skill 的 `scripts/` 子目录
 
-### Subagent 架构（v3 Team 模式）
+### Subagent 架构（v4 单点深度 Team）
 
 ```
-.codebuddy/agents/              # ✨ v3 新增：项目级 subagent
-├── drama-editor.md             # Phase 4 责编（TEAM 必须 · GAN 对抗核心）
-├── drama-reader.md             # Phase 5 读者代表（TEAM 必须 · 跨集 reader-memory）
-├── drama-writer.md             # Phase 2 编剧（persona 默认 · 特殊情况 team）
-├── drama-character.md          # Phase 3 心脏戏角色 agent 通用模板（TEAM 必须）
-├── drama-world-keeper.md       # Phase 3 心脏戏节奏/信息裁判（TEAM 必须）
+.codebuddy/agents/              # 项目级 subagent
+├── drama-editor.md             # v4 降级为 persona 加载手册（不再 spawn · Phase 4 主 agent 切身份）
+├── drama-reader.md             # Phase 5 终审读者（TEAM 必须）+ Phase 2.2 预读者（persona · 不 spawn · 加载模式不同）
+├── drama-writer.md             # Phase 2.1/2.4 编剧（persona 默认 · 特殊情况 team）
+├── drama-character.md          # Phase 2.3 writers-room 审骨架（TEAM 必须 · 岗位从 v3 的 Phase 3 心脏戏转移至此）
+├── drama-world-keeper.md       # v4 废止（心脏戏 team 废）· 文件保留供 v3 兼容和历史参考
 └── drama-advisor.md            # 顾问通用模板（mystery/prose/performance · persona 为主）
 ```
 
 每个 subagent 声明 `tools`（权限）· 加载对应的 craft 文件 · 保证身份封闭与独立判断。
+
+v4 相对 v3 的 subagent 用法变化：
+
+| Subagent | v3 用法 | **v4 用法** |
+|---|---|---|
+| drama-writer | Phase 2 persona / 特殊 team | Phase 2.1 / 2.4 persona（同） |
+| drama-character | Phase 3 心脏戏 team | **Phase 2.3 writers-room team**（岗位转移）|
+| drama-world-keeper | Phase 3 心脏戏 team 裁判 | **废止**（心脏戏回 persona 直写）|
+| drama-editor | Phase 4 team 必须 | **persona 加载手册**（降级）|
+| drama-reader | Phase 5 team 必须 | **Phase 5 team 必须**（保留）+ **Phase 2.2 persona 预读者**（加载模式不同）|
+| drama-advisor | persona | persona（同）|
 
 ### Skill 架构（三角）
 
@@ -90,56 +101,69 @@ Skill 内部按需调用 `.codebuddy/skills/<skill>/scripts/` 下的工具脚本
     └── scripts/          # check-ai-taste.js（A 级硬约束 + C5.1-C5.10 句式黑名单）
 ```
 
-### 8 人创作班子编制（v3 Team 模式）
+### 创作班子编制（v4 · 9 位）
 
 | 成员 | spawn_mode | subagent | 出场阶段 | 加载的 craft 文件 | 核心职责 |
 |---|---|---|---|---|---|
 | **导演**（主 Agent）| main-agent | — | 全程 | workflow + roster | 选角、定基调、仲裁 |
-| **编剧** | persona（默认）/ team（特殊）| `drama-writer` | Phase 2 | conflict + scene-design + mystery + narrative-weight | 写 beat-sheet v3.1 |
-| **悬疑顾问** | persona | `drama-advisor(mystery)` | Phase 2, 4 | mystery | 三铁律 + 钩子经济 |
-| **表演指导** | persona | `drama-advisor(performance)` | Phase 3 | characterology + dialogue | performance-briefing |
-| **世界管家** | **TEAM**（心脏戏）| `drama-world-keeper` | Phase 3 | team-protocol + scene-design | 节奏/信息裁判 |
-| **角色 Agent × N** | **TEAM**（心脏戏）| `drama-character` | Phase 3 | 自己 SOUL + MEMORY | SOUL 驱动的对话演绎 |
-| **责编** | **TEAM 必须** | `drama-editor` | Phase 4 | editing + prose + dialogue + narrative-weight | 8 步 SOP · 反流水账四禁 |
+| **编剧** | persona | `drama-writer` | Phase 2.1, 2.4 | conflict + scene-design + mystery + narrative-weight | 起草 beat-sheet v0 + 吸收反馈改稿 → v1 |
+| **预读者**（v4 新）| persona | `drama-reader`（加载模式不同）| Phase 2.2 | **不加载 craft**（只加载 reader-memory）| 盲测骨架 · 追更冲动预测（无评分）|
+| **角色 Agent × N**（v4 岗位转移）| **TEAM 必须** | `drama-character` | Phase 2.3 | 自己 SOUL + MEMORY + 个人 beat 摘要 | 审骨架 · 反对/争取/台词种子三问 |
+| **悬疑顾问** | persona | `drama-advisor(mystery)` | Phase 2.1, 4 | mystery | 三铁律 + 钩子经济 |
+| **表演指导** | persona | `drama-advisor(performance)` | Phase 3（可选）| characterology + dialogue | performance-briefing（可选）|
+| **责编**（v4 降级）| persona | `drama-editor`（persona 手册）| Phase 4 | editing + prose + dialogue + narrative-weight | 8 步 SOP · 反流水账四禁 · 文本层 |
 | **文学顾问** | persona | `drama-advisor(prose)` | Phase 4（按需）| prose + narrative-weight | 只执行责编 order |
-| **读者代表** | **TEAM 必须** | `drama-reader` | Phase 5 | **不加载 craft** | 跨集盲评（reader-memory）|
+| **终审读者** | **TEAM 必须** | `drama-reader` | Phase 5 | **不加载 craft** | 盲评 · 打分 · 更新 reader-memory |
 
-**v3 反 persona 三条标准**（命中 ≥2 必须 Team）：
+**v4 反 persona 三条标准**（命中 3/3 必须 Team · 收紧于 v3 的 ≥2）：
 1. 身份独立性（与作者视角分离？）
 2. 信息封闭性（不该读内部文档？）
 3. 对抗性（使命是挑毛病？）
 
+→ v4 只有 Phase 2.3 writers-room + Phase 5 终审读者 3/3 满命中。其余 persona。
+
 详细班子卡片见 `drama-director/references/team-roster.md`。
 
-### 6 阶段创作流水线
+### 6 阶段流水线（v4）
 
 ```
-Phase 1: 导演独立选角定调（读 context + 选角 + 基调 + 快照）
-Phase 2: 创作班子开盘（编剧 + 悬疑顾问 → beat-sheet v3，含 8 问自检）
-Phase 3: 大 Team 演绎（表演指导 + 世界管家 + 所有角色 Agent）
-Phase 4: 责编内审 + 文学顾问润色（7 步 SOP，迭代 ≤ 2 轮）
-Phase 5: AI 味门控 + 读者终审（check-ai-taste EXIT=0 + 读者代表 ≥ 7.0）
-Phase 6: Wrap 收尾（调用 drama-world 能力 + 更新 hooks/imagery ledgers）
+Phase 1: 导演选角定调（读 context + 选角 + 基调 + 快照 + init + reader-memory 硬需求映射）
+Phase 2: 创作班子开盘（内部 5 步）
+  ├── 2.1 编剧 persona 起草 beat-sheet v0（scene_weight + 8 问 + canon_check）
+  ├── 2.2 预读者 persona 盲测骨架 → reader-preview.md（无评分）
+  ├── 2.3 writers-room TEAM 审骨架（drama-character × N · 三问：反对/争取/台词种子）
+  ├── 2.4 编剧 persona 改稿 → v1（含 agent_voices + reader_preview_notes）
+  └── 2.5 validate-beat-sheet 脚本校验
+Phase 3: 演绎编译 novel.md（主 agent / 编剧 persona 直写）
+Phase 4: 责编 persona 内审 + 文学顾问 persona 润色（迭代 ≤ 2 轮）
+Phase 5: AI 味门控（check-ai-taste EXIT=0）+ 终审读者 TEAM 盲评 ≥ 7.0
+Phase 6: Wrap 收尾（调用 drama-world 能力 + 更新 hooks/imagery ledgers · architecture=director-v4-deep-team）
 ```
 
-**Token 预算**：从旧架构的 ~62K/集 降至 ~41K/集（-34%），创作占比从 24% 提升至 67%。
+**Token 预算**：v4 ~40K/集（与 v3 ~41K 持平 · 但对抗前置到 Phase 2 · ROI 显著提升 · 创作占比 75%）。
 
-### 故事子项目结构
+### 故事子项目结构（v4）
 
 ```
 stories/<name>/
-├── .story.json              # 故事元数据（title/genre/seedSource）
+├── .story.json              # 故事元数据（title/genre/seedSource/architecture_version: v4）
 ├── agents/                  # Agent 居民（SOUL + MEMORY + RULES）
 ├── world/                   # 世界状态（bible + state + timeline + imagery-ledger + hooks-ledger）
-└── episodes/                # 单集产出（六件套）
+├── runtime/                 # 跨集运行态
+│   └── reader-memory.md     # 终审读者跨集积累（Phase 2.2 读 · Phase 5 写）
+└── episodes/                # 单集产出
     └── <ep-id>/
-        ├── episode-brief.md         # Phase 1 导演产出
-        ├── beat-sheet.md            # Phase 2 编剧产出
+        ├── episode-brief.md         # Phase 1 产出（含 writers-room 成员）
+        ├── beat-sheet.md            # Phase 2.4 产出（v1 · agent_voices + reader_preview_notes）
+        ├── runtime/                 # 集内运行态
+        │   ├── reader-preview.md    # v4 · Phase 2.2 预读者盲测
+        │   ├── agent-audit-log.md   # v4 · Phase 2.3 writers-room 发言记录
+        │   └── beats-<agent-id>.md  # v4 · 每个 writers-room 成员的个人 beat 摘要
         ├── output/
-        │   ├── novel.md             # Phase 3-5 正文
-        │   ├── editor-review.md     # Phase 4 责编产出
-        │   └── reader-verdict.md    # Phase 5 读者代表产出
-        └── wrap-report.md           # Phase 6 收尾
+        │   ├── novel.md             # Phase 3-4 正文
+        │   ├── editor-review.md     # Phase 4 责编 persona 产出
+        │   └── reader-verdict.md    # Phase 5 终审读者 team 产出
+        └── wrap-report.md           # Phase 6 收尾（含 v4 架构数据）
 ```
 
 ### 修改建议
@@ -175,6 +199,9 @@ stories/<name>/
 - 不要直接修改 Agent 的 MEMORY.md（由 wrap 时统一写入）
 - 不要在没有快照的情况下覆盖 stories/ 下的目录
 - 不要让 Agent SOUL.yaml 的核心身份字段（id/trauma/motivation）随意变动
-- 不要让导演"动笔"（导演只做战略决策，创作交给班子）
-- 不要让读者代表加载 craft 文件（保持纯直觉）
-- 不要跳过 Phase 4 责编内审（GAN 架构核心保证）
+- 不要让导演"动笔"（导演只做战略决策，创作交给班子 persona/team）
+- 不要让 Phase 2.2 预读者或 Phase 5 终审读者加载 craft 文件（保持纯直觉）
+- 不要让 Phase 2.2 预读者打分（那是 Phase 5 终审读者的活）
+- 不要让 Phase 2.3 writers-room 的角色 agent 看到其他角色的 secret（信息封闭硬约束）
+- 不要让 Phase 5 终审读者读 reader-preview.md 或 agent-audit-log.md（两读者互不通信）
+- 不要跳过 Phase 4 责编内审（即使 persona 化 · 反流水账四禁继承）

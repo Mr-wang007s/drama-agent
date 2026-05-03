@@ -1,26 +1,44 @@
-# Team Protocol · 8 人班子交互协议
+# Team Protocol · Team 交互协议（v4）
 
 > 配合 `team-roster.md` 使用——roster 定义"谁"，protocol 定义"怎么协作"。
-> 本文件是**世界管家**的核心协议手册。
+>
+> **v4 重大变化**（EP06+ 生效）：
+> - **Phase 3 心脏戏 team 协议废止**（"一、~四、"节 · 历史参考）
+> - **Phase 2.3 writers-room 协议启用**（新增节 · v4 核心）
+> - **Phase 5 终审读者 team 协议** 沿用
+>
+> 本文件 v4 后作为 **writers-room** 的核心协议手册。
 
 ---
 
-## 一、Team 模式是唯一合法模式
+## ⚠️ v4 废止声明（原一~四节 · 仅历史参考）
 
-DramaAgent 的核心哲学：**让角色自己演**，不让作者替角色写。
+以下 Phase 3 心脏戏 team 的内容 **EP06 起废止** · 保留仅供：
+- v3 归档集（EP01-EP05）的追溯阅读
+- 未来若验证 writers-room 不够用再考虑恢复
 
-### 规则
+**不得**在 v4 流水线中调用这些协议。
 
-1. **Phase 3 的任何场景演绎必须使用 Team 模式**
-2. **最小合法 Team = 独幕演（1 角色 Agent + 世界管家 + 表演指导）**
-3. **直写模式已废止**——即使独角戏，Director 也**不得**以全知视角直接写作
+---
 
-### 为什么
+## 一、Team 模式是唯一合法模式（v3 · v4 已修订）
 
-Director 用全知视角写出来的东西，不论多精彩，都是"作者的想法"。
-Agent 在压力下自发产生的东西，才是"角色的反应"。
+~~DramaAgent 的核心哲学：**让角色自己演**，不让作者替角色写。~~
 
-前者让读者觉得"作者在写"，后者让读者觉得"故事在发生"。
+**v4 修订**：对抗前置到 Phase 2.3 · 执行阶段（Phase 3）回归 persona 直写。"让角色自己演"的核心转化为"**让角色自己帮编剧写骨架**"——角色的自主性体现在剧情方向而非执行细节。
+
+### v3 规则（废止）
+
+~~1. **Phase 3 的任何场景演绎必须使用 Team 模式**~~
+~~2. **最小合法 Team = 独幕演（1 角色 Agent + 世界管家 + 表演指导）**~~
+~~3. **直写模式已废止**——即使独角戏，Director 也**不得**以全知视角直接写作~~
+
+### v4 规则（生效）
+
+1. **Phase 2.3 writers-room 必须使用 Team 模式**（见第六节）
+2. **Phase 5 终审读者必须使用 Team 模式**（见第七节）
+3. **Phase 3 持 persona 直写**（不再有"直写模式废止"一说）
+4. **角色台词的自主性通过 Phase 2.3 台词种子保证**（dialogue_seeds 在 Phase 3 编译时原话落地）
 
 ---
 
@@ -703,3 +721,150 @@ stand-by Agent（如 Phase 3 的编剧）不消耗大量 token——只在接收
 > Team 协议的本质：**让每个 Agent 知道自己的边界，不越权**。
 > 边界清晰 → 协作高效；边界模糊 → 协作崩溃。
 > 世界管家的职业信条：**我是裁判，不是球员**。
+
+---
+
+# 🆕 六、Phase 2.3 writers-room 协议（v4 新增 · 核心）
+
+> v4 的对抗主战场。编剧把骨架 v0 交给角色 agent team · 角色独立发声 · 编剧综合整合。
+> 本节是 **v4 流水线的核心协议手册**。
+
+## 6.1 角色与职责
+
+| 角色 | 身份 | 职责 |
+|---|---|---|
+| team-lead | 主 agent（导演兼职）| 建 team · 准备个人 beat 摘要 · 收集 audit log · shutdown |
+| drama-character × N | S/A 级出场角色 | 按自己 SOUL/MEMORY 独立发言 · 回答三问 |
+
+## 6.2 Lifecycle（生命周期）
+
+```
+1. 主 agent 完成 beat-sheet v0（Phase 2.1）
+2. 主 agent 完成 reader-preview（Phase 2.2）
+3. 主 agent 进入 Phase 2.3：
+   3.1 为每个 S/A 级出场角色生成个人 beat 摘要 beats-<agent-id>.md
+   3.2 team_create({ team_name: "ep<XX>-writers-room" })
+   3.3 并行 spawn drama-character × N
+   3.4 等所有角色 send_message 回传
+   3.5 落盘 agent-audit-log.md（三问答案 · 暂不填"编剧综合意见"节）
+   3.6 对每个角色 send_message(shutdown_request)
+   3.7 team_delete()
+4. 主 agent 切回编剧 persona · 进 Phase 2.4
+```
+
+## 6.3 消息格式规范
+
+### 6.3.1 team-lead → 角色（开场 spawn prompt · 已在 team-roster.md 第 4 节定义）
+
+### 6.3.2 角色 → team-lead（三问答案）
+
+```
+send_message({
+  type: "message",
+  recipient: "main",
+  summary: "<角色名> writers-room 审骨架完成",
+  content: `
+## 我是 <角色名>
+
+### 1. 反对的 beat
+- Scene X · B{N}: {反对 + 理由}
+- （或：无）
+
+### 2. 想争取的 beat
+- {具体 scene 或"新 scene" + 内容}
+- （或：无）
+
+### 3. 台词种子
+- Scene X · B{N}:
+  > {原话 · 1-3 句}
+`
+})
+```
+
+### 6.3.3 team-lead → 角色（shutdown_request）
+
+```
+send_message({
+  type: "shutdown_request",
+  recipient: "<agent-id>",
+  content: "writers-room 审骨架完成 · 编剧综合稿待写 · 感谢你的发言 · 请退场"
+})
+```
+
+## 6.4 信息封闭硬协议
+
+**对每个角色 agent · 以下信息严禁通过 prompt 或任何消息传入**：
+
+```
+❌ 其他角色的 SOUL.yaml 全量
+❌ 其他角色的 MEMORY.md
+❌ 其他角色的 active_secret（任何形式）
+❌ beat-sheet.md 的 writer_self_check 全量答案
+❌ beat-sheet.md 的 canon_check 全量
+❌ beat-sheet.md 的 narrative_time_operation
+❌ reader-preview.md 的内容
+❌ episode-brief.md 的"本集任务"节
+❌ 其他角色即将在 writers-room 中的发言（并行 spawn · 互不可见）
+```
+
+**允许通过个人 beat 摘要传入**：
+
+```
+✅ 该角色出现的 scene 列表
+✅ 每场 title + budget_chars + function + outer_conflict 描述
+✅ 每场 key_beats 中涉及该角色的动作（不含其他角色内心动机）
+✅ 该角色在本集的三层动机
+✅ 全集概括（300 字 · 不含 secret）
+```
+
+**违反封闭 = 作者视角污染 · Phase 2.3 的产出不可信**。
+
+## 6.5 并行 spawn 原则
+
+所有角色 agent **必须并行 spawn**（同一 message 内多次 task 调用）：
+- 并行 = 角色之间互不可见 · 避免后发言者被先发言者影响
+- 串行 = 污染（无论是否通过消息传递）
+
+## 6.6 发言超时策略
+
+角色 agent 在 team_create 后 10 分钟（或相当于约 20K token 等待）内未 send_message：
+
+```
+1. team-lead 再发一次 message 催促："你的发言 pending · 请完成三问回答"
+2. 再等 5 分钟仍无回应 → 记该角色"未发言·跳过"
+3. agent-audit-log.md 该角色节写："<未在超时内发言>"
+4. 继续 Phase 2.4 · 编剧改稿时标注"该角色反对未收集"
+```
+
+## 6.7 Phase 2.3 与 Phase 5 的隔离
+
+| 项 | Phase 2.3 writers-room | Phase 5 终审读者 team |
+|---|---|---|
+| 参与者 | drama-character × N | drama-reader × 1 |
+| 输入 | 自己 SOUL + 个人 beat 摘要 | novel.md + reader-memory.md |
+| 输出 | 三问答案 | 10 项 verdict + reader-memory 更新 |
+| 是否读其他 team 产物 | 不读 Phase 5 产物 · Phase 5 也不读 Phase 2.3 产物 | 互不通信 |
+| 对抗性 | 角色自主性对 vs 作者视角 | 读者直觉对 vs 作者视角 |
+
+**两个 team 在整条流水线中互不触达** · 通过 `reader-memory.md` 跨集间接通信（Phase 5 写 · Phase 1/2.2 读）。
+
+---
+
+# 🆕 七、Phase 5 终审读者协议（v3 沿用 · v4 保留）
+
+Phase 5 协议与 v3 保持一致 · 详见：
+- `team-roster.md` 第 9 节（终审读者）
+- `workflow.md` Phase 5 步骤
+
+关键约束重申：
+- 必须 spawn drama-reader · 不允许 persona 替代
+- 严禁加载 craft / beat-sheet / editor-review / reader-preview / agent-audit-log
+- 更新 reader-memory.md 时保留历史记录 · 只追加不覆盖
+
+---
+
+> **v4 Team 协议哲学**（更新）：
+> - 对抗前置：writers-room 在规划阶段让角色参与
+> - 信息封闭：每个 team 成员只看自己该看的
+> - 独立判断：team 之间互不通信
+> - 单点深度：只在最需要对抗的地方开 team · 其余全 persona

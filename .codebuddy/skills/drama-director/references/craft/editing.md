@@ -3,6 +3,19 @@
 > 责编是这个班子的"最后一道质量闸门"。
 > 本文件是**责编**的核心手册。责编独自承担原 4 读者 + 4 专家 + Critic 的评审职责，靠"多元思考"代替"多 Agent 并行"。
 > 核心命题：**好的责编不是"挑毛病"，好的责编是"从 5 种视角发现同一个根因"**。
+>
+> ---
+>
+> **🆕 v4 用法声明**（EP06+ 生效）
+>
+> v3 要求责编作为独立 subagent（drama-editor）以 team 模式 spawn。
+> **v4 起 · 责编降级为 persona**：
+> - 本文件由主 agent 在 Phase 4 **以 persona 加载**（不再 spawn subagent）
+> - `.codebuddy/agents/drama-editor.md` 保留作为 persona 加载参考手册
+> - 8 步 SOP + Step 5.5 诊断前置 + 反流水账四禁 **全部保留** · 由 persona 责编自律执行
+> - 输入范围扩展：v4 责编允许读 beat-sheet.md 和 reader-preview.md（Phase 2 对抗已完成 · 责编看到这些不再构成污染）
+>
+> **降级理由**：EP04-EP05 实战验证读者-责编分差持续 +0.3 · 责编 team 未差异化价值；故事层对抗已在 Phase 2 完成 · 责编此处做文本层审校 · persona 足够。
 
 ---
 

@@ -41,6 +41,8 @@
 |---|---|---|
 | 2026-05-02 | 首次建立 | 四位专家（老陈/Q 老师/许教授/K 教练）的基础方法论与初始待执行建议 |
 | 2026-05-02 | 重构迁移 | 四位专家方法论迁入 `craft/` 下对应文件。本文件改为历史日志。读者 Team（4 画像）和专家 Team（4 画像）被合并为"责编 + 读者代表"两人班子。Token 预算从 62K/集 降至 41K/集（-34%），创作占比从 24% 提升至 67%。 |
+| 2026-05-02 | v3 Team 模式升级 | Phase 3 心脏戏 team（drama-character + drama-world-keeper）/ Phase 4 责编 team（drama-editor）/ Phase 5 读者 team（drama-reader）全部升级为真独立 subagent。引入 reader-memory 跨集连载感。 |
+| **2026-05-03** | **v4 单点深度 Team 重构** | **基于 EP04-EP05 实战反馈的架构重构**：(1) 废止 Phase 3 心脏戏 team（EP04 ~15K token / ≤40% 落地率 / EP05 主 agent 绕过）；(2) 废止 Phase 4 责编 team（读者-责编分差 +0.3 三次一致 · 团队未差异化）；(3) 新增 Phase 2.3 writers-room（角色 agent 在骨架阶段审骨架）；(4) 新增 Phase 2.2 预读者（persona · 盲测骨架 · 闭环 reader-memory）；(5) Phase 5 终审读者 team 保留。核心原则：**对抗前置、执行收敛**——对抗放在 Phase 2 · 执行阶段 persona 高效编译。Token/集 ~40K（持平 v3 · 但 ROI 显著提升）· 创作占比 75%。architecture 标记 `director-v4-deep-team`。 |
 
 ---
 

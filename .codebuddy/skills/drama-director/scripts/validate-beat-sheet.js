@@ -160,8 +160,47 @@ function validate(text) {
     });
   }
 
+  // 10 (v4 新增 · 软约束). agent_voices 字段（Phase 2.3 writers-room 产出回流）
+  //    旧集（v3 及更早）无此字段 · 缺失只 warning 不 error · 保证向后兼容
+  const hasAgentVoices = /agent_voices\s*[：:]/i.test(text);
+  const versionMatch = text.match(/^\s*version\s*[：:]\s*["']?(v[0-9]+)["']?/m);
+  const declaredVersion = versionMatch ? versionMatch[1] : null;
+  const architectureMatch = text.match(/architecture\s*[：:]\s*["']?([a-z0-9-]+)["']?/i);
+  const declaredArchitecture = architectureMatch ? architectureMatch[1] : null;
+  const isV4Architecture = declaredArchitecture && declaredArchitecture.includes('v4');
+
+  checks.push({
+    id: 'agent_voices',
+    name: `agent_voices 字段（v4 writers-room 产出）`,
+    passed: hasAgentVoices,
+    hint: hasAgentVoices
+      ? `✓ agent_voices 存在 · Phase 2.3 角色审骨架意见已回流`
+      : isV4Architecture
+        ? `⚠️ 声明 architecture=v4 但缺失 agent_voices · 建议补齐 Phase 2.3 产出`
+        : `⚠️ 未检测到 agent_voices 字段（v4 新增 · v3 及旧集可忽略 · EP06+ 建议补齐）`,
+  });
+
+  // 11 (v4 新增 · 软约束). reader_preview_notes 字段（Phase 2.2 预读者产出回流）
+  const hasReaderPreviewNotes = /reader_preview_notes\s*[：:]/i.test(text);
+  checks.push({
+    id: 'reader_preview_notes',
+    name: `reader_preview_notes 字段（v4 预读者盲测回流）`,
+    passed: hasReaderPreviewNotes,
+    hint: hasReaderPreviewNotes
+      ? `✓ reader_preview_notes 存在 · Phase 2.2 预读者预测已回流`
+      : isV4Architecture
+        ? `⚠️ 声明 architecture=v4 但缺失 reader_preview_notes · 建议补齐 Phase 2.2 产出`
+        : `⚠️ 未检测到 reader_preview_notes 字段（v4 新增 · v3 及旧集可忽略 · EP06+ 建议补齐）`,
+  });
+
   // 软约束 id 列表——不通过仅警告，不阻断
-  const SOFT_CHECKS = new Set(['position_declared', 'word_budget_upper', 'scene_weight']);
+  const SOFT_CHECKS = new Set([
+    'position_declared',
+    'word_budget_upper',
+    'scene_weight',
+    'agent_voices',            // v4 新增软约束
+    'reader_preview_notes',    // v4 新增软约束
+  ]);
   const errors = checks.filter(c => !c.passed && !SOFT_CHECKS.has(c.id));
   const warnings = checks.filter(c => !c.passed && SOFT_CHECKS.has(c.id));
   return { checks, errors, warnings, passed: errors.length === 0 };
@@ -190,7 +229,13 @@ function main() {
   console.log('\n=== Beat-Sheet 校验报告 ===\n');
   console.log(`文件: ${path.relative(ROOT, file)}\n`);
 
-  const SOFT_CHECKS = new Set(['position_declared', 'word_budget_upper', 'scene_weight']);
+  const SOFT_CHECKS = new Set([
+    'position_declared',
+    'word_budget_upper',
+    'scene_weight',
+    'agent_voices',
+    'reader_preview_notes',
+  ]);
   for (const c of result.checks) {
     const icon = c.passed ? '✅' : (SOFT_CHECKS.has(c.id) ? '⚠️ ' : '❌');
     console.log(`${icon} ${c.name} — ${c.hint}`);

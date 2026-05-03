@@ -16,6 +16,7 @@
 | v2.0 | 2026-04-11 | 架构简化为 Harness + Multi-Agent；砍掉 DramaSpec 重型规格流程 |
 | v3.0 | 2026-04-11 | 根本性重定义：从"剧本生产工具"转型为"AI Agent 身份模拟平台"；引入 Agent Identity System + World Engine + Skill Content Library + Harness Engineering 四层架构 |
 | **v4.0** | **2026-04-11** | **引擎通用化**：master 分支 = 纯引擎，故事在分支上生成；**影帝级角色系统**：SOUL v4.0 三层结构（身份层 → 心理层 → 表演层）、OCEAN 人格模型、Ghost-Wound-Lie-Shield 创伤链、内心独白机制、角色校验器；新增 `drama init` 和 `drama create-character` 命令 |
+| **v4.1** | **2026-05-03** | **director 架构 v4 单点深度 Team 重构**（story 层变化 · 不触 PRD 主体架构）：废止 Phase 3 心脏戏 team / Phase 4 责编 team，新增 Phase 2.3 writers-room + Phase 2.2 预读者；流水线从"对抗分散"转为"对抗前置"；详见 `.codebuddy/rules/pro-advisory-notes.md` 2026-05-03 条目 |
 
 ---
 

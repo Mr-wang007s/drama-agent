@@ -3,6 +3,8 @@
 > 给 Agent 身份、记忆、人格，让它们在共享世界中自由演绎。
 > **核心工作方式**：用户用自然语言对话，Skill 识别意图后由主 Agent 指挥专业班子执行。
 > **v7.0 核心升级**：从"导演一人扛全流程"的单点重架构，重构为"豪华 8 人创作班子协同演绎"。
+>
+> **🆕 2026-05-03 · director 架构 v4 单点深度 Team 重构**：对抗前置到 Phase 2（编剧 team + 角色 writers-room + 预读者）· Phase 3-4 全 persona · Phase 5 终审读者 team 保留 · 详见 `CODEBUDDY.md` 的"创作班子编制（v4 · 9 位）"节和 `.codebuddy/rules/pro-advisory-notes.md` 2026-05-03 条目。
 
 ---
 

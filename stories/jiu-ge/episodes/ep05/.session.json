@@ -6,10 +6,18 @@
   "skills": [
     "screenplay"
   ],
-  "status": "initializing",
+  "status": "wrapped",
   "mode": "team",
   "maxTurns": 50,
   "maxDurationMs": 1800000,
   "createdAt": "2026-05-02T18:07:30.357Z",
-  "updatedAt": "2026-05-02T18:07:30.357Z"
+  "updatedAt": "2026-05-02T18:41:37.899Z",
+  "wrappedAt": "2026-05-02T18:41:37.899Z",
+  "fsmStats": {
+    "totalTurns": 0,
+    "maxTurns": 50,
+    "elapsedMs": 0,
+    "maxDurationMs": 1800000,
+    "stateHistory": 4
+  }
 }
