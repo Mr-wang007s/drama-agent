@@ -77,6 +77,15 @@ const RULES = [
     hint: '不允许在正文中使用 ## 或 ### 分幕标题。用空行或 ＊ ＊ ＊ 分隔。',
   },
   {
+    id: 'chapter_title_missing',
+    name: '章节一级标题缺失（# 第X章 · 标题）',
+    pattern: /^#\s+第[一二三四五六七八九十百千]+章\s*[·・]\s*\S+/m,
+    required: true,
+    limit: '≥1',
+    level: 'error',
+    hint: 'novel.md 必须以 "# 第{中文数字}章 · {标题}" 开头（全篇唯一）。章名取自 beat-sheet.md 的 title 字段。详见 compile-novel.md 格式标准。',
+  },
+  {
     id: 'chinese_numeral_section',
     name: '章节内数字/符号分节（"一"/"二"/"（一）"/"其一"/"Part 1" 独立段）',
     pattern: /^[\s　]*(?:[一二三四五六七八九十]|其[一二三四五六七八九十]|（[一二三四五六七八九十\d]+）|\([一二三四五六七八九十\d]+\)|[0-9]{1,2}|(?:Part|Scene|Section|Chapter)\s*[0-9A-Za-z一二三四五六七八九十]+)[\s　]*$/gm,
@@ -298,7 +307,7 @@ function main() {
   const results = RULES.map((rule) => {
     const matches = text.match(rule.pattern) || [];
     const count = matches.length;
-    const passed = count <= rule.limit;
+    const passed = rule.required ? count >= 1 : count <= rule.limit;
     const contexts = passed ? [] : findContexts(text, rule.pattern, 3);
     return { ...rule, count, passed, contexts };
   });
