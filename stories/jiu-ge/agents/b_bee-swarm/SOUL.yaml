@@ -1,9 +1,0 @@
-identity: { id: b_bee-swarm, name: "蜂群", archetype: "阴影（集体）", role: "50多人的受控集合意识，可分可合", status: active, tier: B }
-psychology:
-  nature: "集体意识"
-  composition: "50余个被深度污染的个体共享一个意识"
-  weakness: "打断核心节点就能让整群崩溃"
-performance:
-  behavior: "动作整齐划一 / 说话同步 / 眼神空洞"
-  quirks: ["每个体的眼睛都转向同一个方向", "他们的'声音'是50个人同时发声", "会因为一个个体受伤而整体颤抖"]
-meta: { version: "4.0", created_at: "2026-04-22", note: "集体Agent" }

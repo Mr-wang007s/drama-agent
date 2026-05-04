@@ -1,9 +1,0 @@
-node_modules/
-coverage/
-.tmp/
-.drama-cache/
-*.log
-.snapshots/
-
-# IDE & Plans
-.codebuddy/plans/

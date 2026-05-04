@@ -1,9 +1,0 @@
-identity: { id: b_qi-qi, name: "七七", archetype: "盟友（通灵）", role: "巫九娘的纸娃娃，有自主意识", status: active, tier: B }
-psychology:
-  nature: "纸人"
-  consciousness: "部分觉醒"
-  attachment: "绝对忠诚于巫九娘"
-performance:
-  voice: { tone: "细弱的女童声", rhythm: "断续" }
-  quirks: ["只有3岁小孩大小", "纸身会因雨水变形", "会在巫九娘睡着时代替她守夜"]
-meta: { version: "4.0", created_at: "2026-04-22", note: "非人类Agent" }
