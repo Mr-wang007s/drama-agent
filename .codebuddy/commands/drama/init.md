@@ -39,7 +39,7 @@ drama-agent init --name my-story --preset mystery --force
    - 若存在且未指定 --force → 提示已存在
 
 2. **读取种子文件/预设**
-   - --preset：从 `templates/presets/{preset}.yaml` 加载
+   - --preset：从 `.codebuddy/skills/drama-world/templates/presets/{preset}.yaml` 加载
    - --from：解析用户提供的 story-seed.yaml
    - --interactive：引导用户回答核心问题后生成种子
 

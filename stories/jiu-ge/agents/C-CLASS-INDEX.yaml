@@ -1,0 +1,152 @@
+# C 级角色合集 (C-CLASS-INDEX.yaml)
+# 32 个 C 级工具角色，合并管理，登场时按需扩展
+# 引擎读取此文件可批量识别所有 C 级 Agent
+
+meta:
+  version: "4.0"
+  total: 32
+  created_at: "2026-04-22"
+  note: "C 级角色采用合并索引。每个角色只需 id + name + tag + location。登场时可升级为独立 SOUL.yaml。"
+
+# ========== 九神墟守墓人后裔（9人） ==========
+shen_xu_guardians:
+  - id: qing-mian
+    name: "青面"
+    tag: "脸上有青铜面具烙印，守第一神墟（三星堆）三十年"
+    location: "四川广汉"
+  - id: yu-weng
+    name: "渔翁"
+    tag: "良渚湖上垂钓三十年，从不露面"
+    location: "浙江良渚"
+  - id: mang-qinshi
+    name: "盲琴师"
+    tag: "听纹辨方位，守洞庭湖底第三神墟"
+    location: "洞庭湖渔村"
+  - id: qiao-fu
+    name: "樵夫"
+    tag: "一生不出九嶷山，守第四神墟"
+    location: "湖南九嶷山"
+  - id: ya-nv
+    name: "哑女"
+    tag: "用眼神压制低阶旧神，EP01关键NPC"
+    location: "殷墟外围村"
+    importance: "卷一关键人物"
+  - id: shou-men-ren
+    name: "守门人"
+    tag: "只看不说，守二里头第六神墟"
+    location: "河南偃师"
+  - id: feng-ling
+    name: "风铃"
+    tag: "阿依古丽的姑妈，已故，仅闪回出场"
+    location: "嘉峪关外（闪回）"
+    status: deceased
+  - id: shan-gui-shou
+    name: "山鬼守"
+    tag: "南岭深山老人，招魂堂外围协作"
+    location: "南岭"
+  - id: null_guardian_8
+    name: "无名"
+    tag: "第八神墟守墓人（已被方士会灭口）"
+    location: "兰州"
+    status: deceased
+
+# ========== 被污染者案例（8人） ==========
+pollution_cases:
+  - id: wang-researcher
+    name: "王研究员"
+    tag: "EP01发病队员，后康复，成为长期样本"
+    importance: "EP01-02 重要案例"
+  - id: su-chen-037
+    name: "苏晨（037号）"
+    tag: "敏感者，被旧神'邀请'而非强制污染"
+    importance: "卷一末核心追踪对象"
+  - id: case-a
+    name: "主动幻视者"
+    tag: "能清醒描述自己看见的旧神"
+  - id: case-b
+    name: "被动幻听者"
+    tag: "耳朵里有另一个人在念《九歌》"
+  - id: case-c
+    name: "集体幻觉组（3人）"
+    tag: "三人在同一时刻看到同一场景"
+  - id: case-d
+    name: "预知者"
+    tag: "能说出三天内要死的人名字"
+  - id: case-e
+    name: "失语者"
+    tag: "失去语言能力，只能写甲骨文"
+  - id: case-f
+    name: "狂躁者"
+    tag: "攻击所有看到青铜器的人"
+
+# ========== 体制内外围（7人） ==========
+establishment:
+  - id: deputy-director
+    name: "文物局副局长"
+    tag: "官僚阻碍，公文多过行动"
+  - id: military-contact
+    name: "军方联络官"
+    tag: "少校，神秘合作方，只签字不问事"
+  - id: museum-curator
+    name: "博物馆馆长"
+    tag: "文物鉴定权威，与林墨有学术交集"
+  - id: detective
+    name: "刑警老王"
+    tag: "追查盗墓案，什么都不知道的普通人视角"
+  - id: reporter
+    name: "新闻记者"
+    tag: "差点揭露真相的倒霉蛋，卷二被老袁'处理'"
+  - id: gang-boss
+    name: "黑社会大佬"
+    tag: "盗墓产业链下游，陆九的客户之一"
+  - id: auction-broker
+    name: "拍卖行经纪人"
+    tag: "国际文物交易中间人，与沈清鸢业务对手"
+
+# ========== 殷墟相关（EP02 首次激活） ==========
+yin_xu_related:
+  - id: li-xuegong
+    name: "李学工"
+    tag: "M5-3A 沟考古副队员 · 事件幸存者 · EP02 物理爆点承载者（睁眼不眨、持续流泪、说话不呼吸、帆布内侧用指甲刻'降'字）"
+    location: "殷墟工地 · 幸存者安置帐篷"
+    known_facts:
+      - "2026-03-05 M5-3A 沟事件当天在场 · 陈队长站着死在他面前"
+      - "事件后 9 天意识清醒但身体异常"
+      - "他不知道自己在哭 · 他知道自己要留下什么（刻字）"
+    episode_first_seen: "ep02-sang-sang"
+
+# ========== 林墨日常圈（4人） ==========
+daily_circle:
+  - id: ichiraku
+    name: "一乐拉面老板"
+    tag: "从不问黑眼圈，只问要不要加蛋"
+  - id: lao-chen
+    name: "护工老陈"
+    tag: "精神病院护工，林墨随时可以回去避难"
+  - id: zhang-ming
+    name: "张明"
+    tag: "考古所室友，唯一真正把林墨当朋友的普通人"
+  - id: lao-huang
+    name: "出租车司机老黄"
+    tag: "见多识广，意外提供关键线索"
+
+# ========== 海外分线（4人） ==========
+overseas_agents:
+  - id: vatican-bishop
+    name: "梵蒂冈主教"
+    tag: "圣座观测团首领，与旧神教红衣主教有旧怨"
+  - id: cia-agent
+    name: "詹姆斯·威尔逊"
+    tag: "CIA蓝皮书计划资深特工"
+  - id: egyptian-archaeologist
+    name: "卡里姆"
+    tag: "埃及考古学家，金字塔神墟研究者"
+  - id: inca-descendant
+    name: "奇米"
+    tag: "秘鲁印加后裔，玛雅文明遗存守护者"
+
+# ========== 使用说明 ==========
+usage:
+  - "此文件为 C 级角色索引，引擎可识别这些 id 为合法 Agent"
+  - "首次在剧本中登场时，可根据需要单独建档（升级为 A/B 级）"
+  - "未升级的 C 级角色无需 SOUL/MEMORY，引擎按此 tag 生成基础人设"

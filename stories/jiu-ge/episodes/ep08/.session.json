@@ -1,0 +1,23 @@
+{
+  "id": "ep08",
+  "title": "ep08",
+  "logline": "",
+  "agents": [],
+  "skills": [
+    "screenplay"
+  ],
+  "status": "wrapped",
+  "mode": "team",
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "createdAt": "2026-05-03T14:07:00.575Z",
+  "updatedAt": "2026-05-03T14:47:34.956Z",
+  "wrappedAt": "2026-05-03T14:47:34.956Z",
+  "fsmStats": {
+    "totalTurns": 0,
+    "maxTurns": 50,
+    "elapsedMs": 0,
+    "maxDurationMs": 1800000,
+    "stateHistory": 4
+  }
+}

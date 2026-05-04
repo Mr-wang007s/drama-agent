@@ -1,0 +1,10 @@
+identity:
+  id: "chiyo"
+  name: "千代婆婆"
+  archetype: "导师"
+  role: "砂隐顾问，蝎的祖母，牺牲自己复活我爱罗"
+  status: dead
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

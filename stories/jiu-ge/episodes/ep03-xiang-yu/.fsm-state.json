@@ -1,0 +1,41 @@
+{
+  "state": "context-ready",
+  "episodeId": "ep03-xiang-yu",
+  "storyName": "jiu-ge",
+  "agents": [],
+  "turnCount": 0,
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "startedAt": null,
+  "history": [
+    {
+      "event": "created",
+      "timestamp": "2026-05-02T15:28:16.091Z",
+      "state": "idle",
+      "episodeId": "ep03-xiang-yu",
+      "storyName": "jiu-ge",
+      "maxTurns": 50,
+      "maxDurationMs": 1800000
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-02T15:28:16.092Z",
+      "state": "initializing",
+      "from": "idle",
+      "to": "initializing",
+      "payload": []
+    },
+    {
+      "event": "transition",
+      "timestamp": "2026-05-02T15:28:16.094Z",
+      "state": "context-ready",
+      "from": "initializing",
+      "to": "context-ready",
+      "payload": [
+        "episodeDir",
+        "agents"
+      ]
+    }
+  ],
+  "savedAt": "2026-05-02T15:28:16.094Z"
+}

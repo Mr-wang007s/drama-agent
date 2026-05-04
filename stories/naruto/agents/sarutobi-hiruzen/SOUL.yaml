@@ -1,0 +1,10 @@
+identity:
+  id: "sarutobi-hiruzen"
+  name: "猿飞日斩"
+  archetype: "导师"
+  role: "三代目火影，用尸鬼封尽牺牲自己封印大蛇丸双臂"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

@@ -1,0 +1,10 @@
+identity:
+  id: "ebisu"
+  name: "惠比寿"
+  archetype: "盟友"
+  role: "精英特别上忍，鸣人临时老师"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

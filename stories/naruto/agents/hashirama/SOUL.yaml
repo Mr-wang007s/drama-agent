@@ -1,0 +1,10 @@
+identity:
+  id: "hashirama"
+  name: "千手柱间"
+  archetype: "导师"
+  role: "初代火影，忍者之神，木遁"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

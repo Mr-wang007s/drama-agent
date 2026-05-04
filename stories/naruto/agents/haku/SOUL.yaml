@@ -1,0 +1,10 @@
+identity:
+  id: "haku"
+  name: "白"
+  archetype: "盟友"
+  role: "再不斩的工具，冰遁血继限界"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

@@ -1,0 +1,13 @@
+identity: { id: b_li-muba, name: "李慕白", archetype: "盟友", role: "精神病院主治医师，最早怀疑林墨不是病人", status: active, tier: B }
+psychology:
+  ocean: { openness: 75, conscientiousness: 85, extraversion: 40, agreeableness: 75, neuroticism: 50 }
+  trauma:
+    ghost: "医学院时有个室友自杀了，他没看出征兆"
+    wound: "他不想再错过任何一个人"
+  motivation:
+    want: "不放弃任何一个可能被误诊的人"
+  secret: "他是九歌司安插在精神病院的医官秘密线人，陈怀瑜的老同学"
+performance:
+  voice: { tone: "温和、理性", rhythm: "稳定" }
+  quirks: ["白大褂口袋装一本小说", "与病人对话时永远坐得比病人低一点"]
+meta: { version: "4.0", created_at: "2026-04-22" }

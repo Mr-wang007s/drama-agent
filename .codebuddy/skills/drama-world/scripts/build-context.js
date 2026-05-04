@@ -1,4 +1,4 @@
-/**
+﻿/**
  * drama-world/scripts/build-context.js
  *
  * Context assembler: read world/ + agents/*/ to build Agent prompt context.
@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {
   getPaths, exists, readText, readJson, parseArgs
-} from '../../drama-harness/scripts/lib.js';
+} from './lib.js';
 
 /**
  * Load all Agent identities

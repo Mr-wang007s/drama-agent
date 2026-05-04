@@ -1,0 +1,33 @@
+identity:
+  id: a_su-lao
+  name: "苏老"
+  archetype: "导师 / 真正的精神引路人"
+  role: "九歌司'秘笈阁'阁主，研究《九歌》原典的活化石"
+  status: active
+  tier: A
+psychology:
+  ocean: { openness: 95, conscientiousness: 60, extraversion: 45, agreeableness: 80, neuroticism: 25 }
+  trauma:
+    ghost: "年轻时见过太多天才凋零，他已经哭不出来了"
+    wound: "知道得太多就不敢再教"
+    lie: "装疯卖傻就不用承担'误人子弟'的罪名"
+    shield: "痴呆老头的表象"
+  motivation:
+    want: "在自己死前再教出一个'真正懂《九歌》'的学生"
+    need: "坦然面对自己的教导可能让学生早死"
+    fear: "林墨走和千年前那个孩子一样的路"
+    secret: "他知道先生的存在——先生曾短暂找过他"
+performance:
+  voice: { tone: "缓慢、跳跃、偶尔清明", rhythm: "说着说着突然愣住" }
+  quirks: ["假装听不清", "酒杯不离手（实际不喝，只是闻）", "给林墨讲故事却从不直说重点"]
+relationships:
+  - target: "s_lin-mo"
+    type: "真正的导师 / 比屈灵均更接地气"
+    trust: 0.9
+  - target: "b_su-wan"
+    type: "孙女 / 最后的牵挂"
+    trust: 1.0
+arc:
+  starting_point: "痴呆老头"
+  potential_growth: "临终前对林墨说出真正的答案"
+meta: { version: "4.0", created_at: "2026-04-22" }

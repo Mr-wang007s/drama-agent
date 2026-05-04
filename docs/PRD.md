@@ -1,4 +1,4 @@
-# DramaAgent — 产品需求文档（PRD）
+﻿# DramaAgent — 产品需求文档（PRD）
 
 > **版本**：v4.0  
 > **日期**：2026-04-11  
@@ -16,6 +16,7 @@
 | v2.0 | 2026-04-11 | 架构简化为 Harness + Multi-Agent；砍掉 DramaSpec 重型规格流程 |
 | v3.0 | 2026-04-11 | 根本性重定义：从"剧本生产工具"转型为"AI Agent 身份模拟平台"；引入 Agent Identity System + World Engine + Skill Content Library + Harness Engineering 四层架构 |
 | **v4.0** | **2026-04-11** | **引擎通用化**：master 分支 = 纯引擎，故事在分支上生成；**影帝级角色系统**：SOUL v4.0 三层结构（身份层 → 心理层 → 表演层）、OCEAN 人格模型、Ghost-Wound-Lie-Shield 创伤链、内心独白机制、角色校验器；新增 `drama init` 和 `drama create-character` 命令 |
+| **v4.1** | **2026-05-03** | **director 架构 v4 单点深度 Team 重构**（story 层变化 · 不触 PRD 主体架构）：废止 Phase 3 心脏戏 team / Phase 4 责编 team，新增 Phase 2.3 writers-room + Phase 2.2 预读者；流水线从"对抗分散"转为"对抗前置"；详见 `.codebuddy/rules/pro-advisory-notes.md` 2026-05-03 条目 |
 
 ---
 
@@ -223,8 +224,8 @@ Skill 定义的是**内容输出格式**，不是角色职能：
 
 | Skill | 输出 | 说明 |
 |-------|------|------|
-| **drama-screenplay** | `output/screenplay.md` | 从交互记录提取对话和行动，编排为剧本格式 |
-| **drama-novel** | `output/novel.md` | 从交互记录改写为第三人称叙事文本 |
+| **drama-director** | `output/screenplay.md` | 从交互记录提取对话和行动，编排为剧本格式 |
+| **drama-director** | `output/novel.md` | 从交互记录改写为第三人称叙事文本 |
 | **drama-interactive** | `output/interactive.json` | 从交互记录提取分支选择和后果 |
 
 同一次模拟可以装备多个 Skill，产出多种格式。新 Skill 可由用户自定义或社区贡献。
@@ -248,7 +249,7 @@ Skill 定义的是**内容输出格式**，不是角色职能：
   ▼
 ┌─────────────────────────────────────────────────────┐
 │ 1. Harness 初始化                                    │
-│    drama-harness/scripts/init.js                     │
+│    drama-world/scripts/init.js                     │
 │    - 创建 episodes/ep04/ 目录                       │
 │    - 快照当前世界状态 + Agent 记忆                   │
 │    - 状态 → simulating                              │
@@ -278,7 +279,7 @@ Skill 定义的是**内容输出格式**，不是角色职能：
                    ▼
 ┌─────────────────────────────────────────────────────┐
 │ 4. 内容 Skill 整合                                   │
-│    drama-screenplay/scripts/compile.js               │
+│    drama-director/scripts/compile.js               │
 │    - 从交互记录提取对话和行动                        │
 │    - 按剧本格式编排                                  │
 │    - 输出 episodes/ep04/output/screenplay.md         │
@@ -286,7 +287,7 @@ Skill 定义的是**内容输出格式**，不是角色职能：
                    ▼
 ┌─────────────────────────────────────────────────────┐
 │ 5. Harness 收尾                                      │
-│    drama-harness/scripts/wrap.js                     │
+│    drama-world/scripts/wrap.js                     │
 │    - 更新每个 Agent 的 MEMORY.md（有界写入）         │
 │    - 提取 carry-over → world/state.json              │
 │    - 更新 world/timeline.md（追加本集事件）          │
@@ -426,11 +427,11 @@ drama-agent recall --timeline
 
 | Skill | 类型 | 说明 |
 |-------|------|------|
-| **drama-harness** | 工程 | Harness 五大保证的实现：初始化/归档/快照/状态/校验/记忆管理 |
+| **drama-world** | 工程 | Harness 五大保证的实现：初始化/归档/快照/状态/校验/记忆管理 |
 | **drama-world** | 引擎 | 世界引擎：上下文组装/世界更新/场景构建/交互协议 |
 | **drama-director** | 管理 | 世界管理者视角：在模拟中施压/推进/注入事件（不是流水线步骤） |
-| **drama-screenplay** | 内容 | 剧本格式输出：从交互记录编译为标准剧本 |
-| **drama-novel** | 内容 | 小说格式输出：从交互记录改写为第三人称叙事 |
+| **drama-director** | 内容 | 剧本格式输出：从交互记录编译为标准剧本 |
+| **drama-director** | 内容 | 小说格式输出：从交互记录改写为第三人称叙事 |
 
 ### 6.2 Skill 标准结构
 
@@ -446,10 +447,10 @@ skill-name/
     └── *.md             ← 协议/规范/模板
 ```
 
-### 6.3 drama-harness Skill（工程层）
+### 6.3 drama-world Skill（工程层）
 
 ```
-drama-harness/
+drama-world/
 ├── SKILL.md              ← Harness 工程规范
 └── scripts/
     ├── lib.js            ← 共享工具库：路径常量、文件读写、安全校验
@@ -550,11 +551,11 @@ drama-agent/
 │   └── .snapshots/           # 快照目录
 │
 ├── .codebuddy/skills/        # Skill 能力层
-│   ├── drama-harness/
+│   ├── drama-world/
 │   ├── drama-world/
 │   ├── drama-director/
-│   ├── drama-screenplay/
-│   └── drama-novel/
+│   ├── drama-director/
+│   └── drama-director/
 │
 ├── .codebuddy/commands/drama/ # 命令入口
 │   ├── sim.md
@@ -562,16 +563,14 @@ drama-agent/
 │   ├── recall.md
 │   └── roll.md
 │
-├── templates/                # 初始化模板
-│   ├── series-bible.md       # 世界观模板
-│   ├── soul.yaml             # Agent SOUL 模板
-│   ├── memory.md             # Agent MEMORY 模板
-│   └── rules.md              # Agent RULES 模板
+├── .codebuddy/skills/<skill>/templates/   # Skill 专属模板（v4.1 迁移）
+│   ├── drama-world/templates/             # series-bible / soul / character-pack / presets 等
+│   └── drama-director/templates/          # episode-brief / beat-sheet / wrap-report 骨架
 │
 ├── harness/hooks/            # 生命周期钩子（不动）
 ├── scripts/hooks/            # Hook 脚本（不动）
-├── scripts/validate-character.js  # → 迁移到 drama-harness
-└── scripts/detect-stagnation.js   # → 迁移到 drama-harness
+├── scripts/validate-character.js  # → 迁移到 drama-world
+└── scripts/detect-stagnation.js   # → 迁移到 drama-world
 ```
 
 ### 8.2 与 v2.0 对比
@@ -699,7 +698,7 @@ notes:
 | world/state.json | 环境状态 | — | — |
 | world/timeline.md | 记忆流(全局视角) | Session Search | — |
 | memory-archive/ | 长期记忆 | Session Search (SQLite) | — |
-| drama-harness | — | Config + Safety | TOOLS.md |
+| drama-world | — | Config + Safety | TOOLS.md |
 | drama-world | 环境模拟器 | — | HEARTBEAT.md |
 
 ---

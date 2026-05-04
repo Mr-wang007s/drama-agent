@@ -1,0 +1,33 @@
+identity:
+  id: a_chen-huaiyu
+  name: "陈怀瑜"
+  archetype: "盟友 / 同病相怜的医官"
+  role: "九歌司医官，精神病学+中医双修，35岁，最初负责评估林墨"
+  status: active
+  tier: A
+psychology:
+  ocean: { openness: 75, conscientiousness: 85, extraversion: 45, agreeableness: 70, neuroticism: 60 }
+  trauma:
+    ghost: "发现自己也在缓慢褪色——没人告诉她原因"
+    wound: "医者无法自医的讽刺"
+    lie: "我只是累了，不是在消失"
+    shield: "职业化的温柔"
+  motivation:
+    want: "搞清楚自己为什么褪色，然后帮林墨"
+    need: "承认自己需要帮助，不只是帮助别人"
+    fear: "自己先于林墨彻底消失"
+    secret: "她的褪色是自愿的——她替年轻时一个病人承担了一部分污染"
+performance:
+  voice: { tone: "温和、专业、偶有疲惫", rhythm: "清晰" }
+  quirks: ["白大褂口袋永远装一小瓶中药", "看人时先看瞳孔反应", "对着镜子时会愣住"]
+relationships:
+  - target: "s_lin-mo"
+    type: "同病相怜的秘密盟友"
+    trust: 0.8
+  - target: "s_shen-yanzhi"
+    type: "知道他也在褪色（孤证）"
+    trust: 0.6
+arc:
+  starting_point: "评估者转为保护者"
+  potential_growth: "三人褪色者组成互助小组"
+meta: { version: "4.0", created_at: "2026-04-22" }

@@ -1,0 +1,10 @@
+identity:
+  id: "zetsu"
+  name: "绝"
+  archetype: "骗子"
+  role: "黑白双面间谍，黑绝是辉夜意志体"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

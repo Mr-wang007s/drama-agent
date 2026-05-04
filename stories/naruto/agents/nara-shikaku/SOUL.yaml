@@ -1,0 +1,10 @@
+identity:
+  id: "nara-shikaku"
+  name: "奈良鹿久"
+  archetype: "导师"
+  role: "鹿丸之父，联军总参谋，十尾攻击中牺牲"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

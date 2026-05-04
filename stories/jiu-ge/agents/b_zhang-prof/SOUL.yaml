@@ -1,0 +1,11 @@
+identity: { id: b_zhang-prof, name: "张教授", archetype: "盟友", role: "林墨博士生导师（非周文渊），考古界老好人", status: active, tier: B }
+psychology:
+  ocean: { openness: 65, conscientiousness: 75, extraversion: 55, agreeableness: 90, neuroticism: 30 }
+  trauma:
+    wound: "无重大创伤，就是太善良"
+  motivation:
+    want: "学生都有个好出路"
+performance:
+  voice: { tone: "慈祥", rhythm: "缓慢" }
+  quirks: ["永远带一壶自泡的养生茶", "'咱们'是口头禅"]
+meta: { version: "4.0", created_at: "2026-04-22" }

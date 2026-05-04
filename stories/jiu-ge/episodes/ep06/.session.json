@@ -1,0 +1,23 @@
+{
+  "id": "ep06",
+  "title": "ep06",
+  "logline": "",
+  "agents": [],
+  "skills": [
+    "screenplay"
+  ],
+  "status": "wrapped",
+  "mode": "team",
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "createdAt": "2026-05-03T11:02:37.162Z",
+  "updatedAt": "2026-05-03T12:57:46.680Z",
+  "wrappedAt": "2026-05-03T12:57:46.680Z",
+  "fsmStats": {
+    "totalTurns": 0,
+    "maxTurns": 50,
+    "elapsedMs": 0,
+    "maxDurationMs": 1800000,
+    "stateHistory": 4
+  }
+}

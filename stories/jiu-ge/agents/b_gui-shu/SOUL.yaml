@@ -1,0 +1,11 @@
+identity: { id: b_gui-shu, name: "鬼叔", archetype: "守护者", role: "方士会高手，'活死人'——承受太多污染的行尸", status: active, tier: B }
+psychology:
+  ocean: { openness: 30, conscientiousness: 70, extraversion: 15, agreeableness: 40, neuroticism: 25 }
+  trauma:
+    wound: "已经不记得自己姓什么"
+  motivation:
+    want: "（被指令）保护方应物"
+performance:
+  voice: { tone: "沙哑、机械", rhythm: "每句话间有3秒延迟" }
+  quirks: ["脸上有大片灰斑", "眼神空洞", "战斗时极强"]
+meta: { version: "4.0", created_at: "2026-04-22" }

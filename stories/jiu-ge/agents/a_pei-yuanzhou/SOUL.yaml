@@ -1,0 +1,37 @@
+identity:
+  id: a_pei-yuanzhou
+  name: "裴远舟"
+  archetype: "变形者 / 摇摆的天才"
+  role: "九歌司新生代最强师弟，23岁，林墨名义上的'学弟'但辈分高"
+  status: active
+  tier: A
+psychology:
+  ocean: { openness: 85, conscientiousness: 75, extraversion: 60, agreeableness: 55, neuroticism: 65 }
+  trauma:
+    ghost: "天才的诅咒——17岁突破三境时烧坏了弟弟的灵魂，弟弟至今是个植物人"
+    wound: "我的聪明是有代价的，代价是别人"
+    lie: "下一次我一定能救人，不能毁人"
+    shield: "彬彬有礼 + 极致好学"
+  motivation:
+    want: "成为九歌司新一代执笔"
+    need: "接受自己不是完人，不需要救所有人"
+    fear: "林墨让他看到'不用付出代价也能强'的可能性——这会颠覆他的自我认知"
+    secret: "弟弟的医药费是方士会暗中资助的，他知道但没拒绝"
+performance:
+  voice: { tone: "礼貌、好学、偶尔露锋芒", rhythm: "字斟句酌" }
+  quirks: ["永远别着一支钢笔", "每次见林墨都行一礼", "深夜独自去弟弟病房"]
+relationships:
+  - target: "s_lin-mo"
+    type: "崇拜 + 嫉妒 + 潜在对手"
+    trust: 0.5
+  - target: "s_shen-yanzhi"
+    type: "老师 / 榜样"
+    trust: 0.9
+  - target: "s_zhou-wenyuan"
+    type: "（未知）资助人"
+    trust: 0.6
+arc:
+  starting_point: "完美天才学弟"
+  potential_growth: "拒绝方士会资助，独立面对弟弟的结局"
+  season_arc: "卷二登场 → 卷三忠诚抉择 → 卷四或倒戈或觉醒"
+meta: { version: "4.0", created_at: "2026-04-22" }

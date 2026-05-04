@@ -1,0 +1,15 @@
+identity: { id: b_lin-shiming, name: "林世铭", archetype: "导师 / 失踪的父亲", role: "林墨的父亲，考古学家，20年前'殉职'（真相：被封印）", status: sealed, tier: B }
+psychology:
+  ocean: { openness: 85, conscientiousness: 80, extraversion: 60, agreeableness: 70, neuroticism: 45 }
+  trauma:
+    ghost: "在殷墟事故前一周感知到异常，但没能说服同事撤退"
+  motivation:
+    want: "儿子活下去，成长为比他强的人"
+  secret: "他和周文渊在殷墟事故之前就已经互相怀疑"
+performance:
+  voice: { tone: "温厚、学者气", rhythm: "温缓" }
+  quirks: ["手腕戴一只木质佛珠", "习惯摸儿子的头"]
+arc:
+  starting_point: "被封印（只在闪回和卷五复活时出场）"
+  potential_growth: "复活后与林墨完成迟到的父子和解"
+meta: { version: "4.0", created_at: "2026-04-22" }

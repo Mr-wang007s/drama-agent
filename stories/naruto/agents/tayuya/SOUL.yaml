@@ -1,0 +1,10 @@
+identity:
+  id: "tayuya"
+  name: "多由也"
+  archetype: "阴影"
+  role: "音忍四人众幻术笛使用者"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

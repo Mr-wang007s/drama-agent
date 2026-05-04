@@ -1,0 +1,15 @@
+{
+  "id": "ep03-xiang-yu",
+  "title": "xiang yu",
+  "logline": "",
+  "agents": [],
+  "skills": [
+    "screenplay"
+  ],
+  "status": "initializing",
+  "mode": "team",
+  "maxTurns": 50,
+  "maxDurationMs": 1800000,
+  "createdAt": "2026-05-02T15:28:16.093Z",
+  "updatedAt": "2026-05-02T15:28:16.093Z"
+}

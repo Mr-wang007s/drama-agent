@@ -1,0 +1,10 @@
+identity:
+  id: "kidomaru"
+  name: "鬼童丸"
+  archetype: "阴影"
+  role: "音忍四人众蜘蛛能力者"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

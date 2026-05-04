@@ -1,4 +1,4 @@
----
+﻿---
 name: drama:status
 description: 查看状态——无参数列出所有故事，指定 --story 显示故事详情
 ---
@@ -29,4 +29,4 @@ drama-agent status ep01 --story fog-manor
 
 ### 实现
 
-调用 `drama-harness/scripts/status.js`。
+调用 `drama-world/scripts/status.js`。

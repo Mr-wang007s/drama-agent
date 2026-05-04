@@ -1,0 +1,105 @@
+# === {{name}} · S 级角色 SOUL v4.0 ===
+# S 级 = 故事核心角色（主角/主要对手/核心CP）
+# 完整三层结构 + 关系网 + 弧线，支撑长期成长
+#
+# 推荐数量：5-8 人（150-200万字长篇标准）
+
+identity:
+  id: {{id}}
+  name: {{name}}
+  tier: S                              # 分级标识（S/A/B/C）
+  archetype: {{archetype}}
+  role: {{role}}
+  status: active
+
+# ═══════════════════════════════════════════════════════════════
+#  心理层（S 级必填完整）
+# ═══════════════════════════════════════════════════════════════
+psychology:
+  ocean:
+    openness: {{openness}}             # 25-75
+    conscientiousness: {{conscientiousness}}
+    extraversion: {{extraversion}}
+    agreeableness: {{agreeableness}}
+    neuroticism: {{neuroticism}}
+
+  trauma:
+    ghost: {{ghost}}                   # 过去的创伤事件
+    wound: {{wound}}                   # 心理痛苦
+    lie: {{lie}}                       # 错误认知
+    shield: {{shield}}                 # 防御机制
+
+  motivation:
+    want: {{want}}                     # 外在目标
+    need: {{need}}                     # 内在需求
+    fear: {{fear}}                     # 最深恐惧
+    secret: {{secret}}                 # 不可告人的秘密
+
+# ═══════════════════════════════════════════════════════════════
+#  表演层（S 级必填完整）
+# ═══════════════════════════════════════════════════════════════
+performance:
+  voice:
+    tone: {{tone}}
+    rhythm: {{rhythm}}
+    quirks:
+      - {{quirk1}}
+      - {{quirk2}}
+      - {{quirk3}}
+    vocabulary: {{vocabulary}}
+
+  emotion:
+    default: {{emotionDefault}}
+    current: {{emotionDefault}}
+    triggers:
+      - stimulus: {{trigger1Stimulus}}
+        response: {{trigger1Response}}
+      - stimulus: {{trigger2Stimulus}}
+        response: {{trigger2Response}}
+      - stimulus: {{trigger3Stimulus}}
+        response: {{trigger3Response}}
+
+  stress_response:
+    fight: {{fightResponse}}
+    flight: {{flightResponse}}
+    freeze: {{freezeResponse}}
+    fawn: {{fawnResponse}}
+
+  examples:
+    - situation: {{example1Situation}}
+      action: {{example1Action}}
+      inner_thought: {{example1Thought}}
+    - situation: {{example2Situation}}
+      action: {{example2Action}}
+      inner_thought: {{example2Thought}}
+    - situation: {{example3Situation}}
+      action: {{example3Action}}
+      inner_thought: {{example3Thought}}
+
+# ═══════════════════════════════════════════════════════════════
+#  关系网（S 级必填 ≥ 2 个）
+# ═══════════════════════════════════════════════════════════════
+relationships:
+  - target: {{relationship1Target}}
+    type: {{relationship1Type}}
+    trust: {{relationship1Trust}}
+    history: {{relationship1History}}
+    tension: {{relationship1Tension}}
+
+# ═══════════════════════════════════════════════════════════════
+#  角色弧线（S 级必填）
+# ═══════════════════════════════════════════════════════════════
+arc:
+  starting_point: {{startingPoint}}
+  potential_growth: {{potentialGrowth}}
+  season_arc: {{seasonArc}}
+
+runtime:
+  known_facts: []
+  memory_capacity: 2000
+
+meta:
+  version: "4.0"
+  tier: S
+  created_at: {{createdAt}}
+  updated_at: {{updatedAt}}

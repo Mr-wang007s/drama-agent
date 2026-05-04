@@ -1,0 +1,10 @@
+identity:
+  id: "jirobo"
+  name: "次郎坊"
+  archetype: "阴影"
+  role: "音忍四人众力量担当"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

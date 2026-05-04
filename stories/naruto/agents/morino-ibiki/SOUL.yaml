@@ -1,0 +1,10 @@
+identity:
+  id: "morino-ibiki"
+  name: "森乃伊比喜"
+  archetype: "守门人"
+  role: "木叶拷问部队长，中忍考试第一关主考官"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

@@ -1,0 +1,10 @@
+identity:
+  id: "tsuchikage-onoki"
+  name: "三代土影·大野木"
+  archetype: "守门人"
+  role: "粒子遁使用者"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

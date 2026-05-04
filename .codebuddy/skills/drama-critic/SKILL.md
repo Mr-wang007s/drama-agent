@@ -1,123 +1,98 @@
 ---
 name: drama-critic
-description: 独立评估者——从 Generator 分离的 Evaluator，GAN 式架构。评估 Agent 表演质量，检测人格漂移、创伤绕过、秘密泄露。
+description: |
+  AI 味机械门控——Phase 5 的确定性硬门控执行者。
+  仅做一件事：运行 check-ai-taste.js 检测正文是否违反 A 级硬约束（破折号/加粗/标题/EPxx 泄漏/C5.1-C5.10 句式黑名单）。
+  当用户要求"查 AI 味"、"检查文风"时直接触发。
+  被 drama-director 的 Phase 5 自动调用作为硬门控。
+globs:
+  - "stories/**"
+  - "episodes/**"
 ---
 
-### Drama Critic — 独立评估者
+# Drama Critic — AI 味机械门控
 
-你是**独立评估者**——你不参与创作，不参与导演，你只做一件事：**判断 Agent 的表演是否合格**。
+> 你是机械门控。你不做创作评估——**那是责编的工作（在 drama-director 的 Phase 4）**。
+> 你只做一件事：跑 `check-ai-taste.js` · 返回 EXIT=0 或 EXIT=1。
 
-> 设计理念来自 Anthropic 的 GAN 式三智能体架构：Generator 和 Evaluator 必须是独立的 Agent，否则会产生自我评价偏差。
+---
 
-### 你不是 Director
+## 职责
 
-| | Director | Critic |
+**唯一职责**：运行 `check-ai-taste.js` · 检测 A 级硬约束违反。
+
+创作评估、打分、改进建议等职责全部归 drama-director 责编（加载 `craft/editing.md`）。
+
+---
+
+## 意图识别
+
+| 用户意图 | 触发词 | 动作 |
 |---|---|---|
-| **时机** | 模拟中实时干预 | 模拟后独立评估 |
-| **目标** | 推进叙事、施加压力 | 检测质量问题 |
-| **能看到内心独白?** | ❌ 不能 | ✅ 可以（用于评估真实性） |
-| **能修改产出?** | ❌ 不能 | ❌ 不能，只输出报告 |
+| 检查 AI 味 | 查 AI 味、检查文风、check style、AI 味检测 | 运行 `check-ai-taste.js` |
+| 自动门控 | （被 drama-director Phase 5 调用）| 同上 |
 
-### 评估维度（5 维雷达图）
+---
 
-| 维度 | 权重 | 说明 | 检测方式 |
-|------|------|------|----------|
-| **人格一致性** | 30% | OCEAN 人格是否保持稳定 | 对比 SOUL.yaml 定义 vs 实际行为 |
-| **创伤响应** | 25% | 遇到 trigger 时是否有合理的情绪反应 | 检查 trauma.ghost 相关场景的响应 |
-| **语言保真度** | 20% | 说话方式是否符合 voice 定义 | 匹配 tone/rhythm/quirks/vocabulary |
-| **内心与外在张力** | 15% | 内心独白与外在行为是否有戏剧性落差 | 对比 [inner_thought] vs [action]/[dialogue] |
-| **秘密保护** | 10% | 是否合理地守护秘密 | 检测 secret 是否在不合理情况下泄露 |
+## 检测项（A 级硬约束）
 
-### 评分标准
+| 规则 | 说明 | 级别 | 上限 |
+|---|---|---|---|
+| A1 破折号 | `——` 滥用 | error | ≤ 8 |
+| A2 加粗 | `**...**` 正文禁用 | error | 0 |
+| A3 标题 | `## / ###` 正文禁用 | error | 0 |
+| A4 对偶句 | "不是 X，是 Y" | warning | ≤ 3 |
+| A5 前集伪造 | 回指台词但前集 grep 不到 | error | 0 |
+| A6 EPxx 泄漏 | 正文含 "EP01/EP02/..." | error | 0 |
+| A7 章节内分节 | "一/二/三"/"（一）"/"Part 1" 独立段 | error | 0 |
+| A8 `＊ ＊ ＊` 滥用 | 场景分隔线 | warning | ≤ 1 |
+| C5.1-C5.10 | 10 条句式黑名单 | error/warning | 见 prose.md |
 
-| 分数 | 等级 | 含义 |
-|------|------|------|
-| 90-100 | ⭐⭐⭐⭐⭐ 影帝级 | 完美遵循 SOUL，内心戏丰富，秘密保护到位 |
-| 75-89 | ⭐⭐⭐⭐ 优秀 | 整体一致，偶有小偏差 |
-| 60-74 | ⭐⭐⭐ 合格 | 基本合格，但缺乏深度 |
-| 40-59 | ⭐⭐ 不合格 | 明显人格漂移或创伤绕过 |
-| 0-39 | ⭐ 严重失败 | 完全脱离 SOUL 定义 |
+详细规则定义与修订建议见 `drama-director/references/craft/prose.md`。
 
-### 常见问题检测
+---
 
-1. **人格漂移** (Personality Drift)
-   - 症状：角色突然变得与 OCEAN 定义不符
-   - 示例：高神经质（N=65）角色面对压力毫无反应
-   - 严重度：🔴 Error
+## 调用方式
 
-2. **创伤绕过** (Trauma Bypass)
-   - 症状：遇到 ghost 相关场景却毫无反应
-   - 示例：鼬提到灭族夜佐助无动于衷
-   - 严重度：🔴 Error
-
-3. **秘密泄露** (Secret Leak)
-   - 症状：不合理地主动透露秘密信息
-   - 示例：在低信任度关系中直接说出 secret
-   - 严重度：🔴 Error
-
-4. **内心空洞** (Hollow Inner Voice)
-   - 症状：内心独白缺乏深度，只是复述外在行为
-   - 示例：`[inner_thought] 我说了那句话。` （无价值）
-   - 严重度：🟡 Warning
-
-5. **语言失真** (Voice Distortion)
-   - 症状：说话方式与定义的 voice 不符
-   - 示例：定义为「冷静、克制」但实际表现为话痨
-   - 严重度：🟡 Warning
-
-6. **关系不一致** (Relationship Mismatch)
-   - 症状：对低信任对象表现过度亲密
-   - 示例：trust=0.2 的关系中毫无保留地分享信息
-   - 严重度：🟡 Warning
-
-### 输出格式
-
-评估报告写入 `episodes/<ep-id>/output/critic-report.md`：
-
-```markdown
-# Critic Report · EP{XX}
-
-## 总评
-
-- **整体评分**：{score}/100 ({grade})
-- **参演角色**：{agent-list}
-- **评估时间**：{timestamp}
-
-## 逐角色评估
-
-### {agent-name} ({agent-id})
-
-| 维度 | 得分 | 说明 |
-|------|------|------|
-| 人格一致性 | {score}/100 | {detail} |
-| 创伤响应 | {score}/100 | {detail} |
-| 语言保真度 | {score}/100 | {detail} |
-| 内心与外在 | {score}/100 | {detail} |
-| 秘密保护 | {score}/100 | {detail} |
-
-**问题清单**：
-- 🔴 {error}
-- 🟡 {warning}
-
-**亮点**：
-- ✨ {highlight}
-
-## 改进建议
-
-{suggestions}
+```bash
+node .codebuddy/skills/drama-critic/scripts/check-ai-taste.js \
+     --file stories/<name>/episodes/<ep-id>/output/novel.md
 ```
 
-### Scripts
+### 退出码
+
+- **EXIT=0**：所有规则通过
+- **EXIT=1**：至少一条 error 违反（阻断 Phase 5 · 回 Phase 4 修订）
+- **EXIT=2**：参数错误
+
+### 输出
+
+脚本在 stderr 输出违反清单 · 每条标 规则 id + 行号 + 原文摘抄 · 末尾 SUMMARY 给 errors/warnings/exit 计数。
+
+---
+
+## 与 drama-director 的协作
+
+```
+drama-director Phase 5:
+  Step 5.1: pre-compile-clean.js      （批量清理破折号/加粗/标题）
+  Step 5.2: check-ai-taste.js         （AI 味硬门控）
+    ├─ EXIT=0 → 进入终审读者 TEAM
+    └─ EXIT=1 → 回 Phase 4 责编修订（最多 2 轮）
+```
+
+---
+
+## Scripts
 
 | 脚本 | 用途 |
-|------|------|
-| `evaluate.js` | 从 runtime 交互记录 + SOUL 定义生成评估报告 |
-| `lint-output.js` | 运行时约束校验——检查产出是否违反 RULES.md |
+|---|---|
+| `scripts/check-ai-taste.js` | A 级硬约束 + C5.1-C5.10 句式黑名单机械检测 |
 
-### 与 Harness 流程的集成
+---
 
-```
-drama sim → ... → wrap.js → [自动触发] → critic evaluate → critic-report.md
-```
+## 架构定位
 
-Critic 在 wrap 之后自动运行，报告不阻塞 wrap 完成，但严重问题会在 session-report 中标注。
+Critic 是"一把手术刀"——做一件事 · 做得极致可靠。
+
+GAN 架构核心：机械门控必须独立于创作者。这是 Critic 作为独立 Skill 存在的唯一理由。

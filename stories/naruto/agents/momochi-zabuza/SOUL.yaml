@@ -1,0 +1,10 @@
+identity:
+  id: "momochi-zabuza"
+  name: "桃地再不斩"
+  archetype: "反英雄"
+  role: "雾隐叛忍，鬼人，波之国任务中壮烈战死"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

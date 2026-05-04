@@ -1,0 +1,10 @@
+identity:
+  id: "shizune"
+  name: "静音"
+  archetype: "盟友"
+  role: "纲手贴身助手兼弟子，纲手逃避世界时唯一的陪伴者"
+  status: active
+  tier: C
+meta:
+  version: "4.0"
+  created_at: "2026-04-15"

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * drama-world/scripts/update-world.js — 世界状态更新
  *
  * 从模拟产出中提取事件，更新 world/state.json 和 world/timeline.md。
@@ -7,7 +7,7 @@
 import path from 'node:path';
 import {
   getPaths, nowIso, readJson, writeJson, readText, writeText, parseArgs
-} from '../../drama-harness/scripts/lib.js';
+} from './lib.js';
 
 export function updateWorldState(episodeId, events = [], newCarryOvers = [], storyOpt) {
   const paths = getPaths({ story: storyOpt });

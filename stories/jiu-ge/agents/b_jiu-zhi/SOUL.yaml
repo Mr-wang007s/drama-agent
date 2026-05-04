@@ -1,0 +1,11 @@
+identity: { id: b_jiu-zhi, name: "九指", archetype: "工具", role: "方士会盗墓队长，每丢一根手指对应一件盗来的重器", status: active, tier: B }
+psychology:
+  ocean: { openness: 65, conscientiousness: 70, extraversion: 55, agreeableness: 25, neuroticism: 60 }
+  trauma:
+    wound: "九根手指换来的'传奇'只有同行知道"
+  motivation:
+    want: "凑齐十根手指的传说"
+performance:
+  voice: { tone: "江湖腔", rhythm: "自信" }
+  quirks: ["只剩一根小指和食指", "永远戴一双特制手套"]
+meta: { version: "4.0", created_at: "2026-04-22" }

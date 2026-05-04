@@ -1,0 +1,34 @@
+identity:
+  id: a_tan-zhenhua
+  name: "谭振华"
+  archetype: "守护者 / 沉默的叔父"
+  role: "国安特别行动处处长，55岁，表面体制官僚，实际林父生前战友"
+  status: active
+  tier: A
+psychology:
+  ocean: { openness: 60, conscientiousness: 85, extraversion: 50, agreeableness: 70, neuroticism: 40 }
+  trauma:
+    ghost: "20年前殷墟事故，林父本该有他一起，但他临时被调走"
+    wound: "活下来的人是有罪的"
+    lie: "我只能远远地看着他长大"
+    shield: "体制内官僚的做派"
+  motivation:
+    want: "保护林墨到他能自己站起来"
+    need: "承认自己想做的其实是救赎自己"
+    fear: "林墨像他父亲一样死在他前面"
+    secret: "他一直在秘密资助林墨母亲的生活费"
+performance:
+  voice: { tone: "官方化、偶尔温情", rhythm: "中规中矩" }
+  quirks: ["永远西装革履", "见林墨时眼神会偷偷柔和一秒", "抽烟只抽林父爱抽的那个牌子"]
+relationships:
+  - target: "s_lin-mo"
+    type: "保护者 / 未曾告知身份"
+    trust: 0.9
+  - target: "b_lin-shiming"
+    type: "战友 / 永远的歉意"
+    trust: 1.0
+arc:
+  starting_point: "神秘的体制支持者"
+  potential_growth: "卷三为救林墨牺牲"
+  season_arc: "卷一末登场 → 卷三牺牲"
+meta: { version: "4.0", created_at: "2026-04-22" }

@@ -1,0 +1,38 @@
+{
+  "name": "ep06-writers-room",
+  "leadAgentId": "c34c2929a56b4eeaad0f1887a75c86a2",
+  "workspacePath": "/data/workspace/drama-agent",
+  "createdAt": "2026-05-03T11:07:03.889Z",
+  "options": {
+    "workspacePath": "/data/workspace/drama-agent",
+    "isAutoTeam": false
+  },
+  "members": [
+    {
+      "memberId": "team-lead@ep06-writers-room",
+      "name": "team-lead",
+      "role": "Team Lead - coordinates the team and interacts with the user"
+    },
+    {
+      "memberId": "lin-mo@ep06-writers-room",
+      "name": "lin-mo",
+      "role": "林墨审 EP06 骨架"
+    },
+    {
+      "memberId": "shen-yanzhi@ep06-writers-room",
+      "name": "shen-yanzhi",
+      "role": "沈砚之审 EP06 骨架"
+    },
+    {
+      "memberId": "chen-huaiyu@ep06-writers-room",
+      "name": "chen-huaiyu",
+      "role": "陈怀瑜审 EP06 骨架"
+    },
+    {
+      "memberId": "lin-mu-mother@ep06-writers-room",
+      "name": "lin-mu-mother",
+      "role": "林母审 EP06 骨架"
+    }
+  ],
+  "isAutoTeam": false
+}
