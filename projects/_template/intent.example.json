@@ -1,0 +1,29 @@
+{
+  "createdAt": "2026-05-04T13:30:00Z",
+  "seed": "一个能听见死人说话的邮差",
+  "inspirations": [
+    {
+      "reference": "《百年孤独》",
+      "aspect": "潮湿魔幻的氛围",
+      "degree": "moderate"
+    },
+    {
+      "reference": "《邮差》",
+      "aspect": "人与人之间的温度",
+      "degree": "strong"
+    }
+  ],
+  "intentionalDeviations": {
+    "structural": [
+      "非线性叙事，但不用倒叙"
+    ],
+    "character": [],
+    "stylistic": [
+      "大量留白，少描述心理，多描述动作和环境"
+    ]
+  },
+  "sacredElements": [
+    "结尾必须是主角独自离开，不和任何人说再见"
+  ],
+  "companionMode": "active"
+}

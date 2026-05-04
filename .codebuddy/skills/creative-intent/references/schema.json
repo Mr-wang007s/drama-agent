@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreativeIntent",
+  "description": "用户的创作意图对象，Story Engine 的 L0 意志层，所有后续 Skill 的最高优先级约束",
+  "type": "object",
+  "required": ["seed", "companionMode"],
+  "properties": {
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "创建时间（ISO 8601）"
+    },
+    "seed": {
+      "type": "string",
+      "description": "核心种子，一句话概括的故事起点",
+      "examples": ["一个能听见死人说话的邮差"]
+    },
+    "inspirations": {
+      "type": "array",
+      "description": "致敬参照系",
+      "items": {
+        "type": "object",
+        "required": ["reference", "aspect", "degree"],
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "参考作品名"
+          },
+          "aspect": {
+            "type": "string",
+            "description": "致敬的方面（氛围/结构/语言/节奏等）"
+          },
+          "degree": {
+            "type": "string",
+            "enum": ["hint", "moderate", "strong"],
+            "description": "致敬程度"
+          }
+        }
+      }
+    },
+    "intentionalDeviations": {
+      "type": "object",
+      "description": "刻意反常规的设计（引擎永不修复）",
+      "properties": {
+        "structural": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "结构层（非线性/倒叙/循环等）"
+        },
+        "character": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "人物层（全员反派/主角不说话等）"
+        },
+        "stylistic": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "风格层（意识流/极简/实验性等）"
+        }
+      }
+    },
+    "sacredElements": {
+      "type": "array",
+      "description": "神圣元素，任何 Skill 都不能触碰",
+      "items": { "type": "string" },
+      "examples": [["结尾主角独自离开"]]
+    },
+    "companionMode": {
+      "type": "string",
+      "enum": ["quiet", "active", "wild"],
+      "description": "希望 AI 扮演的伙伴模式"
+    }
+  }
+}
