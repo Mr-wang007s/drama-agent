@@ -1,0 +1,64 @@
+{
+  "createdAt": "2026-05-04T14:09:00Z",
+  "updatedAt": "2026-05-04T14:23:00Z",
+  "projectName": "postman-hears-the-dead",
+  "format": "short-story",
+  "seed": "一个能听见死人说话的邮差",
+  "logline": "一个年轻人死的那一刻，想寄一封信给他没来得及喜欢的人——几十年后，他自己成了那个一直听着这封信、却终于把它投递出去的老邮差。",
+  "inspirations": [
+    {
+      "reference": "《你的名字》",
+      "aspect": "氛围（淡淡哀愁、日常感的温度）",
+      "degree": "strong"
+    },
+    {
+      "reference": "《你的名字》",
+      "aspect": "结构（双线交汇的叙事）",
+      "degree": "strong"
+    },
+    {
+      "reference": "《你的名字》",
+      "aspect": "语言（诗意的独白）",
+      "degree": "strong"
+    }
+  ],
+  "coreSkeleton": {
+    "structure": "双线并行——同一人的两个时间点（年轻时的死亡瞬间 / 几十年后的老年邮差）",
+    "coreRegret": "年轻的他临死前想寄一封信给'没来得及喜欢的人'",
+    "ending": "几十年后，老邮差把这封信投递出去了",
+    "recipient": "那个'没来得及喜欢的人'还活着，是街角的老人",
+    "endingMoment": "她读完信，抬头看窗外，邮差已经走远；她不知道那是谁",
+    "tone": "克制——苦涩里有一滴糖",
+    "secretMotif": "听见死人说话，是老邮差一辈子的秘密"
+  },
+  "intentionalDeviations": {
+    "structural": [
+      "平行蒙太奇：5 场严格交替（A-B-A-B-AB合流），A线老邮差日常 / B线年轻人死前 47 分钟"
+    ],
+    "character": [],
+    "stylistic": [
+      "人称即死亡：A 线第三人称（被观察的老邮差）+ B 线第一人称（亲密的年轻'我'）。B 线'我'的声音在某一场戏后永远消失——这个消失本身就是死亡的发生",
+      "延迟揭露：'听见死人说话'这个奇幻设定不在前半篇直接写出——读者要在某一刻自己听见。可能全程都不直接写明，靠行为暗示"
+    ]
+  },
+  "sacredElements": [
+    {
+      "id": "ending-she-does-not-know",
+      "description": "结尾那一刻——她读完信，抬头，邮差已经走远；她不知道那是谁。这个'不知道'是整个故事的灵魂，不可更改。",
+      "lockedAt": "2026-05-04T14:18:00Z",
+      "rationale": "《你的名字》式的克制——曾经共振过，但彼此都不知道。改了就是另一个故事。"
+    },
+    {
+      "id": "person-shift-is-death",
+      "description": "A 线第三人称 + B 线第一人称 + 延迟揭露'听见死人说话'——这套叙事设计是故事的核心仪式。人称的切换即是死亡本身。任何 Skill 不得'统一人称'、不得'提前揭露奇幻设定'。",
+      "lockedAt": "2026-05-04T14:23:00Z",
+      "rationale": "这个设计让读者在某一刻自己意识到：A 线被观察的'他'，就是 B 线那个'我'。那个'我'死了。结构即主题。"
+    }
+  ],
+  "companionMode": "wild",
+  "companionModeNote": "积极碰撞者 + 疯狂灵感源：主动提建议，也会抛飞的想法做刺激，但用户拍板",
+  "openQuestions": [
+    "结构、人物、风格上的'任性'——写作过程中如果冒出坚持，随时补录到 intentionalDeviations",
+    "除结尾外的其他元素（秘密、'没来得及喜欢'的措辞）——若写作中发现不可动，可补入 sacredElements"
+  ]
+}
